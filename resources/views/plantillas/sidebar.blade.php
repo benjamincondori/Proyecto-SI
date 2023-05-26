@@ -135,10 +135,10 @@
         </a>
         <ul class="nav-second-level" aria-expanded="false">
             <li>
-                <a href="#">Lista de Paquetes</a>
+                <a href="{{ route('dashboard.paquetes') }}">Lista de Paquetes</a>
             </li>
             <li>
-                <a href="#">Duraciones</a>
+                <a href="{{ route('dashboard.duraciones') }}">Duraciones</a>
             </li>
         </ul>
     </li>

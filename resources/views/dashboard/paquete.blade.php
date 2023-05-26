@@ -32,13 +32,13 @@
         <div class="content-page">
             <div id="content">
 
-                <x-layouts.content title="EmpleadosÑ" subtitle="Entrenadores" name="Entrenadores">
+                <x-layouts.content title="Paquetes" subtitle="Lista de Paquetes" name="Lista de Paquetes">
 
                     <div class="row">
                         <div class="col-12">
                             <div class="card-box">
                 
-                                @livewire('entrenador.show')
+                                @livewire('paquete.show')
 
                             </div>
                         </div> 

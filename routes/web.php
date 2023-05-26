@@ -15,6 +15,8 @@ Route::controller(DashboardController::class)->group(function () {
     Route::get('/maquinas', 'maquinas')->name('dashboard.maquinas');
     Route::get('/horarios', 'horarios')->name('dashboard.horarios');
     Route::get('/grupos', 'grupos')->name('dashboard.grupos');
+    Route::get('/paquetes', 'paquetes')->name('dashboard.paquetes');
+    Route::get('/duraciones', 'duraciones')->name('dashboard.duraciones');
 });
 
 Route::get('/', function(){

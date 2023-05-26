@@ -37,4 +37,13 @@ class DashboardController extends Controller
     public function grupos() {
         return view('dashboard.grupo');
     }
+
+    public function paquetes() {
+        return view('dashboard.paquete');
+    }
+
+    public function duraciones() {
+        return view('dashboard.duracion');
+    }
+
 }
