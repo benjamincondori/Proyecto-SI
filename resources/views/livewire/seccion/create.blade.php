@@ -18,7 +18,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="capacidad" class="control-label">Capcidad</label>
+                    <label for="capacidad" class="control-label">Capacidad</label>
                     <input type="number" wire:model="capacidad" class="form-control" id="capacidad"
                         placeholder="Ej: 20">
                     @error('capacidad')
