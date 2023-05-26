@@ -31,8 +31,20 @@
 
         <div class="content-page">
             <div id="content">
-                {{-- @include('contenido-dashboard.dashboard') --}}
-                <h1>Contenido Seccion</h1>
+
+                <x-layouts.content title="Secciones" subtitle="Lista de Secciones" name="Lista de Secciones">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card-box">
+                
+                                @livewire('seccion.show')
+
+                            </div>
+                        </div> 
+                    </div>
+                </x-layouts.content>
+
             </div>
 
             @include('plantillas.footer')
