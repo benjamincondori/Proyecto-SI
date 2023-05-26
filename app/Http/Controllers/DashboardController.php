@@ -33,4 +33,8 @@ class DashboardController extends Controller
     public function horarios() {
         return view('dashboard.horario');
     }
+
+    public function grupos() {
+        return view('dashboard.grupo');
+    }
 }

@@ -10,7 +10,7 @@ class Create extends Component
     public $id_horario, $descripcion, $hora_inicio, $hora_fin;
 
     protected $rules = [
-        'descripcion' => 'required|max:150',
+        'descripcion' => 'required|max:50',
         'hora_inicio' => 'required',
         'hora_fin' => 'required'
     ];

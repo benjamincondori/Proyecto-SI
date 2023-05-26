@@ -12,7 +12,7 @@ class Edit extends Component
     protected $listeners = ['editarRegistro'];
 
     protected $rules = [
-        'registroSeleccionado.descripcion' => 'required|max:150',
+        'registroSeleccionado.descripcion' => 'required|max:50',
         'registroSeleccionado.hora_inicio' => 'required',
         'registroSeleccionado.hora_fin' => 'required'
     ];

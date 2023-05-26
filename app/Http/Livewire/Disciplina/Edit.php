@@ -9,7 +9,7 @@ use Livewire\Component;
 class Edit extends Component
 {
     public $registroSeleccionado;
-    public $secciones, $id_seccion;
+    public $secciones;
 
     protected $listeners = ['editarRegistro'];
 

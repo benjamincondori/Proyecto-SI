@@ -72,11 +72,6 @@ class Create extends Component
         $this->emit('registroGuardado');
     }
 
-    public function mostrarDatos() {
-        dd($this->id_empleado, $this->nombre, $this->apellido, $this->fecha_nacimiento, $this->genero, $this->ci, $this->telefono, $this->turno, $this->email, $this->direccion, $this->cargo);
-    }
-
-
     public function cancelar()
     {
         $this->emit('cancelarCreacion');

@@ -118,7 +118,7 @@
                 <a href="{{ route('dashboard.disciplinas') }}">Lista de Disciplinas</a>
             </li>
             <li>
-                <a href="#">Grupos</a>
+                <a href="{{ route('dashboard.grupos') }}">Grupos</a>
             </li>
             <li>
                 <a href="{{ route('dashboard.horarios') }}">Horarios</a>
