@@ -121,7 +121,7 @@
                 <a href="#">Grupos</a>
             </li>
             <li>
-                <a href="#">Horarios</a>
+                <a href="{{ route('dashboard.horarios') }}">Horarios</a>
             </li>
         </ul>
     </li>

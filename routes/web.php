@@ -13,6 +13,7 @@ Route::controller(DashboardController::class)->group(function () {
     Route::get('/disciplinas', 'disciplinas')->name('dashboard.disciplinas');
     Route::get('/secciones', 'secciones')->name('dashboard.secciones');
     Route::get('/maquinas', 'maquinas')->name('dashboard.maquinas');
+    Route::get('/horarios', 'horarios')->name('dashboard.horarios');
 });
 
 Route::get('/', function(){
