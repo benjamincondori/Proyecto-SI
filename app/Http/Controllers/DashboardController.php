@@ -29,4 +29,8 @@ class DashboardController extends Controller
     public function maquinas() {
         return view('dashboard.maquina');
     }
+
+    public function horario() {
+        return view('dashboard.horario');
+    }
 }
