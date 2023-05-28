@@ -38,6 +38,7 @@ class Show extends Component
         $registro = Paquete::find($registroId);
         if ($registro) {
             $registro->delete();
+            $this->registroSeleccionado = null;
             $this->mount();
         } 
     }
@@ -60,12 +61,6 @@ class Show extends Component
     {
         $this->paquetes = Paquete::all();
     }
-
-    // public function obtenerNombreSeccion($idSeccion)
-    // {
-    //     $seccion = Seccion::find($idSeccion);
-    //     return $seccion ? $seccion->nombre : '';
-    // }
 
     public function buscar()
     {

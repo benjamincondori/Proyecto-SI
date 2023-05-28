@@ -59,7 +59,7 @@
             </button>
             <button class="btn btn-primary waves-effect waves-light" wire:click="actualizarDisciplina"
                 wire:loading.attr="disabled" type="button">
-                Guardar
+                Actualizar
             </button>
         </div>
     </form>

@@ -18,4 +18,8 @@ class Paquete extends Model
         return $this->belongsToMany(Disciplina::class, 'disciplina_paquete', 'id_paquete', 'id_disciplina');
     }
 
+    public function duraciones():BelongsToMany {
+        return $this->belongsToMany(Duracion::class, 'paquete_duracion', 'id_paquete', 'id_duracion')->withPivot('precio', 'descuento');;
+    }
+
 }
