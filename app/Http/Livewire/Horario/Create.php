@@ -17,7 +17,7 @@ class Create extends Component
 
     public function cancelar()
     {
-        $this->emit('cancelarCreacion');
+        $this->emitTo('horario.show', 'cerrarVista');
     }
 
     public function guardarHorario() 
@@ -30,8 +30,8 @@ class Create extends Component
             'hora_fin' => $this->hora_fin
         ]);
 
-        $this->emitTo('horario.show', 'render');
-        $this->emit('registroGuardado');
+        $this->emitTo('horario.show', 'cerrarVista');
+        $this->emit('alert', 'guardado');
 
     }
 

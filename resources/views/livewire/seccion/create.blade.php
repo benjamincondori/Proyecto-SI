@@ -1,7 +1,7 @@
 <div>
 
     <div class="form-group px-4 pt-2">
-        <i class="fas fa-user-plus fa-2x"></i>
+        <i class="fas fa-plus-circle fa-2x"></i>
         <h3 class="fs-1 d-inline-block ml-1">Crear nueva sección</h3>
     </div>
     <form  class="px-4 pt-2 pb-4">
@@ -9,7 +9,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="nombre" class="control-label">Nombre</label>
-                    <input type="text" wire:model="nombre" class="form-control" id="nombre"
+                    <input type="text" wire:model.defer="nombre" class="form-control" id="nombre"
                         placeholder="Ej: Sección de cardio">
                     @error('nombre')
                         <span class="error text-danger">* {{ $message }}</span>
@@ -19,7 +19,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="capacidad" class="control-label">Capacidad</label>
-                    <input type="number" wire:model="capacidad" class="form-control" id="capacidad"
+                    <input type="number" wire:model.defer="capacidad" class="form-control" id="capacidad"
                         placeholder="Ej: 20">
                     @error('capacidad')
                         <span class="error text-danger">* {{ $message }}</span>
@@ -38,7 +38,7 @@
         </div>
 
         <div class="form-group text-right m-b-0">
-            <button type="reset" wire:click="cancelar" wire:loading.attr="disabled"
+            <button type="button" wire:click="cancelar" wire:loading.attr="disabled"
                 class="btn btn-danger waves-effect m-l-5">
                 Cancelar
             </button>

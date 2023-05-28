@@ -23,7 +23,7 @@ class Edit extends Component
 
     public function cancelar()
     {
-        $this->emit('cancelarEdicion');
+        $this->emitTo('tipo-maquina.show','cerrarVista');
     }
 
     public function actualizarMaquina() 
@@ -36,10 +36,8 @@ class Edit extends Component
         $registro->descripcion = $this->registroSeleccionado['descripcion'];
         $registro->save();
     
-        $this->emitTo('tipo-maquina.show','render');
-        $this->emit('registroActualizado');
-
-        // Limpiar la propiedad $registroSeleccionado
+        $this->emitTo('tipo-maquina.show','cerrarVista');
+        $this->emit('alert', 'actualizado');
         $this->registroSeleccionado = null;
 
     }

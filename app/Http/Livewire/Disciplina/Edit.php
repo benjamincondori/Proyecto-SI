@@ -31,7 +31,7 @@ class Edit extends Component
 
     public function cancelar()
     {
-        $this->emit('cancelarEdicion');
+        $this->emitTo('disciplina.show','cerrarVista');
     }
 
     public function actualizarDisciplina() 
@@ -46,10 +46,8 @@ class Edit extends Component
         $registro->id_seccion = $this->registroSeleccionado['id_seccion'];
         $registro->save();
     
-        $this->emitTo('Seccion.Show','render');
-        $this->emit('registroActualizado');
-
-        // Limpiar la propiedad $registroSeleccionado
+        $this->emitTo('disciplina.show','cerrarVista');
+        $this->emit('alert', 'actualizado');
         $this->registroSeleccionado = null;
 
     }

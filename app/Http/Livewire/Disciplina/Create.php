@@ -24,7 +24,7 @@ class Create extends Component
 
     public function cancelar()
     {
-        $this->emit('cancelarCreacion');
+        $this->emitTo('disciplina.show', 'cerrarVista');
     }
 
     public function guardarDisciplina() 
@@ -38,8 +38,8 @@ class Create extends Component
             'id_seccion' => $this->id_seccion
         ]);
 
-        $this->emitTo('disciplina.show', 'render');
-        $this->emit('registroGuardado');
+        $this->emitTo('disciplina.show', 'cerrarVista');
+        $this->emit('alert', 'guardado');
 
     }
 

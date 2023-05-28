@@ -17,7 +17,7 @@ class Create extends Component
 
     public function cancelar()
     {
-        $this->emit('cancelarCreacion');
+        $this->emitTo('seccion.show', 'cerrarVista');
     }
 
     public function guardarSeccion() 
@@ -30,8 +30,8 @@ class Create extends Component
             'capacidad' => $this->capacidad
         ]);
 
-        $this->emitTo('seccion.show', 'render');
-        $this->emit('registroGuardado');
+        $this->emitTo('seccion.show', 'cerrarVista');
+        $this->emit('alert', 'guardado');
 
     }
 

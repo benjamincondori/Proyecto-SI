@@ -9,28 +9,24 @@ use Livewire\Component;
 class Show extends Component
 {
     public $disciplinas, $buscar, $registroSeleccionado;
-    public $vistaFormulario = false;
-    public $mostrarFormularioEditar = false;
+    public $vistaCrear = false;
+    public $vistaEditar = false;
     public $sort = 'id';
     public $direction = 'asc';
 
     protected $listeners = [
-        'registroGuardado' => 'volverATabla',
-        'cancelarCreacion' => 'volverATabla',
-        'cancelarEdicion' => 'volverATabla',
-        'registroActualizado' => 'volverATabla',
-        'render' => 'render'
+        'cerrarVista' => 'cerrarVista',
+        'eliminarDisciplina' => 'eliminarDisciplina'
     ];
 
     public function seleccionarDisciplina($registroId)
     {
         $this->registroSeleccionado = Disciplina::findOrFail($registroId);
+        $this->vistaEditar = true;
         $this->emit('editarRegistro', $this->registroSeleccionado);
-
-        $this->mostrarFormularioEditar = true;
     }
 
-    public function eliminarRegistro($registroId)
+    public function eliminarDisciplina($registroId)
     {
         // Buscar el registro en base al ID
         $registro = Disciplina::find($registroId);
@@ -38,20 +34,21 @@ class Show extends Component
         // Verificar si el registro existe antes de eliminarlo
         if ($registro) {
             $registro->delete();
-
-            $this->emitTo('Seccion.Show', 'render');
+            $this->registroSeleccionado = null;
+            $this->mount();
         }
     }
 
     public function agregarNuevo()
     {
-        $this->vistaFormulario = true;
+        $this->vistaCrear = true;
     }
 
-    public function volverATabla()
+    public function cerrarVista()
     {
-        $this->vistaFormulario = false;
-        $this->mostrarFormularioEditar = false;
+        $this->vistaCrear = false;
+        $this->vistaEditar = false;
+        $this->mount();
     }
 
     public function mount()

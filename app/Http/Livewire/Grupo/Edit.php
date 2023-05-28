@@ -6,6 +6,7 @@ use App\Models\Disciplina;
 use App\Models\Empleado;
 use App\Models\Grupo;
 use App\Models\Horario;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class Edit extends Component
@@ -36,7 +37,7 @@ class Edit extends Component
 
     public function cancelar()
     {
-        $this->emit('cancelarEdicion');
+        $this->emitTo('grupo.show','cerrarVista');
     }
 
     public function actualizarGrupo() 
@@ -52,10 +53,8 @@ class Edit extends Component
         $registro->id_horario = $this->registroSeleccionado['id_horario'];
         $registro->save();
     
-        $this->emitTo('horario.show','render');
-        $this->emit('registroActualizado');
-
-        // Limpiar la propiedad $registroSeleccionado
+        $this->emitTo('grupo.show','cerrarVista');
+        $this->emit('alert', 'actualizado');
         $this->registroSeleccionado = null;
 
     }

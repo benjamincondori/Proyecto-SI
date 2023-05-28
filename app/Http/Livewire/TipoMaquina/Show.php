@@ -7,28 +7,25 @@ use App\Models\Tipo_Maquina;
 
 class Show extends Component
 {
-    public $maquinas;
-    public $vistaFormulario = false;
-    public $mostrarFormularioEditar = false;
-    public $registroSeleccionado;
+    public $maquinas, $buscar, $registroSeleccionado;
+    public $vistaCrear = false;
+    public $vistaEditar = false;
+    public $sort = 'id';
+    public $direction = 'asc';
 
     protected $listeners = [
-        'registroGuardado' => 'volverATabla',
-        'cancelarCreacion' => 'volverATabla',
-        'cancelarEdicion' => 'volverATabla',
-        'registroActualizado' => 'volverATabla',
-        'render' => 'render'
+        'cerrarVista' => 'cerrarVista',
+        'eliminarMaquina' => 'eliminarMaquina'
     ];
 
     public function seleccionarMaquina($registroId)
     {
         $this->registroSeleccionado = Tipo_Maquina::findOrFail($registroId);
+        $this->vistaEditar = true;
         $this->emit('editarRegistro', $this->registroSeleccionado);
-
-        $this->mostrarFormularioEditar = true;
     }
 
-    public function eliminarRegistro($registroId)
+    public function eliminarMaquina($registroId)
     {
         // Buscar el registro en base al ID
         $registro = Tipo_Maquina::find($registroId);
@@ -36,25 +33,37 @@ class Show extends Component
         // Verificar si el registro existe antes de eliminarlo
         if ($registro) {
             $registro->delete();
-            
-            $this->emitTo('TipoMaquina','render');
+            $this->registroSeleccionado = null;
+            $this->mount();
         }
     }
 
     public function agregarNuevo()
     {
-        $this->vistaFormulario = true;
+        $this->vistaCrear = true;
     }
 
-    public function volverATabla()
+    public function cerrarVista()
     {
-        $this->vistaFormulario = false;
-        $this->mostrarFormularioEditar = false;
+        $this->vistaCrear = false;
+        $this->vistaEditar = false;
+
+        $this->mount();
     }
 
     public function mount()
     {
         $this->maquinas = Tipo_Maquina::All();
+    }
+
+    public function buscar()
+    {
+        $this->maquinas = Tipo_Maquina::where('nombre', 'like', '%' . $this->buscar . '%')
+            ->orWhere('descripcion', 'like', '%' . $this->buscar . '%')
+            ->orderBy($this->sort, $this->direction)
+            ->get();
+
+        $this->render();
     }
 
     public function render()

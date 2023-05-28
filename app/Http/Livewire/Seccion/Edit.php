@@ -24,7 +24,7 @@ class Edit extends Component
 
     public function cancelar()
     {
-        $this->emit('cancelarEdicion');
+        $this->emitTo('seccion.show','cerrarVista');
     }
 
     public function actualizarSeccion() 
@@ -38,10 +38,8 @@ class Edit extends Component
         $registro->capacidad = $this->registroSeleccionado['capacidad'];
         $registro->save();
     
-        $this->emitTo('Seccion.Show','render');
-        $this->emit('registroActualizado');
-
-        // Limpiar la propiedad $registroSeleccionado
+        $this->emitTo('seccion.show','cerrarVista');
+        $this->emit('alert', 'actualizado');
         $this->registroSeleccionado = null;
 
     }

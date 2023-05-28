@@ -24,7 +24,7 @@ class Edit extends Component
 
     public function cancelar()
     {
-        $this->emit('cancelarEdicion');
+        $this->emitTo('horario.show','cerrarVista');
     }
 
     public function actualizarHorario() 
@@ -38,10 +38,8 @@ class Edit extends Component
         $registro->hora_fin = $this->registroSeleccionado['hora_fin'];
         $registro->save();
     
-        $this->emitTo('horario.show','render');
-        $this->emit('registroActualizado');
-
-        // Limpiar la propiedad $registroSeleccionado
+        $this->emitTo('horario.show','cerrarVista');
+        $this->emit('alert', 'actualizado');
         $this->registroSeleccionado = null;
 
     }

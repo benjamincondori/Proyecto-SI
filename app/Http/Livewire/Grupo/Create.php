@@ -6,6 +6,7 @@ use App\Models\Disciplina;
 use App\Models\Empleado;
 use App\Models\Grupo;
 use App\Models\Horario;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class Create extends Component
@@ -29,10 +30,10 @@ class Create extends Component
 
     public function cancelar()
     {
-        $this->emit('cancelarCreacion');
+        $this->emitTo('grupo.show', 'cerrarVista');
     }
 
-    public function guardarHorario() 
+    public function guardarGrupo() 
     {
         $this->validate();
 
@@ -44,8 +45,8 @@ class Create extends Component
             'id_horario' => $this->id_horario
         ]);
 
-        $this->emitTo('horario.show', 'render');
-        $this->emit('registroGuardado');
+        $this->emitTo('grupo.show', 'cerrarVista');
+        $this->emit('alert', 'guardado');
 
     }
 

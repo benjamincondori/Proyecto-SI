@@ -7,32 +7,30 @@ use App\Models\Empleado;
 use App\Models\Entrenador;
 use App\Models\Grupo;
 use App\Models\Horario;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class Show extends Component
 {
-    public $grupos;
-    public $vistaFormulario = false;
-    public $mostrarFormularioEditar = false;
-    public $registroSeleccionado;
+    public $grupos, $buscar, $registroSeleccionado;
+    public $vistaCrear = false;
+    public $vistaEditar = false;
+    public $sort = 'id';
+    public $direction = 'asc';
 
     protected $listeners = [
-        'registroGuardado' => 'volverATabla',
-        'cancelarCreacion' => 'volverATabla',
-        'cancelarEdicion' => 'volverATabla',
-        'registroActualizado' => 'volverATabla',
-        'render' => 'render'
+        'cerrarVista' => 'cerrarVista',
+        'eliminarGrupo' => 'eliminarGrupo'
     ];
 
     public function seleccionarGrupo($registroId)
     {
         $this->registroSeleccionado = Grupo::findOrFail($registroId);
+        $this->vistaEditar = true;
         $this->emit('editarRegistro', $this->registroSeleccionado);
-
-        $this->mostrarFormularioEditar = true;
     }
 
-    public function eliminarRegistro($registroId)
+    public function eliminarGrupo($registroId)
     {
         // Buscar el registro en base al ID
         $registro = Grupo::find($registroId);
@@ -40,20 +38,21 @@ class Show extends Component
         // Verificar si el registro existe antes de eliminarlo
         if ($registro) {
             $registro->delete();
-            
-            $this->emitTo('Grupo','render');
+            $this->registroSeleccionado = null;
+            $this->mount();
         }
     }
 
     public function agregarNuevo()
     {
-        $this->vistaFormulario = true;
+        $this->vistaCrear = true;
     }
 
-    public function volverATabla()
+    public function cerrarVista()
     {
-        $this->vistaFormulario = false;
-        $this->mostrarFormularioEditar = false;
+        $this->vistaCrear = false;
+        $this->vistaEditar = false;
+        $this->mount();
     }
 
     public function mount()
@@ -76,9 +75,19 @@ class Show extends Component
 
     public function obtenerNombreHorario($idHorario)
     {
-        $horario = Horario::find($idHorario)->hora_inicio;
-        $horario .= ' - '.Horario::find($idHorario)->hora_fin;
-        return $horario;
+        $horario = Horario::find($idHorario);
+        $horaInicio = Carbon::parse($horario->hora_inicio)->format('H:i A');
+        $horaFin = Carbon::parse($horario->hora_fin)->format('H:i A');
+        return $horaInicio.' - '.$horaFin;
+    }
+
+    public function buscar()
+    {
+        $this->grupos = Grupo::where('nombre', 'like', '%' . $this->buscar . '%')
+            ->orderBy($this->sort, $this->direction)
+            ->get();
+
+        $this->render();
     }
 
     public function render()

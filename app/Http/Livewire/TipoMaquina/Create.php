@@ -16,7 +16,7 @@ class Create extends Component
 
     public function cancelar()
     {
-        $this->emit('cancelarCreacion');
+        $this->emitTo('tipo-maquina.show', 'cerrarVista');
     }
 
     public function guardarMaquina() 
@@ -28,8 +28,8 @@ class Create extends Component
             'descripcion' => $this->descripcion
         ]);
 
-        $this->emitTo('tipo-maquina.show', 'render');
-        $this->emit('registroGuardado');
+        $this->emitTo('tipo-maquina.show', 'cerrarVista');
+        $this->emit('alert', 'guardado');
 
     }
 
