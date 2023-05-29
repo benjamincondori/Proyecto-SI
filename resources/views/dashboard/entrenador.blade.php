@@ -32,7 +32,7 @@
         <div class="content-page">
             <div id="content">
 
-                <x-layouts.content title="EmpleadosÑ" subtitle="Entrenadores" name="Entrenadores">
+                <x-layouts.content title="Empleados" subtitle="Entrenadores" name="Entrenadores">
 
                     <div class="row">
                         <div class="col-12">

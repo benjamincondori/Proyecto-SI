@@ -16,7 +16,7 @@ class Edit extends Component
         'registroSeleccionado.descripcion' => 'required|max:150'
     ];
 
-    public function editarRegistro($registroSeleccionado)
+    public function editarRegistro(Tipo_Maquina $registroSeleccionado)
     {
         $this->registroSeleccionado = $registroSeleccionado;
     }

@@ -7,49 +7,63 @@
     @else
         <div class="table-responsive">
             <div class="mb-2 d-flex justify-content-between">
-                <form class="app-search">
-                    <div class="app-search-box">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Buscar...">
-                            <div class="input-group-append">
-                                <button class="btn text-secondary" type="">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
 
-                <button type="button" wire:click="agregarNuevo" class="btn btn-primary waves-effect waves-light">
-                    <i class="fas fa-plus-circle"></i>&nbsp;
-                    Nueva Máquina
-                </button>
+                <div class="form-group w-50 d-flex">
+                    <input type="text" wire:model="buscar" class="form-control" placeholder="Buscar...">
+                    <button class="btn text-secondary" type="button" disabled>
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <div class="form-group">
+                    <button type="button" wire:click="agregarNuevo" class="btn btn-primary waves-effect waves-light">
+                        <i class="fas fa-plus-circle"></i>&nbsp;
+                        Nueva Máquina
+                    </button>
+                </div>
 
             </div>
 
-            <table class="table table-bordered mb-0">
-                <thead class="text-center">
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>&nbsp;</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($maquinas as $maquina)
-                        <tr class="text-wrap">
-                            <th scope="row" class="align-middle">{{ $maquina->id }}</th>
-                            <td class="align-middle">{{ $maquina->nombre }}</td>
-                            <td class="align-middle">{{ $maquina->descripcion }}</td>
-                            <td class="align-middle text-nowrap">
-                                <button type="button" title="Editar" wire:click="seleccionarMaquina({{ $maquina->id }})" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $maquina->id }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
-                            </td>
+            {{-- @if ($maquinas->count()) --}}
+                <table class="table table-bordered mb-0">
+                    <thead class="text-center">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>&nbsp;</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @if ($maquinas->count())
+                            @foreach ($maquinas as $maquina)
+                                <tr class="text-wrap">
+                                    <th scope="row" class="align-middle">{{ $maquina->id }}</th>
+                                    <td class="align-middle">{{ $maquina->nombre }}</td>
+                                    <td class="align-middle">{{ $maquina->descripcion }}</td>
+                                    <td class="align-middle text-nowrap">
+                                        <button type="button" title="Editar" wire:click="seleccionarMaquina({{ $maquina }})" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
+                                        <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $maquina->id }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr class="text-center">
+                                <td colspan="4">No existe ningún registro coincidente.</td>
+                            </tr>
+                         @endif
+                    </tbody>
+                </table>
+            
+            <div class="d-flex justify-content-end justify-content-sm-between pt-2 pb-0">
+                <div class="text-muted d-none d-sm-block pt-1">
+                    Mostrando registros del {{ $maquinas->firstItem() }} al {{ $maquinas->lastItem() }} de un total de {{ $maquinas->total() }} registros
+                </div>
+                <div class="pagination-links">
+                    {{ $maquinas->links() }}
+                </div>
+            </div>
+
         </div>
 
     @endif
