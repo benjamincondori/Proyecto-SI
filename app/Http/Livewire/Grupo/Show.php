@@ -4,17 +4,23 @@ namespace App\Http\Livewire\Grupo;
 
 use App\Models\Disciplina;
 use App\Models\Empleado;
-use App\Models\Entrenador;
 use App\Models\Grupo;
 use App\Models\Horario;
 use Carbon\Carbon;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Show extends Component
 {
-    public $grupos, $buscar, $registroSeleccionado;
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
+    public $registroSeleccionado;
     public $vistaCrear = false;
     public $vistaEditar = false;
+    public $buscar = '';
+    public $cant = '10';
     public $sort = 'id';
     public $direction = 'asc';
 
@@ -22,6 +28,11 @@ class Show extends Component
         'cerrarVista' => 'cerrarVista',
         'eliminarGrupo' => 'eliminarGrupo'
     ];
+
+    protected $queryString = [
+        'cant' => ['except' => '10']
+    ];
+
 
     public function seleccionarGrupo($registroId)
     {
@@ -39,7 +50,6 @@ class Show extends Component
         if ($registro) {
             $registro->delete();
             $this->registroSeleccionado = null;
-            $this->mount();
         }
     }
 
@@ -52,12 +62,6 @@ class Show extends Component
     {
         $this->vistaCrear = false;
         $this->vistaEditar = false;
-        $this->mount();
-    }
-
-    public function mount()
-    {
-        $this->grupos = Grupo::All();
     }
 
     public function obtenerNombreDisciplina($idDisciplina)
@@ -81,17 +85,31 @@ class Show extends Component
         return $horaInicio.' - '.$horaFin;
     }
 
-    public function buscar()
+    public function order($sort) 
     {
-        $this->grupos = Grupo::where('nombre', 'like', '%' . $this->buscar . '%')
-            ->orderBy($this->sort, $this->direction)
-            ->get();
+        if ($this->sort == $sort) {
+            if ($this->direction == 'desc') {
+                $this->direction = 'asc';
+            } else {
+                $this->direction = 'desc';
+            }
+        } else {
+            $this->sort = $sort;
+            $this->direction = 'asc';
+        }
+    }
 
-        $this->render();
+    public function updatingBuscar()
+    {
+        $this->resetPage();
     }
 
     public function render()
     {
-        return view('livewire.grupo.show');
+        $grupos = Grupo::where('nombre', 'like', '%' . $this->buscar . '%')
+            ->orderBy($this->sort, $this->direction)
+            ->paginate($this->cant);
+
+        return view('livewire.grupo.show', ['grupos' => $grupos]);
     }
 }

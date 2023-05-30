@@ -11,16 +11,22 @@ class Show extends Component
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
-    public $maquina, $registroSeleccionado;
+
+    public $registroSeleccionado;
     public $vistaCrear = false;
     public $vistaEditar = false;
-    public $buscar;
+    public $buscar = '';
+    public $cant = '10';
     public $sort = 'id';
     public $direction = 'asc';
 
     protected $listeners = [
         'cerrarVista' => 'cerrarVista',
         'eliminarMaquina' => 'eliminarMaquina'
+    ];
+
+    protected $queryString = [
+        'cant' => ['except' => '10']
     ];
 
     public function seleccionarMaquina(Tipo_Maquina $maquina)
@@ -38,7 +44,6 @@ class Show extends Component
         if ($registro) {
             $registro->delete();
             $this->registroSeleccionado = null;
-            $this->mount();
         }
     }
 
@@ -51,20 +56,32 @@ class Show extends Component
     {
         $this->vistaCrear = false;
         $this->vistaEditar = false;
-
-        $this->mount();
     }
 
-    public function mount()
+    public function order($sort) 
     {
-        // $this->maquinas = Tipo_Maquina::All();
+        if ($this->sort == $sort) {
+            if ($this->direction == 'desc') {
+                $this->direction = 'asc';
+            } else {
+                $this->direction = 'desc';
+            }
+        } else {
+            $this->sort = $sort;
+            $this->direction = 'asc';
+        }
+    }
+
+    public function updatingBuscar()
+    {
+        $this->resetPage();
     }
 
     public function render()
     {
         $maquinas = Tipo_Maquina::where('nombre', 'like', '%' . $this->buscar . '%')
             ->orderBy($this->sort, $this->direction)
-            ->paginate(10);
+            ->paginate($this->cant);
 
         return view('livewire.tipo-maquina.show', ['maquinas' => $maquinas]);
     }

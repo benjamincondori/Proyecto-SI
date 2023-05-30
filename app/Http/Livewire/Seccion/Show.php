@@ -4,18 +4,29 @@ namespace App\Http\Livewire\Seccion;
 
 use App\Models\Seccion;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Show extends Component
 {
-    public $secciones, $buscar, $registroSeleccionado;
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
+    public $registroSeleccionado;
     public $vistaCrear = false;
     public $vistaEditar = false;
+    public $buscar = '';
+    public $cant = '10';
     public $sort = 'id';
     public $direction = 'asc';
 
     protected $listeners = [
         'cerrarVista' => 'cerrarVista',
         'eliminarSeccion' => 'eliminarSeccion'
+    ];
+
+    protected $queryString = [
+        'cant' => ['except' => '10']
     ];
 
     public function seleccionarSeccion($registroId)
@@ -34,7 +45,6 @@ class Show extends Component
         if ($registro) {
             $registro->delete();
             $this->registroSeleccionado = null;
-            $this->mount();
         }
     }
 
@@ -47,26 +57,33 @@ class Show extends Component
     {
         $this->vistaCrear = false;
         $this->vistaEditar = false;
-        $this->mount();
     }
 
-    public function mount()
+    public function order($sort) 
     {
-        $this->secciones = Seccion::All();
+        if ($this->sort == $sort) {
+            if ($this->direction == 'desc') {
+                $this->direction = 'asc';
+            } else {
+                $this->direction = 'desc';
+            }
+        } else {
+            $this->sort = $sort;
+            $this->direction = 'asc';
+        }
     }
 
-    public function buscar()
+    public function updatingBuscar()
     {
-        $this->secciones = Seccion::where('nombre', 'like', '%' . $this->buscar . '%')
-            ->orWhere('descripcion', 'like', '%' . $this->buscar . '%')
-            ->orderBy($this->sort, $this->direction)
-            ->get();
-
-        $this->render();
+        $this->resetPage();
     }
 
     public function render()
     {
-        return view('livewire.seccion.show');
+        $secciones = Seccion::where('nombre', 'like', '%' . $this->buscar . '%')
+            ->orderBy($this->sort, $this->direction)
+            ->paginate($this->cant);
+
+        return view('livewire.seccion.show', ['secciones' => $secciones]);
     }
 }

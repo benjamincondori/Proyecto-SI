@@ -5,18 +5,29 @@ namespace App\Http\Livewire\Disciplina;
 use App\Models\Disciplina;
 use App\Models\Seccion;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Show extends Component
 {
-    public $disciplinas, $buscar, $registroSeleccionado;
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
+    public $registroSeleccionado;
     public $vistaCrear = false;
     public $vistaEditar = false;
+    public $buscar = '';
+    public $cant = '10';
     public $sort = 'id';
     public $direction = 'asc';
 
     protected $listeners = [
         'cerrarVista' => 'cerrarVista',
         'eliminarDisciplina' => 'eliminarDisciplina'
+    ];
+
+    protected $queryString = [
+        'cant' => ['except' => '10']
     ];
 
     public function seleccionarDisciplina($registroId)
@@ -48,12 +59,6 @@ class Show extends Component
     {
         $this->vistaCrear = false;
         $this->vistaEditar = false;
-        $this->mount();
-    }
-
-    public function mount()
-    {
-        $this->disciplinas = Disciplina::with('seccion')->get();
     }
 
     public function obtenerNombreSeccion($idSeccion)
@@ -62,18 +67,31 @@ class Show extends Component
         return $seccion ? $seccion->nombre : '';
     }
 
-    public function buscar()
+    public function order($sort) 
     {
-        $this->disciplinas = Disciplina::where('nombre', 'like', '%' . $this->buscar . '%')
-            ->orWhere('descripcion', 'like', '%' . $this->buscar . '%')
-            ->orderBy($this->sort, $this->direction)
-            ->get();
+        if ($this->sort == $sort) {
+            if ($this->direction == 'desc') {
+                $this->direction = 'asc';
+            } else {
+                $this->direction = 'desc';
+            }
+        } else {
+            $this->sort = $sort;
+            $this->direction = 'asc';
+        }
+    }
 
-        $this->render();
+    public function updatingBuscar()
+    {
+        $this->resetPage();
     }
 
     public function render()
     {
-        return view('livewire.disciplina.show');
+        $disciplinas = Disciplina::where('nombre', 'like', '%' . $this->buscar . '%')
+            ->orderBy($this->sort, $this->direction)
+            ->paginate($this->cant);
+
+        return view('livewire.disciplina.show', ['disciplinas' => $disciplinas]);
     }
 }

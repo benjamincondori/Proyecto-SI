@@ -4,13 +4,20 @@ namespace App\Http\Livewire\Paquete;
 
 use App\Models\Paquete;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Show extends Component
 {
-    public $paquetes, $buscar, $registroSeleccionado;
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
+    public $registroSeleccionado;
     public $vistaVer = false;
     public $vistaEditar = false;
     public $vistaCrear = false;
+    public $buscar = '';
+    public $cant = '10';
     public $sort = 'id';
     public $direction = 'asc';
 
@@ -39,7 +46,7 @@ class Show extends Component
         if ($registro) {
             $registro->delete();
             $this->registroSeleccionado = null;
-            $this->mount();
+            // $this->mount();
         } 
     }
 
@@ -54,26 +61,34 @@ class Show extends Component
         $this->vistaEditar = false;
         $this->vistaVer = false;
 
-        $this->mount();
+        // $this->mount();
     }
 
-    public function mount()
+    public function order($sort) 
     {
-        $this->paquetes = Paquete::all();
+        if ($this->sort == $sort) {
+            if ($this->direction == 'desc') {
+                $this->direction = 'asc';
+            } else {
+                $this->direction = 'desc';
+            }
+        } else {
+            $this->sort = $sort;
+            $this->direction = 'asc';
+        }
     }
 
-    public function buscar()
+    public function updatingBuscar()
     {
-        $this->paquetes = Paquete::where('nombre', 'like', '%' . $this->buscar . '%')
-            ->orWhere('descripcion', 'like', '%' . $this->buscar . '%')
-            ->orderBy($this->sort, $this->direction)
-            ->get();
-
-        $this->render();
+        $this->resetPage();
     }
 
     public function render()
     {
-        return view('livewire.paquete.show');
+        $paquetes = Paquete::where('nombre', 'like', '%' . $this->buscar . '%')
+            ->orderBy($this->sort, $this->direction)
+            ->paginate($this->cant);
+
+        return view('livewire.paquete.show', ['paquetes' => $paquetes]);
     }
 }

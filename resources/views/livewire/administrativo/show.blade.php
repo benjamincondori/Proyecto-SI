@@ -26,7 +26,7 @@
             </div>
 
             <table class="table table-bordered mb-0">
-                <thead class="text-center">
+                <thead class="bg-light" class="text-center">
                     <tr>
                         <th>ID</th>
                         <th>CI</th>

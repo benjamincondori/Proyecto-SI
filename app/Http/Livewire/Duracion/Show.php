@@ -4,18 +4,29 @@ namespace App\Http\Livewire\Duracion;
 
 use App\Models\Duracion;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Show extends Component
 {
-    public $duraciones, $buscar, $registroSeleccionado;
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
+    public $registroSeleccionado;
     public $vistaEditar = false;
     public $vistaCrear = false;
+    public $buscar = '';
+    public $cant = '10';
     public $sort = 'id';
     public $direction = 'asc';
 
     protected $listeners = [
         'cerrarVista' => 'cerrarVista',
         'eliminarDuracion' => 'eliminarDuracion'
+    ];
+
+    protected $queryString = [
+        'cant' => ['except' => '10']
     ];
 
     public function seleccionarPaquete($registroId)
@@ -32,7 +43,6 @@ class Show extends Component
         if ($registro) {
             $registro->delete();
             $this->registroSeleccionado = null;
-            $this->mount();
         } 
     }
 
@@ -45,26 +55,33 @@ class Show extends Component
     {
         $this->vistaCrear = false;
         $this->vistaEditar = false;
-
-        $this->mount();
     }
 
-    public function mount()
+    public function order($sort) 
     {
-        $this->duraciones = Duracion::all();
+        if ($this->sort == $sort) {
+            if ($this->direction == 'desc') {
+                $this->direction = 'asc';
+            } else {
+                $this->direction = 'desc';
+            }
+        } else {
+            $this->sort = $sort;
+            $this->direction = 'asc';
+        }
     }
 
-    public function buscar()
+    public function updatingBuscar()
     {
-        $this->duraciones = Duracion::where('nombre', 'like', '%' . $this->buscar . '%')
-            ->orderBy($this->sort, $this->direction)
-            ->get();
-
-        $this->render();
+        $this->resetPage();
     }
 
     public function render()
     {
-        return view('livewire.duracion.show');
+        $duraciones = Duracion::where('nombre', 'like', '%' . $this->buscar . '%')
+            ->orderBy($this->sort, $this->direction)
+            ->paginate($this->cant);
+
+        return view('livewire.duracion.show', ['duraciones' => $duraciones]);
     }
 }

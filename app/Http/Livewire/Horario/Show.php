@@ -5,16 +5,29 @@ namespace App\Http\Livewire\Horario;
 use App\Models\Horario;
 use Carbon\Carbon;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Show extends Component
 {
-    public $horarios, $registroSeleccionado;
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
+    public $registroSeleccionado;
     public $vistaCrear = false;
     public $vistaEditar = false;
+    public $buscar = '';
+    public $cant = '10';
+    public $sort = 'id';
+    public $direction = 'asc';
 
     protected $listeners = [
         'cerrarVista' => 'cerrarVista',
         'eliminarHorario' => 'eliminarHorario'
+    ];
+
+    protected $queryString = [
+        'cant' => ['except' => '10']
     ];
 
     public function seleccionarHorario($registroId)
@@ -33,7 +46,6 @@ class Show extends Component
         if ($registro) {
             $registro->delete();
             $this->registroSeleccionado = null;
-            $this->mount();
         }
     }
 
@@ -46,12 +58,33 @@ class Show extends Component
     {
         $this->vistaCrear = false;
         $this->vistaEditar = false;
-        $this->mount();
     }
 
-    public function mount()
+    public function order($sort) 
     {
-        $horarios = Horario::all();
+        if ($this->sort == $sort) {
+            if ($this->direction == 'desc') {
+                $this->direction = 'asc';
+            } else {
+                $this->direction = 'desc';
+            }
+        } else {
+            $this->sort = $sort;
+            $this->direction = 'asc';
+        }
+    }
+
+    public function updatingBuscar()
+    {
+        $this->resetPage();
+    }
+
+    public function render()
+    {
+        $horarios = Horario::where('descripcion', 'like', '%' . $this->buscar . '%')
+            ->orWhere('hora_inicio', 'like', '%' . $this->buscar . '%')
+            ->orderBy($this->sort, $this->direction)
+            ->paginate($this->cant);
 
         foreach ($horarios as $horario) {
             $horaInicio = Carbon::parse($horario->hora_inicio)->format('H:i A');
@@ -60,11 +93,6 @@ class Show extends Component
             $horario->hora_fin = $horaFin;
         }
 
-        $this->horarios = $horarios;
-    }
-
-    public function render()
-    {
-        return view('livewire.horario.show');
+        return view('livewire.horario.show', ['horarios' => $horarios]);
     }
 }
