@@ -12,7 +12,7 @@
                                 <span><img src="{{ asset('assets/images/logo-login.png') }}" alt=""
                                         height="120"></span>
                             </a>
-                            <h2 class="mb-4 mt-0 text-uppercase font-weight-bold" style="color: #1A1A1A"><span style="color: #780001">Jady</span> Sport</h2>
+                            <h2 class="mb-4 mt-0 text-uppercase font-weight-bold" style="color: #1A1A1A; user-select: none;"><span style="color: #780001">Jady</span> Sport</h2>
                         </div>
 
                         <h5 class="auth-title">Iniciar Sesión</h5>

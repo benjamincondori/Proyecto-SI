@@ -3,28 +3,28 @@
     @if ($vistaFormulario)
         @livewire('administrativo.create')
     @else
-        <div class="table-responsive">
-            <div class="mb-2 d-flex justify-content-between">
-                <form class="app-search">
-                    <div class="app-search-box">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Buscar...">
-                            <div class="input-group-append">
-                                <button class="btn text-secondary" type="">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
+        <div class="mb-2 d-flex justify-content-between">
+            <form class="app-search">
+                <div class="app-search-box">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar...">
+                        <div class="input-group-append">
+                            <button class="btn text-secondary" type="">
+                                <i class="fas fa-search"></i>
+                            </button>
                         </div>
                     </div>
-                </form>
+                </div>
+            </form>
 
-                <button type="button" wire:click="agregarNuevo" class="btn btn-primary waves-effect waves-light">
-                    <i class="fas fa-plus-circle"></i>&nbsp;
-                    Nuevo Administrativo
-                </button>
+            <button type="button" wire:click="agregarNuevo" class="btn btn-primary waves-effect waves-light">
+                <i class="fas fa-plus-circle"></i>&nbsp;
+                Nuevo Administrativo
+            </button>
 
-            </div>
+        </div>
 
+        <div class="table-responsive">
             <table class="table table-bordered mb-0">
                 <thead class="bg-light" class="text-center">
                     <tr>

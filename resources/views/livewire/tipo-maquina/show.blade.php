@@ -5,36 +5,37 @@
     @elseif ($vistaEditar)
         <livewire:tipo-maquina.edit>
     @else
-        <div class="table-responsive">
-            <div class="mb-2 d-flex justify-content-between">
 
-                <div class="form-group d-none d-lg-flex align-items-center">
-                    <span>Mostrar</span>
-                    <select wire:model="cant" class="form-control px-1 mx-1">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
-                    <span>entradas</span>
-                </div>
+        <div class="mb-2 d-flex justify-content-between">
 
-                <div class="form-group w-50 d-flex">
-                    <input type="text" wire:model="buscar" class="form-control" placeholder="Buscar...">
-                    <button class="btn text-secondary" type="button" disabled>
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-                
-                <div class="form-group">
-                    <button type="button" wire:click="agregarNuevo" class="btn btn-primary waves-effect waves-light">
-                        <i class="fas fa-plus-circle"></i>&nbsp;
-                        Nueva Máquina
-                    </button>
-                </div>
-
+            <div class="form-group d-none d-lg-flex align-items-center">
+                <span>Mostrar</span>
+                <select wire:model="cant" class="form-control px-1 mx-1">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                <span>entradas</span>
             </div>
 
+            <div class="form-group w-50 d-flex">
+                <input type="text" wire:model="buscar" class="form-control" placeholder="Buscar...">
+                <button class="btn text-secondary" type="button" disabled>
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            
+            <div class="form-group">
+                <button type="button" wire:click="agregarNuevo" class="btn btn-primary waves-effect waves-light">
+                    <i class="fas fa-plus-circle"></i>&nbsp;
+                    Nueva Máquina
+                </button>
+            </div>
+
+        </div>
+
+        <div class="table-responsive">
             <table class="table table-bordered mb-0">
                 <thead class="bg-light">
                     <tr style="cursor: pointer">
