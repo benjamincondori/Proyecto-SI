@@ -6,9 +6,7 @@
 
         <!-- ========== Left Sidebar Start ========== -->
         <div class="left-side-menu">
-
             <div class="slimscroll-menu">
-
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
 
@@ -16,12 +14,9 @@
 
                 </div>
                 <!-- End Sidebar -->
-
                 <div class="clearfix"></div>
-
             </div>
             <!-- Sidebar -left -->
-
         </div>
         <!-- Left Sidebar End -->
 
