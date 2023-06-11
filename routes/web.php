@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Models\Disciplina;
 use App\Models\Seccion;
+use App\Models\Usuario;
 use Illuminate\Support\Facades\Route;
 
 
@@ -18,6 +19,11 @@ Route::controller(DashboardController::class)->group(function () {
     Route::get('/dashboard', 'dashboard')->name('dashboard');
     Route::get('/administrativos', 'administrativos')->name('dashboard.administrativos');
     Route::get('/entrenadores', 'entrenadores')->name('dashboard.entrenadores');
+    Route::get('/clientes', 'clientes')->name('dashboard.clientes');
+    Route::get('/inscripciones', 'inscripciones')->name('dashboard.inscripciones');
+    Route::get('/usuarios', 'usuarios')->name('dashboard.usuarios');
+    Route::get('/roles', 'roles')->name('dashboard.roles');
+    Route::get('/permisos', 'permisos')->name('dashboard.permisos');
     Route::get('/disciplinas', 'disciplinas')->name('dashboard.disciplinas');
     Route::get('/secciones', 'secciones')->name('dashboard.secciones');
     Route::get('/maquinas', 'maquinas')->name('dashboard.maquinas');
@@ -25,6 +31,7 @@ Route::controller(DashboardController::class)->group(function () {
     Route::get('/grupos', 'grupos')->name('dashboard.grupos');
     Route::get('/paquetes', 'paquetes')->name('dashboard.paquetes');
     Route::get('/duraciones', 'duraciones')->name('dashboard.duraciones');
+    Route::get('/casilleros', 'casilleros')->name('dashboard.casilleros');
 });
 
 
@@ -39,12 +46,16 @@ Route::get('/test-query', function () {
         // $disciplinas = Disciplina::all();
         // $seccion = $disciplinas->seccion();
 
-        $disciplinas = Disciplina::all();
-        $secciones = Seccion::all(); 
+        // $disciplinas = Disciplina::all();
+        // $secciones = Seccion::all(); 
 
         // $disciplinas = Disciplina::with('seccion')->get();
 
-        return $secciones;
+        // $usuario = Usuario::with('cliente')->get();
+
+        $usuario = Usuario::with('empleado')->find(1);
+
+        return $usuario;
     } catch (\Exception $e) {
         return "Error al consultar la base de datos: " . $e->getMessage();
     }

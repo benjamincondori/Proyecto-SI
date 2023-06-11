@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Livewire\Administrativo;
+namespace App\Http\Livewire\Rol;
 
-use App\Models\Empleado;
+use App\Models\Rol;
 use Livewire\Component;
 use Livewire\WithPagination;
+
 class Show extends Component
 {
     use WithPagination;
@@ -12,7 +13,6 @@ class Show extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $registroSeleccionado;
-    public $vistaVer = false;
     public $vistaCrear = false;
     public $vistaEditar = false;
     public $buscar = '';
@@ -22,30 +22,24 @@ class Show extends Component
 
     protected $listeners = [
         'cerrarVista' => 'cerrarVista',
-        'eliminarAdministrativo' => 'eliminarAdministrativo'
+        'eliminarRol' => 'eliminarRol'
     ];
 
     protected $queryString = [
         'cant' => ['except' => '10']
     ];
 
-    public function seleccionarAdministrativo($registroId, $vista)
+    public function seleccionarHorario($registroId)
     {
-        $this->registroSeleccionado = Empleado::findOrFail($registroId);
-
-        if ($vista === 'ver') {
-            $this->vistaVer = true;
-            $this->emit('verRegistro', $this->registroSeleccionado);
-        } elseif ('editar') {
-            $this->vistaEditar = true;
-            $this->emit('editarRegistro', $this->registroSeleccionado);
-        }
+        $this->registroSeleccionado = Rol::findOrFail($registroId);
+        $this->vistaEditar = true;
+        $this->emit('editarRegistro', $this->registroSeleccionado);
     }
 
-    public function eliminarEmpleado($registroId)
+    public function eliminarRol($registroId)
     {
-        // Buscar el registro en base al nro
-        $registro = Empleado::find($registroId);
+        // Buscar el registro en base al ID
+        $registro = Rol::find($registroId);
 
         // Verificar si el registro existe antes de eliminarlo
         if ($registro) {
@@ -63,7 +57,6 @@ class Show extends Component
     {
         $this->vistaCrear = false;
         $this->vistaEditar = false;
-        $this->vistaVer = false;
     }
 
     public function order($sort) 
@@ -87,20 +80,11 @@ class Show extends Component
 
     public function render()
     {
-
-        $administrativos = Empleado::where('tipo_empleado', 'A')
-            ->where(function ($query) {
-                $buscar = '%' . $this->buscar . '%';
-                $query->where('id', 'like', $buscar)
-                    ->orWhere('ci', 'like', $buscar)
-                    ->orWhere('nombres', 'like', $buscar)
-                    ->orWhere('apellidos', 'like', $buscar)
-                    ->orWhere('email', 'like', $buscar);
-            })
+        $roles = Rol::where('id', 'like', '%' . $this->buscar . '%')
+            ->orWhere('nombre', 'like', '%' . $this->buscar . '%')
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->cant);
 
-        return view('livewire.administrativo.show', ['administrativos' => $administrativos]);
+        return view('livewire.rol.show', ['roles' => $roles]);
     }
-
 }

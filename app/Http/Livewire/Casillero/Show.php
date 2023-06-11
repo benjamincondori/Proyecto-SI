@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Livewire\Administrativo;
+namespace App\Http\Livewire\Casillero;
 
-use App\Models\Empleado;
+use App\Models\Casillero;
 use Livewire\Component;
 use Livewire\WithPagination;
+
 class Show extends Component
 {
     use WithPagination;
@@ -12,40 +13,33 @@ class Show extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $registroSeleccionado;
-    public $vistaVer = false;
     public $vistaCrear = false;
     public $vistaEditar = false;
     public $buscar = '';
     public $cant = '10';
-    public $sort = 'id';
+    public $sort = 'nro';
     public $direction = 'asc';
 
     protected $listeners = [
         'cerrarVista' => 'cerrarVista',
-        'eliminarAdministrativo' => 'eliminarAdministrativo'
+        'eliminarCasillero' => 'eliminarCasillero'
     ];
 
     protected $queryString = [
         'cant' => ['except' => '10']
     ];
 
-    public function seleccionarAdministrativo($registroId, $vista)
+    public function seleccionarCasillero($nro)
     {
-        $this->registroSeleccionado = Empleado::findOrFail($registroId);
-
-        if ($vista === 'ver') {
-            $this->vistaVer = true;
-            $this->emit('verRegistro', $this->registroSeleccionado);
-        } elseif ('editar') {
-            $this->vistaEditar = true;
-            $this->emit('editarRegistro', $this->registroSeleccionado);
-        }
+        $this->registroSeleccionado = Casillero::findOrFail($nro);
+        $this->vistaEditar = true;
+        $this->emit('editarRegistro', $this->registroSeleccionado);
     }
 
-    public function eliminarEmpleado($registroId)
+    public function eliminarCasillero($nro)
     {
         // Buscar el registro en base al nro
-        $registro = Empleado::find($registroId);
+        $registro = Casillero::find($nro);
 
         // Verificar si el registro existe antes de eliminarlo
         if ($registro) {
@@ -63,7 +57,6 @@ class Show extends Component
     {
         $this->vistaCrear = false;
         $this->vistaEditar = false;
-        $this->vistaVer = false;
     }
 
     public function order($sort) 
@@ -87,20 +80,12 @@ class Show extends Component
 
     public function render()
     {
-
-        $administrativos = Empleado::where('tipo_empleado', 'A')
-            ->where(function ($query) {
-                $buscar = '%' . $this->buscar . '%';
-                $query->where('id', 'like', $buscar)
-                    ->orWhere('ci', 'like', $buscar)
-                    ->orWhere('nombres', 'like', $buscar)
-                    ->orWhere('apellidos', 'like', $buscar)
-                    ->orWhere('email', 'like', $buscar);
-            })
+        $casilleros = Casillero::where('nro', 'like', '%' . $this->buscar . '%')
+            ->orWhere('tamaño', 'like', '%' . $this->buscar . '%')
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->cant);
 
-        return view('livewire.administrativo.show', ['administrativos' => $administrativos]);
+        return view('livewire.casillero.show', ['casilleros' => $casilleros]);
     }
 
 }

@@ -18,6 +18,26 @@ class DashboardController extends Controller
         return view('dashboard.entrenador');
     }
 
+    public function clientes() {
+        return view('dashboard.cliente');
+    }
+
+    public function inscripciones() {
+        return view('dashboard.inscripcion');
+    }
+
+    public function usuarios() {
+        return view('dashboard.usuarios');
+    }
+
+    public function roles() {
+        return view('dashboard.roles');
+    }
+
+    public function permisos() {
+        return view('dashboard.permisos');
+    }
+
     public function disciplinas() {
         return view('dashboard.disciplina');
     }
@@ -44,6 +64,10 @@ class DashboardController extends Controller
 
     public function duraciones() {
         return view('dashboard.duracion');
+    }
+
+    public function casilleros() {
+        return view('dashboard.casillero');
     }
 
 }

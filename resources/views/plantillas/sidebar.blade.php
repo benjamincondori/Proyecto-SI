@@ -9,6 +9,25 @@
 
     <li>
         <a href="javascript: void(0);">
+            <i class="fas fa-user-cog"></i>
+            <span> Usuarios </span>
+            <span class="menu-arrow"></span>
+        </a>
+        <ul class="nav-second-level" aria-expanded="false">
+            <li>
+                <a href="{{ route('dashboard.usuarios') }}">Lista de usuarios</a>
+            </li>
+            <li>
+                <a href="{{ route('dashboard.roles') }}">Roles</a>
+            </li>
+            <li>
+                <a href="{{ route('dashboard.permisos') }}">Permisos</a>
+            </li>
+        </ul>
+    </li>
+
+    <li>
+        <a href="javascript: void(0);">
             <i class="fas fa-user-friends"></i>
             <span> Empleados </span>
             <span class="menu-arrow"></span>
@@ -24,35 +43,17 @@
     </li>
 
     <li>
-        <a href="javascript: void(0);">
+        <a href="{{ route('dashboard.clientes') }}">
             <i class="fas fa-users"></i>
             <span> Clientes </span>
-            <span class="menu-arrow"></span>
         </a>
-        <ul class="nav-second-level" aria-expanded="false">
-            <li>
-                <a href="layouts-sidebar-sm.html">Agregar Cliente</a>
-            </li>
-            <li>
-                <a href="layouts-light-sidebar.html">Lista de Clientes</a>
-            </li>
-        </ul>
     </li>
 
     <li>
-        <a href="javascript: void(0);">
+        <a href="{{ route('dashboard.inscripciones') }}">
             <i class="fas fa-book"></i>
             <span> Inscripciones </span>
-            <span class="menu-arrow"></span>
         </a>
-        <ul class="nav-second-level" aria-expanded="false">
-            <li>
-                <a href="email-inbox.html">Realizar Inscripción</a>
-            </li>
-            <li>
-                <a href="email-read.html">Lista de Inscripciones</a>
-            </li>
-        </ul>
     </li>
 
     <li>
@@ -161,20 +162,11 @@
     </li>
 
     <li>
-        <a href="javascript: void(0);">
+        <a href="{{ route('dashboard.casilleros') }}">
             {{-- <i class="fas fa-cube"></i> --}}
             <i class="fas fa-dice-d6"></i>
             <span> Casilleros </span>
-            <span class="menu-arrow"></span>
         </a>
-        <ul class="nav-second-level" aria-expanded="false">
-            <li>
-                <a href="extras-profile.html">Agregar Casillero</a>
-            </li>
-            <li>
-                <a href="extras-timeline.html">Lista de Casilleros</a>
-            </li>
-        </ul>
     </li>
 
     <li>

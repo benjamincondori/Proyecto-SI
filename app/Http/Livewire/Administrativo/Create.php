@@ -21,18 +21,23 @@ class Create extends Component
         'direccion' => 'required|max:80',
         'telefono' => 'required|max:10',
         'genero' => 'required',
+        'cargo' => 'required',
+        'turno' => 'required',
         'fecha_nacimiento' => 'required',
         'imagen' => 'image|max:2048'
     ];
 
-    public function mount() {
-        $this->id_empleado = $this->generarID();
-        $this->cargo = 'Administrador';
-        $this->turno = 'Mañana';
-        $this->tipo_empleado = 'A';
-        $this->imagen = null;
-        $this->id_usuario = null;
+    public function cancelar()
+    {
+        $this->emitTo('administrativo.show', 'cerrarVista');
     }
+
+    // public function mount() {
+    //     $this->id_empleado = $this->generarID();
+    //     $this->tipo_empleado = 'A';
+    //     $this->imagen = null;
+    //     $this->id_usuario = null;
+    // }
 
     public function generarID()
     {
@@ -41,40 +46,63 @@ class Create extends Component
         return str_pad($id, 10, '0', STR_PAD_LEFT);
     }
 
-    public function guardarEmpleado() {
+    public function guardarAdministrativo() {
+
+        // dd($this->turno);
 
         $this->validate();
 
+        dd($this->turno);
 
-        $empleado = Empleado::create([
-            'id' => $this->id_empleado,
-            'ci' => $this->ci,
-            'nombres' => $this->nombre,
-            'apellidos' => $this->apellido,
-            'fecha_nacimiento' => $this->fecha_nacimiento,
-            'direccion' => $this->direccion,
-            'telefono' => $this->telefono,
-            'email' => $this->email,
-            'genero' => $this->genero,
-            'turno' => $this->turno,
-            'fotografia' => $this->imagen,
-            'tipo_empleado' => $this->tipo_empleado,
-            'id_usuario' => $this->id_usuario
-        ]);
+        // $empleado = Empleado::create([
+        //     'id' => $this->generarID(),
+        //     'ci' => $this->ci,
+        //     'nombres' => $this->nombre,
+        //     'apellidos' => $this->apellido,
+        //     'fecha_nacimiento' => $this->fecha_nacimiento,
+        //     'direccion' => $this->direccion,
+        //     'telefono' => $this->telefono,
+        //     'email' => $this->email,
+        //     'genero' => $this->genero,
+        //     'turno' => $this->turno,
+        //     'fotografia' => null,
+        //     'tipo_empleado' => 'A',
+        //     'id_usuario' => null
+        // ]);
 
+        $empleado = new Empleado();
+        $empleado->id = $this->generarID();
+        $empleado->ci = $this->ci;
+        $empleado->nombres = $this->nombre;
+        $empleado->apellidos = $this->apellido;
+        $empleado->fecha_nacimiento = $this->fecha_nacimiento;
+        $empleado->direccion = $this->direccion;
+        $empleado->telefono = $this->telefono;
+        $empleado->email = $this->email;
+        $empleado->genero = $this->genero;
+        $empleado->turno = $this->turno;
+        $empleado->fotografia = null;
+        $empleado->tipo_empleado = 'A';
+        $empleado->id_usuario = null;
 
-        Administrativo::create([
-            'id' => $empleado->id,
+        try {
+            $empleado->save();
+        } catch (\Exception $e) {
+            // Manejar el error aquí, puedes imprimir el mensaje de error para depuración
+            echo $e->getMessage();
+            // O puedes mostrar un mensaje de error al usuario
+            // return redirect()->back()->with('error', 'No se pudo crear el registro de empleado');
+        }
+
+        dd($empleado);
+
+        $empleado->administrativo()->create([
             'cargo' => $this->cargo
         ]);
 
+        $this->emitTo('administrativo.show', 'cerrarVista');
+        $this->emit('alert', 'guardado');
 
-        $this->emit('registroGuardado');
-    }
-
-    public function cancelar()
-    {
-        $this->emit('cancelarCreacion');
     }
 
     public function render()

@@ -2,7 +2,7 @@
 
     <div class="form-group px-4 pt-2">
         <i class="fas fa-user-plus fa-2x"></i>
-        <h3 class="fs-1 d-inline-block ml-1">Crear nuevo administrativo</h3>
+        <h3 class="fs-1 d-inline-block ml-1">Crear nuevo cliente</h3>
     </div>
     <form class="px-4 pt-2 pb-4">
         <div class="row">
@@ -37,7 +37,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="field-8" class="control-label">Dirección</label>
@@ -48,7 +48,7 @@
                     @enderror
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -93,34 +93,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="field-11" class="control-label">Cargo</label>
-                    <select class="form-control" wire:model="cargo" name="cargo" id="field-11">
-                        <option value="">Seleccionar</option>
-                        <option value="Administrador">Administrador</option>
-                        <option value="Recepcionista">Recepcionista</option>
-                    </select>
-                    @error('cargo')
-                        <span class="error text-danger">* {{ $message }}</span>
-                    @enderror
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="field-12" class="control-label">Turno</label>
-                    <select class="form-control" wire:model="turno" name="turno" id="field-12">
-                        <option value="">Seleccionar</option>
-                        <option value="Mañana">Mañana</option>
-                        <option value="Tarde">Tarde</option>
-                    </select>
-                    @error('turno')
-                        <span class="error text-danger">* {{ $message }}</span>
-                    @enderror
-                </div>
-            </div>
-        </div>
+        
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -147,7 +120,7 @@
                     class="btn btn-danger waves-effect m-l-5">
                     Cancelar
                 </button>
-                <button class="btn btn-primary waves-effect waves-light" wire:click="guardarAdministrativo"
+                <button class="btn btn-primary waves-effect waves-light" wire:click="guardarCliente"
                     wire:loading.attr="disabled" type="button">
                     Guardar
                 </button>
@@ -156,3 +129,4 @@
     </form>
 
 </div>
+

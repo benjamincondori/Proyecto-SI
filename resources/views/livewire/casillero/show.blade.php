@@ -1,12 +1,11 @@
 <div>
 
-    @if ($vistaVer)
-        <livewire:administrativo.view>
-    @elseif($vistaCrear)
-        <livewire:administrativo.create>
+    @if ($vistaCrear)
+        <livewire:casillero.create>
     @elseif ($vistaEditar)
-        <livewire:administrativo.edit>
+        <livewire:casillero.edit>
     @else
+
         <div class="mb-2 d-flex justify-content-between">
 
             <div class="form-group d-none d-lg-flex align-items-center">
@@ -30,7 +29,7 @@
             <div class="form-group">
                 <button type="button" wire:click="agregarNuevo" class="btn btn-primary waves-effect waves-light">
                     <i class="fas fa-plus-circle"></i>&nbsp;
-                    Nuevo Administrativo
+                    Nuevo Casillero
                 </button>
             </div>
 
@@ -40,8 +39,8 @@
             <table class="table table-bordered mb-0">
                 <thead class="bg-light">
                     <tr style="cursor: pointer">
-                        <th scope="col" wire:click="order('id')">ID
-                            @if ($sort == 'id')
+                        <th scope="col" style="width: 70px;" wire:click="order('nro')">Nro
+                            @if ($sort == 'nro')
                                 @if ($direction == 'asc')
                                     <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
                                 @else
@@ -51,8 +50,8 @@
                                 <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
-                        <th scope="col" wire:click="order('ci')">CI
-                            @if ($sort == 'ci')
+                        <th scope="col" wire:click="order('tamaño')">Tamaño
+                            @if ($sort == 'tamaño')
                                 @if ($direction == 'asc')
                                     <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
                                 @else
@@ -62,8 +61,8 @@
                                 <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
-                        <th scope="col" wire:click="order('nombres')">Nombre
-                            @if ($sort == 'nombres')
+                        <th scope="col" wire:click="order('precio')">Precio
+                            @if ($sort == 'precio')
                                 @if ($direction == 'asc')
                                     <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
                                 @else
@@ -73,8 +72,8 @@
                                 <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
-                        <th scope="col" wire:click="order('apellidos')">Apellido
-                            @if ($sort == 'apellidos')
+                        <th scope="col" wire:click="order('estado')">Estado
+                            @if ($sort == 'estado')
                                 @if ($direction == 'asc')
                                     <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
                                 @else
@@ -84,62 +83,50 @@
                                 <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
-                        <th scope="col" wire:click="order('email')">Email
-                            @if ($sort == 'email')
-                                @if ($direction == 'asc')
-                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
-                                @else
-                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
-                                @endif
-                            @else
-                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
-                            @endif
-                        </th>
-                        <th scope="col">Cargo</th>
-                        <th>Acciones</th>
+                        <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if ($administrativos->count())
-                        @foreach ($administrativos as $administrativo)
-                            <tr class="text-nowrap text-center">
-                                <th scope="row" class="align-middle">{{ $administrativo->id }}</th>
-                                <td class="align-middle">{{ $administrativo->ci }}</td>
-                                <td class="align-middle text-left">{{ $administrativo->nombres }}</td>
-                                <td class="align-middle text-left">{{ $administrativo->apellidos }}</td>
-                                <td class="align-middle text-left">{{ $administrativo->email }}</td>
-                                <td class="align-middle text-left">
-                                    {{ $administrativo->administrativo()->whereIn('cargo', ['administrador', 'recepcionista'])->value('cargo') }}
+                    @if ($casilleros->count())
+                        @foreach ($casilleros as $casillero)
+                            <tr class="text-wrap text-center">
+                                <th scope="row" class="align-middle">{{ $casillero->nro }}</th>
+                                <td class="align-middle text-left">{{ $casillero->tamaño }}</td>
+                                <td class="align-middle">{{ $casillero->precio }}</td>
+                                <td class="align-middle">
+                                    @if ($casillero->estado)
+                                        <span class="text-success py-1 px-2 rounded-lg" style="background-color: #c3e6cb">Disponible</span>
+                                    @else
+                                        <span class="text-danger py-1 px-2 rounded-lg" style="background-color: #f8d7da">Ocupado</span>
+                                    @endif
                                 </td>
                                 <td class="align-middle text-nowrap">
-                                    <button type="button" title="Ver"
-                                        wire:click="seleccionarAdministrativo({{ $administrativo->id }}, 'ver')"
-                                        class="btn btn-sm btn-warning"><i class="fas fa-eye"></i></button>
-                                    <button type="button" title="Editar" wire:click="seleccionarAdministrativo({{ $administrativo->id }}, 'editar')" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                    <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $administrativo->id }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                    <button type="button" title="Editar" wire:click="seleccionarCasillero({{ $casillero->nro }})" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
+                                    <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $casillero->nro }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         @endforeach
                     @else
                         <tr class="text-center">
-                            <td colspan="7">No existe ningún registro coincidente.</td>
+                            <td colspan="5">No existe ningún registro coincidente.</td>
                         </tr>
                     @endif
                 </tbody>
             </table>
 
-            @if ($administrativos->hasPages())
+            @if ($casilleros->hasPages())
                 <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
                     <div class="text-muted d-none d-sm-block pt-1">
-                        Mostrando {{ $administrativos->firstItem() }} a {{ $administrativos->lastItem() }} de {{ $administrativos->total() }} resultados
+                        Mostrando {{ $casilleros->firstItem() }} a {{ $casilleros->lastItem() }} de {{ $casilleros->total() }} resultados
                     </div>
                     <div class="pagination-links">
-                        {{ $administrativos->links() }}
+                        {{ $casilleros->links() }}
                     </div>
                 </div>
-            @endif 
+            @endif   
 
         </div>
+
     @endif
 
     @push('js')
@@ -152,15 +139,15 @@
 
                 Swal.fire(
                     '¡' + msj2 + '!',
-                    'El administrativo ha sido ' + accion + ' correctamente.',
+                    'El casillero ha sido ' + accion + ' correctamente.',
                     'success'
                 )
             });
 
-            livewire.on('eliminarRegistro', administrativoId => {
+            livewire.on('eliminarRegistro', casilleroId => {
                 Swal.fire({
                     title: '¿Está seguro?',
-                    text: "¡Se eliminará el administrativo definitivamente!",
+                    text: "¡Se eliminará el casillero definitivamente!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -170,11 +157,11 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
 
-                        livewire.emitTo('administrativo.show', 'eliminarAdministrativo', administrativoId);
+                        livewire.emitTo('casillero.show', 'eliminarCasillero', casilleroId);
 
                         Swal.fire(
                             '¡Eliminado!',
-                            'El administrativo ha sido eliminado.',
+                            'El casillero ha sido eliminado.',
                             'success'
                         )
                     }
@@ -184,3 +171,4 @@
     @endpush
 
 </div>
+

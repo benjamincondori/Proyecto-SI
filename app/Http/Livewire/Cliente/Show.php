@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Livewire\Administrativo;
+namespace App\Http\Livewire\Cliente;
 
-use App\Models\Empleado;
+use App\Models\Cliente;
 use Livewire\Component;
 use Livewire\WithPagination;
+
 class Show extends Component
 {
     use WithPagination;
@@ -22,16 +23,16 @@ class Show extends Component
 
     protected $listeners = [
         'cerrarVista' => 'cerrarVista',
-        'eliminarAdministrativo' => 'eliminarAdministrativo'
+        'eliminarCliente' => 'eliminarCliente'
     ];
 
     protected $queryString = [
         'cant' => ['except' => '10']
     ];
 
-    public function seleccionarAdministrativo($registroId, $vista)
+    public function seleccionarCliente($registroId, $vista)
     {
-        $this->registroSeleccionado = Empleado::findOrFail($registroId);
+        $this->registroSeleccionado = Cliente::findOrFail($registroId);
 
         if ($vista === 'ver') {
             $this->vistaVer = true;
@@ -42,10 +43,10 @@ class Show extends Component
         }
     }
 
-    public function eliminarEmpleado($registroId)
+    public function eliminarCliente($registroId)
     {
         // Buscar el registro en base al nro
-        $registro = Empleado::find($registroId);
+        $registro = Cliente::find($registroId);
 
         // Verificar si el registro existe antes de eliminarlo
         if ($registro) {
@@ -87,20 +88,14 @@ class Show extends Component
 
     public function render()
     {
-
-        $administrativos = Empleado::where('tipo_empleado', 'A')
-            ->where(function ($query) {
-                $buscar = '%' . $this->buscar . '%';
-                $query->where('id', 'like', $buscar)
-                    ->orWhere('ci', 'like', $buscar)
-                    ->orWhere('nombres', 'like', $buscar)
-                    ->orWhere('apellidos', 'like', $buscar)
-                    ->orWhere('email', 'like', $buscar);
-            })
+        $clientes = Cliente::where('id', 'like', '%' . $this->buscar . '%')
+            ->orWhere('ci', 'like', '%' . $this->buscar . '%')
+            ->orWhere('nombres', 'like', '%' . $this->buscar . '%')
+            ->orWhere('apellidos', 'like', '%' . $this->buscar . '%')
+            ->orWhere('email', 'like', '%' . $this->buscar . '%')
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->cant);
 
-        return view('livewire.administrativo.show', ['administrativos' => $administrativos]);
+        return view('livewire.cliente.show', ['clientes' => $clientes]);
     }
-
 }

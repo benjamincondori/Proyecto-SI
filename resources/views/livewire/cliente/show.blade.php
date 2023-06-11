@@ -1,11 +1,11 @@
 <div>
 
     @if ($vistaVer)
-        <livewire:administrativo.view>
+        <livewire:cliente.view>
     @elseif($vistaCrear)
-        <livewire:administrativo.create>
+        <livewire:cliente.create>
     @elseif ($vistaEditar)
-        <livewire:administrativo.edit>
+        <livewire:cliente.edit>
     @else
         <div class="mb-2 d-flex justify-content-between">
 
@@ -30,7 +30,7 @@
             <div class="form-group">
                 <button type="button" wire:click="agregarNuevo" class="btn btn-primary waves-effect waves-light">
                     <i class="fas fa-plus-circle"></i>&nbsp;
-                    Nuevo Administrativo
+                    Nuevo Cliente
                 </button>
             </div>
 
@@ -95,28 +95,36 @@
                                 <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
-                        <th scope="col">Cargo</th>
+                        <th scope="col" wire:click="order('telefono')">Telefono
+                            @if ($sort == 'telefono')
+                                @if ($direction == 'asc')
+                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                @else
+                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                @endif
+                            @else
+                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                            @endif
+                        </th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if ($administrativos->count())
-                        @foreach ($administrativos as $administrativo)
+                    @if ($clientes->count())
+                        @foreach ($clientes as $cliente)
                             <tr class="text-nowrap text-center">
-                                <th scope="row" class="align-middle">{{ $administrativo->id }}</th>
-                                <td class="align-middle">{{ $administrativo->ci }}</td>
-                                <td class="align-middle text-left">{{ $administrativo->nombres }}</td>
-                                <td class="align-middle text-left">{{ $administrativo->apellidos }}</td>
-                                <td class="align-middle text-left">{{ $administrativo->email }}</td>
-                                <td class="align-middle text-left">
-                                    {{ $administrativo->administrativo()->whereIn('cargo', ['administrador', 'recepcionista'])->value('cargo') }}
-                                </td>
+                                <th scope="row" class="align-middle">{{ $cliente->id }}</th>
+                                <td class="align-middle">{{ $cliente->ci }}</td>
+                                <td class="align-middle text-left">{{ $cliente->nombres }}</td>
+                                <td class="align-middle text-left">{{ $cliente->apellidos }}</td>
+                                <td class="align-middle text-left">{{ $cliente->email }}</td>
+                                <td class="align-middle text-left">{{ $cliente->telefono }}</td>
                                 <td class="align-middle text-nowrap">
                                     <button type="button" title="Ver"
-                                        wire:click="seleccionarAdministrativo({{ $administrativo->id }}, 'ver')"
+                                        wire:click="seleccionarCliente({{ $cliente->id }}, 'ver')"
                                         class="btn btn-sm btn-warning"><i class="fas fa-eye"></i></button>
-                                    <button type="button" title="Editar" wire:click="seleccionarAdministrativo({{ $administrativo->id }}, 'editar')" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                    <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $administrativo->id }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                    <button type="button" title="Editar" wire:click="seleccionarCliente({{ $cliente->id }}, 'editar')" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
+                                    <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $cliente->id }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         @endforeach
@@ -128,13 +136,13 @@
                 </tbody>
             </table>
 
-            @if ($administrativos->hasPages())
+            @if ($clientes->hasPages())
                 <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
                     <div class="text-muted d-none d-sm-block pt-1">
-                        Mostrando {{ $administrativos->firstItem() }} a {{ $administrativos->lastItem() }} de {{ $administrativos->total() }} resultados
+                        Mostrando {{ $clientes->firstItem() }} a {{ $clientes->lastItem() }} de {{ $clientes->total() }} resultados
                     </div>
                     <div class="pagination-links">
-                        {{ $administrativos->links() }}
+                        {{ $clientes->links() }}
                     </div>
                 </div>
             @endif 
@@ -152,15 +160,15 @@
 
                 Swal.fire(
                     '¡' + msj2 + '!',
-                    'El administrativo ha sido ' + accion + ' correctamente.',
+                    'El cliente ha sido ' + accion + ' correctamente.',
                     'success'
                 )
             });
 
-            livewire.on('eliminarRegistro', administrativoId => {
+            livewire.on('eliminarRegistro', clienteId => {
                 Swal.fire({
                     title: '¿Está seguro?',
-                    text: "¡Se eliminará el administrativo definitivamente!",
+                    text: "¡Se eliminará el cliente definitivamente!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -170,11 +178,11 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
 
-                        livewire.emitTo('administrativo.show', 'eliminarAdministrativo', administrativoId);
+                        livewire.emitTo('cliente.show', 'eliminarCliente', clienteId);
 
                         Swal.fire(
                             '¡Eliminado!',
-                            'El administrativo ha sido eliminado.',
+                            'El cliente ha sido eliminado.',
                             'success'
                         )
                     }
@@ -184,3 +192,4 @@
     @endpush
 
 </div>
+

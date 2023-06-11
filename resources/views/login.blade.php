@@ -20,9 +20,9 @@
                         <form action="#">
 
                             <div class="form-group mb-3">
-                                <label for="emailaddress">Usuario:</label>
+                                <label for="emailaddress">Correo Electrónico:</label>
                                 <input class="form-control" type="email" id="emailaddress" required=""
-                                    placeholder="Ingrese su nombre de usuario">
+                                    placeholder="Ingrese su correo electrónico">
                             </div>
 
                             <div class="form-group mb-1">

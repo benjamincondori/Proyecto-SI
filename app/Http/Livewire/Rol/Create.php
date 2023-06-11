@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Http\Livewire\Rol;
+
+use App\Models\Rol;
+use Livewire\Component;
+
+class Create extends Component
+{
+    public $id_rol, $nombre;
+
+    protected $rules = [
+        'nombre' => 'required|max:30'
+    ];
+
+    public function cancelar()
+    {
+        $this->emitTo('rol.show', 'cerrarVista');
+    }
+
+    public function guardarRol() 
+    {
+        $this->validate();
+
+        Rol::create([
+            'nombre' => $this->nombre
+        ]);
+
+        $this->emitTo('rol.show', 'cerrarVista');
+        $this->emit('alert', 'guardado');
+
+    }
+
+    public function render()
+    {
+        return view('livewire.rol.create');
+    }
+}

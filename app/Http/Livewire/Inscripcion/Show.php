@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Livewire\Administrativo;
+namespace App\Http\Livewire\Inscripcion;
 
-use App\Models\Empleado;
+use App\Models\Inscripcion;
 use Livewire\Component;
 use Livewire\WithPagination;
+
 class Show extends Component
 {
     use WithPagination;
@@ -13,8 +14,8 @@ class Show extends Component
 
     public $registroSeleccionado;
     public $vistaVer = false;
-    public $vistaCrear = false;
     public $vistaEditar = false;
+    public $vistaCrear = false;
     public $buscar = '';
     public $cant = '10';
     public $sort = 'id';
@@ -22,16 +23,12 @@ class Show extends Component
 
     protected $listeners = [
         'cerrarVista' => 'cerrarVista',
-        'eliminarAdministrativo' => 'eliminarAdministrativo'
+        'eliminarInscripcion' => 'eliminarInscripcion'
     ];
 
-    protected $queryString = [
-        'cant' => ['except' => '10']
-    ];
-
-    public function seleccionarAdministrativo($registroId, $vista)
+    public function seleccionarInscripcion($registroId, $vista)
     {
-        $this->registroSeleccionado = Empleado::findOrFail($registroId);
+        $this->registroSeleccionado = Inscripcion::findOrFail($registroId);
 
         if ($vista === 'ver') {
             $this->vistaVer = true;
@@ -42,16 +39,14 @@ class Show extends Component
         }
     }
 
-    public function eliminarEmpleado($registroId)
+    public function eliminarInscripcion($registroId)
     {
-        // Buscar el registro en base al nro
-        $registro = Empleado::find($registroId);
-
-        // Verificar si el registro existe antes de eliminarlo
+        // Buscar el registro en base al ID
+        $registro = Inscripcion::find($registroId);
         if ($registro) {
             $registro->delete();
             $this->registroSeleccionado = null;
-        }
+        } 
     }
 
     public function agregarNuevo()
@@ -87,20 +82,10 @@ class Show extends Component
 
     public function render()
     {
-
-        $administrativos = Empleado::where('tipo_empleado', 'A')
-            ->where(function ($query) {
-                $buscar = '%' . $this->buscar . '%';
-                $query->where('id', 'like', $buscar)
-                    ->orWhere('ci', 'like', $buscar)
-                    ->orWhere('nombres', 'like', $buscar)
-                    ->orWhere('apellidos', 'like', $buscar)
-                    ->orWhere('email', 'like', $buscar);
-            })
+        $inscripciones = Inscripcion::where('id', 'like', '%' . $this->buscar . '%')
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->cant);
 
-        return view('livewire.administrativo.show', ['administrativos' => $administrativos]);
+        return view('livewire.inscripcion.show', ['inscripciones' => $inscripciones]);
     }
-
 }
