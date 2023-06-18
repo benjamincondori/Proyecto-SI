@@ -18,6 +18,14 @@ class Create extends Component
         'id_seccion' => 'required'
     ];
 
+    protected $validationAttributes = [
+        'id_seccion' => 'seccion'
+    ];
+
+    public function updated($propertyName) {
+        $this->validateOnly($propertyName);
+    }
+
     public function mount() {
         $this->secciones = Seccion::pluck('nombre', 'id')->toArray();
     }
@@ -31,15 +39,20 @@ class Create extends Component
     {
         $this->validate();
 
-        Disciplina::create([
-            'nombre' => $this->nombre,
-            'descripcion' => $this->descripcion,
-            'precio' => $this->precio,
-            'id_seccion' => $this->id_seccion
-        ]);
+        $disciplina = new Disciplina;
 
-        $this->emitTo('disciplina.show', 'cerrarVista');
-        $this->emit('alert', 'guardado');
+        $disciplina->nombre = $this->nombre;
+        $disciplina->descripcion = $this->descripcion;
+        $disciplina->precio = $this->precio;
+        $disciplina->id_seccion = $this->id_seccion;
+
+        try {
+            $disciplina->save();
+            $this->emitTo('disciplina.show', 'cerrarVista');
+            $this->emit('alert', 'guardado');
+        } catch (\Exception $e) {
+            $this->emit('error');
+        }
 
     }
 

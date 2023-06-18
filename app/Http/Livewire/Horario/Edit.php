@@ -17,7 +17,12 @@ class Edit extends Component
         'registroSeleccionado.hora_fin' => 'required'
     ];
 
-    public function editarRegistro($registroSeleccionado)
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
+    public function editarRegistro(Horario $registroSeleccionado)
     {
         $this->registroSeleccionado = $registroSeleccionado;
     }
@@ -36,11 +41,15 @@ class Edit extends Component
         $registro->descripcion = $this->registroSeleccionado['descripcion'];
         $registro->hora_inicio = $this->registroSeleccionado['hora_inicio'];
         $registro->hora_fin = $this->registroSeleccionado['hora_fin'];
-        $registro->save();
-    
-        $this->emitTo('horario.show','cerrarVista');
-        $this->emit('alert', 'actualizado');
-        $this->registroSeleccionado = null;
+        
+        try {
+            $registro->save();
+            $this->emitTo('horario.show','cerrarVista');
+            $this->emit('alert', 'actualizado');
+            $this->registroSeleccionado = null;
+        } catch (\Exception $e) {
+            $this->emit('error');
+        }
 
     }
 

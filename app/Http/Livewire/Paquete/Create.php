@@ -18,11 +18,14 @@ class Create extends Component
         'selectedDisciplinas' => 'required'
     ];
 
+    public function updated($propertyName) {
+        $this->validateOnly($propertyName);
+    }
+
     public function mount() {
         $this->disciplinas = Disciplina::pluck('nombre', 'id')->toArray();
     }
 
-    // Cierra la vista de creación
     public function cancelar()
     {
         $this->emitTo('paquete.show','cerrarVista');
@@ -32,19 +35,23 @@ class Create extends Component
     {
         $this->validate();
 
-        $paquete = Paquete::create([
-            'nombre' => $this->nombre,
-            'descripcion' => $this->descripcion,
-        ]);
+        $paquete = new Paquete;
+        $paquete->nombre = $this->nombre;
+        $paquete->descripcion = $this->descripcion;
 
-        // Obtén los IDs de las disciplinas seleccionadas
-        $disciplinasSeleccionadas = $this->selectedDisciplinas;
+        try {
+            $paquete->save();
+            // Obtén los IDs de las disciplinas seleccionadas
+            $disciplinasSeleccionadas = $this->selectedDisciplinas;
 
-        // Asocia las disciplinas seleccionadas al paquete
-        $paquete->disciplinas()->attach($disciplinasSeleccionadas);
+            // Asocia las disciplinas seleccionadas al paquete
+            $paquete->disciplinas()->attach($disciplinasSeleccionadas);
 
-        $this->emitTo('paquete.show', 'cerrarVista');
-        $this->emit('alert', 'guardado');
+            $this->emitTo('paquete.show', 'cerrarVista');
+            $this->emit('alert', 'guardado');
+        } catch (\Exception $e) {
+            $this->emit('error');
+        }
     }
 
     public function render()

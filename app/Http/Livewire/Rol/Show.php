@@ -25,11 +25,7 @@ class Show extends Component
         'eliminarRol' => 'eliminarRol'
     ];
 
-    protected $queryString = [
-        'cant' => ['except' => '10']
-    ];
-
-    public function seleccionarHorario($registroId)
+    public function seleccionarRol($registroId)
     {
         $this->registroSeleccionado = Rol::findOrFail($registroId);
         $this->vistaEditar = true;
@@ -71,6 +67,12 @@ class Show extends Component
             $this->sort = $sort;
             $this->direction = 'asc';
         }
+    }
+
+    public function updatedCant()
+    {
+        $this->resetPage();
+        $this->gotoPage(1);
     }
 
     public function updatingBuscar()

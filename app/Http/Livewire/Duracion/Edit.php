@@ -16,7 +16,12 @@ class Edit extends Component
         'registroSeleccionado.dias_duracion' => 'required',
     ];
 
-    public function editarRegistro($registroSeleccionado)
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
+    public function editarRegistro(Duracion $registroSeleccionado)
     {
         $this->registroSeleccionado = $registroSeleccionado;
     }
@@ -32,13 +37,18 @@ class Edit extends Component
     
         // Realizar la actualización del registro seleccionado
         $registro = Duracion::find($this->registroSeleccionado['id']);
+
         $registro->nombre = $this->registroSeleccionado['nombre'];
         $registro->dias_duracion = $this->registroSeleccionado['dias_duracion'];
-        $registro->save();
-    
-        $this->emitTo('duracion.show','cerrarVista');
-        $this->emit('alert', 'actualizado');
-        $this->registroSeleccionado = null;
+        
+        try {
+            $registro->save();
+            $this->emitTo('duracion.show','cerrarVista');
+            $this->emit('alert', 'actualizado');
+            $this->registroSeleccionado = null;
+        } catch (\Exception $e) {
+            $this->emit('error');
+        }
     }
 
     public function render()

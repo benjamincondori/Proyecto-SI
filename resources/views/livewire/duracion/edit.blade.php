@@ -9,7 +9,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="nombre" class="control-label">Nombre</label>
-                    <input type="text" wire:model.defer="registroSeleccionado.nombre" class="form-control" id="nombre"
+                    <input type="text" wire:model="registroSeleccionado.nombre" class="form-control" id="nombre"
                         placeholder="Ej: Mensual">
                     @error('registroSeleccionado.nombre')
                         <span class="error text-danger">* {{ $message }}</span>
@@ -21,7 +21,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="dias" class="control-label">Días de duración</label>
-                    <input type="number" wire:model.defer="registroSeleccionado.dias_duracion" class="form-control" id="dias"
+                    <input type="number" wire:model="registroSeleccionado.dias_duracion" class="form-control" id="dias"
                         placeholder="Ej: 30 días">
                     @error('registroSeleccionado.dias_duracion')
                         <span class="error text-danger">* {{ $message }}</span>

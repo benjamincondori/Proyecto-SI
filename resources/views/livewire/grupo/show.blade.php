@@ -9,13 +9,13 @@
 
             <div class="form-group d-none d-lg-flex align-items-center">
                 <span>Mostrar</span>
-                <select wire:model="cant" class="form-control px-1 mx-1">
+                <select wire:model="cant" class="custom-select px-3 mx-1">
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <span>entradas</span>
+                <span>resultados</span>
             </div>
 
             <div class="form-group w-50 d-flex">
@@ -35,8 +35,8 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table table-bordered mb-0">
-                <thead class="bg-light">
+            <table class="table table-bordered table-hover mb-0">
+                <thead class="bg-dark text-white">
                     <tr style="cursor: pointer">
                         <th scope="col" style="width: 60px;" wire:click="order('id')">ID
                             @if ($sort == 'id')
@@ -101,16 +101,16 @@
                 </tbody>
             </table>
 
-            @if ($grupos->hasPages())
-                <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
-                    <div class="text-muted d-none d-sm-block pt-1">
-                        Mostrando {{ $grupos->firstItem() }} a {{ $grupos->lastItem() }} de {{ $grupos->total() }} resultados
-                    </div>
+            <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
+                <div class="text-muted d-none d-sm-block pt-1">
+                    Mostrando del {{ $grupos->firstItem() }} al {{ $grupos->lastItem() }} de {{ $grupos->total() }} resultados
+                </div>
+                @if ($grupos->hasPages())
                     <div class="pagination-links">
                         {{ $grupos->links() }}
                     </div>
-                </div>
-            @endif    
+                @endif    
+            </div>
 
         </div>
 
@@ -120,6 +120,14 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
+            livewire.on('error', function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Ha ocurrido un error. Por favor, intenta nuevamente.'           
+                })
+            });
+
             livewire.on('alert', function(accion) {
 
                 var msj2 = accion.charAt(0).toUpperCase() + accion.slice(1);

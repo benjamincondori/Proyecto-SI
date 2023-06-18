@@ -4,12 +4,13 @@
         <i class="fas fa-plus-circle fa-2x"></i>
         <h3 class="fs-1 d-inline-block ml-1">Crear nueva duración</h3>
     </div>
+
     <form class="px-4 pt-2 pb-2">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="nombre" class="control-label">Nombre</label>
-                    <input type="text" wire:model.defer="nombre" class="form-control" id="nombre"
+                    <input type="text" wire:model="nombre" class="form-control" id="nombre"
                         placeholder="Ej: Mensual">
                     @error('nombre')
                         <span class="error text-danger">* {{ $message }}</span>
@@ -21,7 +22,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="dias" class="control-label">Días de duración</label>
-                    <input type="number" wire:model.defer="dias_duracion" class="form-control" id="dias"
+                    <input type="number" wire:model="dias_duracion" class="form-control" id="dias"
                         placeholder="Ej: 30 días">
                     @error('dias_duracion')
                         <span class="error text-danger">* {{ $message }}</span>

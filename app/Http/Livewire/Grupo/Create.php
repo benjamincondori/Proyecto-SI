@@ -22,6 +22,16 @@ class Create extends Component
         'id_horario' => 'required'
     ];
 
+    protected $validationAttributes = [
+        'id_disciplina' => 'disciplina',
+        'id_entrenador' => 'entrenador',
+        'id_horario' => 'horario'
+    ];
+
+    public function updated($propertyName) {
+        $this->validateOnly($propertyName);
+    }
+
     public function mount() {
         $this->disciplinas = Disciplina::pluck('nombre', 'id')->toArray();
         $this->entrenadores = Empleado::All()->where('tipo_empleado', 'E');
@@ -37,17 +47,20 @@ class Create extends Component
     {
         $this->validate();
 
-        Grupo::create([
-            'nombre' => $this->nombre,
-            'nro_integrantes' => $this->nro_integrantes,
-            'id_disciplina' => $this->id_disciplina,
-            'id_entrenador' => $this->id_entrenador,
-            'id_horario' => $this->id_horario
-        ]);
-
-        $this->emitTo('grupo.show', 'cerrarVista');
-        $this->emit('alert', 'guardado');
-
+        $grupo = new Grupo;
+        $grupo->nombre = $this->nombre;
+        $grupo->nro_integrantes = $this->nro_integrantes;
+        $grupo->id_disciplina = $this->id_disciplina;
+        $grupo->id_entrenador = $this->id_entrenador;
+        $grupo->id_horario = $this->id_horario;
+        
+        try {
+            $grupo->save();
+            $this->emitTo('grupo.show', 'cerrarVista');
+            $this->emit('alert', 'guardado');
+        } catch (\Exception $e) {
+            $this->emit('error');
+        }
     }
 
     public function render()

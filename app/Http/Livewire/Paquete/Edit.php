@@ -16,6 +16,21 @@ class Edit extends Component
 
     protected $listeners = ['editarRegistro'];
 
+    protected $rules = [
+        'registroSeleccionado.nombre' => 'required|max:50',
+        'registroSeleccionado.descripcion' => 'required|max:100'
+    ];
+
+    protected $validationAttributes = [
+        'registroSeleccionado.nombre' => 'nombre',
+        'registroSeleccionado.descripcion' => 'descripcion'
+    ];
+
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
     public function mount() 
     {
         $this->disciplinas = Disciplina::all();
@@ -44,19 +59,22 @@ class Edit extends Component
     
         // Realiza la actualización del registro seleccionado
         $paquete = Paquete::find($this->registroSeleccionado['id']);
+
         $paquete->nombre = $this->registroSeleccionado['nombre'];
         $paquete->descripcion = $this->registroSeleccionado['descripcion'];
-        $paquete->save();
 
-        if ($this->seleccionarNuevo) {
-            // Asocia las disciplinas seleccionadas al paquete
-            $paquete->disciplinas()->sync($this->selectedDisciplinas);
+        try {
+            $paquete->save();
+            if ($this->seleccionarNuevo) {
+                // Asocia las disciplinas seleccionadas al paquete
+                $paquete->disciplinas()->sync($this->selectedDisciplinas);
+            }
+            $this->emitTo('paquete.show', 'cerrarVista');
+            $this->emit('alert', 'actualizado');
+            $this->registroSeleccionado = null;
+        } catch (\Exception $e) {
+            $this->emit('error');
         }
-    
-        $this->emitTo('paquete.show', 'cerrarVista');
-        $this->emit('alert', 'actualizado');
-        $this->registroSeleccionado = null;
-
     }
 
     public function render()

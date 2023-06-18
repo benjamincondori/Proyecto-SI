@@ -17,7 +17,12 @@ class Edit extends Component
         'registroSeleccionado.capacidad' => 'required',
     ];
 
-    public function editarRegistro($registroSeleccionado)
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
+    public function editarRegistro(Seccion $registroSeleccionado)
     {
         $this->registroSeleccionado = $registroSeleccionado;
     }
@@ -33,14 +38,19 @@ class Edit extends Component
     
         // Realizar la actualización del registro seleccionado
         $registro = Seccion::find($this->registroSeleccionado['id']);
+
         $registro->nombre = $this->registroSeleccionado['nombre'];
         $registro->descripcion = $this->registroSeleccionado['descripcion'];
         $registro->capacidad = $this->registroSeleccionado['capacidad'];
-        $registro->save();
-    
-        $this->emitTo('seccion.show','cerrarVista');
-        $this->emit('alert', 'actualizado');
-        $this->registroSeleccionado = null;
+
+        try {
+            $registro->save();
+            $this->emitTo('seccion.show','cerrarVista');
+            $this->emit('alert', 'actualizado');
+            $this->registroSeleccionado = null;
+        } catch (\Exception $e) {
+            $this->emit('error');
+        }
 
     }
 

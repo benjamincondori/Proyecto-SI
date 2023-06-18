@@ -4,7 +4,7 @@
         <i class="fas fa-pencil-alt fa-2x"></i>
         <h3 class="fs-1 d-inline-block ml-1">Editar Sección</h3>
     </div>
-    <form class="px-4 pt-2 pb-4">
+    <form class="px-4 pt-2 pb-2">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -19,7 +19,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="capacidad" class="control-label">Capacidad</label>
-                    <input type="number" wire:model.defer="registroSeleccionado.capacidad" class="form-control" id="capacidad"
+                    <input type="number" wire:model="registroSeleccionado.capacidad" class="form-control" id="capacidad"
                         placeholder="Ej: 20">
                     @error('registroSeleccionado.capacidad')
                         <span class="error text-danger">* {{ $message }}</span>
@@ -29,8 +29,8 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="descripcion" class="control-label">Descripción</label>
-                    <textarea wire:model.defer="registroSeleccionado.descripcion" class="form-control" id="descripcion" rows="5"></textarea>
-                    @error('descripcion')
+                    <textarea wire:model="registroSeleccionado.descripcion" class="form-control" id="descripcion" rows="5"></textarea>
+                    @error('registroSeleccionado.descripcion')
                         <span class="error text-danger">* {{ $message }}</span>
                     @enderror
                 </div>
@@ -42,7 +42,7 @@
                 class="btn btn-danger waves-effect m-l-5">
                 Cancelar
             </button>
-            <button class="btn btn-primary waves-effect waves-light" wire:click="actualizarSeccion" wire:loading.attr="disabled"  type="button">
+            <button class="btn btn-primary waves-effect waves-light" wire:click="actualizarSeccion" wire:loading.attr="disabled" type="button">
                 Actualizar
             </button>
         </div>

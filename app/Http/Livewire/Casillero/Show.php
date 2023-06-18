@@ -25,21 +25,17 @@ class Show extends Component
         'eliminarCasillero' => 'eliminarCasillero'
     ];
 
-    protected $queryString = [
-        'cant' => ['except' => '10']
-    ];
-
-    public function seleccionarCasillero($nro)
+    public function seleccionarCasillero($registroId)
     {
-        $this->registroSeleccionado = Casillero::findOrFail($nro);
+        $this->registroSeleccionado = Casillero::findOrFail($registroId);
         $this->vistaEditar = true;
         $this->emit('editarRegistro', $this->registroSeleccionado);
     }
 
-    public function eliminarCasillero($nro)
+    public function eliminarCasillero($registroId)
     {
         // Buscar el registro en base al nro
-        $registro = Casillero::find($nro);
+        $registro = Casillero::find($registroId);
 
         // Verificar si el registro existe antes de eliminarlo
         if ($registro) {
@@ -71,6 +67,12 @@ class Show extends Component
             $this->sort = $sort;
             $this->direction = 'asc';
         }
+    }
+
+    public function updatedCant()
+    {
+        $this->resetPage();
+        $this->gotoPage(1);
     }
 
     public function updatingBuscar()

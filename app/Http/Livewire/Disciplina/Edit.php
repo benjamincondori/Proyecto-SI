@@ -20,11 +20,20 @@ class Edit extends Component
         'registroSeleccionado.id_seccion' => 'required'
     ];
 
+    protected $validationAttributes = [
+        'registroSeleccionado.id_seccion' => 'seccion'
+    ];
+
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
     public function mount() {
         $this->secciones = Seccion::pluck('nombre', 'id')->toArray();
     }
 
-    public function editarRegistro($registroSeleccionado)
+    public function editarRegistro(Disciplina $registroSeleccionado)
     {
         $this->registroSeleccionado = $registroSeleccionado;
     }
@@ -44,11 +53,15 @@ class Edit extends Component
         $registro->descripcion = $this->registroSeleccionado['descripcion'];
         $registro->precio = $this->registroSeleccionado['precio'];
         $registro->id_seccion = $this->registroSeleccionado['id_seccion'];
-        $registro->save();
     
-        $this->emitTo('disciplina.show','cerrarVista');
-        $this->emit('alert', 'actualizado');
-        $this->registroSeleccionado = null;
+        try {
+            $registro->save();
+            $this->emitTo('disciplina.show','cerrarVista');
+            $this->emit('alert', 'actualizado');
+            $this->registroSeleccionado = null;
+        } catch (\Exception $e) {
+            $this->emit('error');
+        }
 
     }
 

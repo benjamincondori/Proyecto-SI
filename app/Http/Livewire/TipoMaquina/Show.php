@@ -25,10 +25,6 @@ class Show extends Component
         'eliminarMaquina' => 'eliminarMaquina'
     ];
 
-    protected $queryString = [
-        'cant' => ['except' => '10']
-    ];
-
     public function seleccionarMaquina(Tipo_Maquina $maquina)
     {
         $this->vistaEditar = true;
@@ -70,6 +66,12 @@ class Show extends Component
             $this->sort = $sort;
             $this->direction = 'asc';
         }
+    }
+
+    public function updatedCant()
+    {
+        $this->resetPage();
+        $this->gotoPage(1);
     }
 
     public function updatingBuscar()

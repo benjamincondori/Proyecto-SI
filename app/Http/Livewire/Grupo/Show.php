@@ -29,11 +29,6 @@ class Show extends Component
         'eliminarGrupo' => 'eliminarGrupo'
     ];
 
-    protected $queryString = [
-        'cant' => ['except' => '10']
-    ];
-
-
     public function seleccionarGrupo($registroId)
     {
         $this->registroSeleccionado = Grupo::findOrFail($registroId);
@@ -97,6 +92,12 @@ class Show extends Component
             $this->sort = $sort;
             $this->direction = 'asc';
         }
+    }
+
+    public function updatedCant()
+    {
+        $this->resetPage();
+        $this->gotoPage(1);
     }
 
     public function updatingBuscar()

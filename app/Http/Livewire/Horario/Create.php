@@ -15,6 +15,10 @@ class Create extends Component
         'hora_fin' => 'required'
     ];
 
+    public function updated($propertyName) {
+        $this->validateOnly($propertyName);
+    }
+
     public function cancelar()
     {
         $this->emitTo('horario.show', 'cerrarVista');
@@ -24,15 +28,18 @@ class Create extends Component
     {
         $this->validate();
 
-        Horario::create([
-            'descripcion' => $this->descripcion,
-            'hora_inicio' => $this->hora_inicio,
-            'hora_fin' => $this->hora_fin
-        ]);
+        $horario = new Horario;
+        $horario->descripcion = $this->descripcion;
+        $horario->hora_inicio = $this->hora_inicio;
+        $horario->hora_fin = $this->hora_fin;
 
-        $this->emitTo('horario.show', 'cerrarVista');
-        $this->emit('alert', 'guardado');
-
+        try {
+            $horario->save();
+            $this->emitTo('horario.show', 'cerrarVista');
+            $this->emit('alert', 'guardado');
+        } catch (\Exception $e) {
+            $this->emit('error');
+        }
     }
 
     public function render()

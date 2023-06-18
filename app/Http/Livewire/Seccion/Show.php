@@ -25,10 +25,6 @@ class Show extends Component
         'eliminarSeccion' => 'eliminarSeccion'
     ];
 
-    protected $queryString = [
-        'cant' => ['except' => '10']
-    ];
-
     public function seleccionarSeccion($registroId)
     {
         $this->registroSeleccionado = Seccion::findOrFail($registroId);
@@ -71,6 +67,12 @@ class Show extends Component
             $this->sort = $sort;
             $this->direction = 'asc';
         }
+    }
+
+    public function updatedCant()
+    {
+        $this->resetPage();
+        $this->gotoPage(1);
     }
 
     public function updatingBuscar()

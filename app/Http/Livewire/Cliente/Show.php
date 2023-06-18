@@ -23,11 +23,7 @@ class Show extends Component
 
     protected $listeners = [
         'cerrarVista' => 'cerrarVista',
-        'eliminarCliente' => 'eliminarCliente'
-    ];
-
-    protected $queryString = [
-        'cant' => ['except' => '10']
+        'eliminarCliente' => 'eliminarCliente',
     ];
 
     public function seleccionarCliente($registroId, $vista)
@@ -63,6 +59,7 @@ class Show extends Component
     public function cerrarVista()
     {
         $this->vistaCrear = false;
+        
         $this->vistaEditar = false;
         $this->vistaVer = false;
     }
@@ -79,6 +76,12 @@ class Show extends Component
             $this->sort = $sort;
             $this->direction = 'asc';
         }
+    }
+
+    public function updatedCant()
+    {
+        $this->resetPage();
+        $this->gotoPage(1);
     }
 
     public function updatingBuscar()
@@ -98,4 +101,5 @@ class Show extends Component
 
         return view('livewire.cliente.show', ['clientes' => $clientes]);
     }
+
 }

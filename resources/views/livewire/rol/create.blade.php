@@ -4,12 +4,13 @@
         <i class="fas fa-plus-circle fa-2x"></i>
         <h3 class="fs-1 d-inline-block ml-1">Crear nuevo rol</h3>
     </div>
-    <form  class="px-4 pt-2 pb-4">
+
+    <form  class="px-4 pt-2 pb-2">
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="descripcion" class="control-label">Nombre del Rol</label>
-                    <input type="text" wire:model.defer="nombre" class="form-control" id="descripcion"
+                    <input type="text" wire:model="nombre" class="form-control" id="descripcion"
                         placeholder="Ej. empleado">
                     @error('nombre')
                         <span class="error text-danger">* {{ $message }}</span>

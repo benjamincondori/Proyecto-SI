@@ -14,7 +14,10 @@ class Create extends Component
         'dias_duracion' => 'required',
     ];
 
-    // Cierra la vista de creación
+    public function updated($propertyName) {
+        $this->validateOnly($propertyName);
+    }
+
     public function cancelar()
     {
         $this->emitTo('duracion.show','cerrarVista');
@@ -24,13 +27,17 @@ class Create extends Component
     {
         $this->validate();
 
-        Duracion::create([
-            'nombre' => $this->nombre,
-            'dias_duracion' => $this->dias_duracion,
-        ]);
+        $duracion = new Duracion;
+        $duracion->nombre = $this->nombre;
+        $duracion->dias_duracion = $this->dias_duracion;
 
-        $this->emitTo('duracion.show', 'cerrarVista');
-        $this->emit('alert', 'guardado');
+        try {
+            $duracion->save();
+            $this->emitTo('duracion.show', 'cerrarVista');
+            $this->emit('alert', 'guardado');
+        } catch (\Exception $e) {
+            $this->emit('error');
+        }
     }
 
     public function render()

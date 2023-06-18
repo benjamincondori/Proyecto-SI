@@ -24,7 +24,18 @@ class Edit extends Component
         'registroSeleccionado.id_horario' => 'required'
     ];
 
-    public function editarRegistro($registroSeleccionado)
+    protected $validationAttributes = [
+        'registroSeleccionado.id_disciplina' => 'disciplina',
+        'registroSeleccionado.id_entrenador' => 'entrenador',
+        'registroSeleccionado.id_horario' => 'horario'
+    ];
+
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
+    public function editarRegistro(Grupo $registroSeleccionado)
     {
         $this->registroSeleccionado = $registroSeleccionado;
     }
@@ -46,17 +57,21 @@ class Edit extends Component
     
         // Realizar la actualización del registro seleccionado
         $registro = Grupo::find($this->registroSeleccionado['id']);
+
         $registro->nombre = $this->registroSeleccionado['nombre'];
         $registro->nro_integrantes = $this->registroSeleccionado['nro_integrantes'];
         $registro->id_disciplina = $this->registroSeleccionado['id_disciplina'];
         $registro->id_entrenador = $this->registroSeleccionado['id_entrenador'];
         $registro->id_horario = $this->registroSeleccionado['id_horario'];
-        $registro->save();
-    
-        $this->emitTo('grupo.show','cerrarVista');
-        $this->emit('alert', 'actualizado');
-        $this->registroSeleccionado = null;
 
+        try {
+            $registro->save();
+            $this->emitTo('grupo.show','cerrarVista');
+            $this->emit('alert', 'actualizado');
+            $this->registroSeleccionado = null;
+        } catch (\Exception $e) {
+            $this->emit('error');
+        }
     }
 
     public function render()

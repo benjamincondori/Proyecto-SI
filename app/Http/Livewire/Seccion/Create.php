@@ -15,6 +15,10 @@ class Create extends Component
         'capacidad' => 'required'
     ];
 
+    public function updated($propertyName) {
+        $this->validateOnly($propertyName);
+    }
+
     public function cancelar()
     {
         $this->emitTo('seccion.show', 'cerrarVista');
@@ -24,14 +28,19 @@ class Create extends Component
     {
         $this->validate();
 
-        Seccion::create([
-            'nombre' => $this->nombre,
-            'descripcion' => $this->descripcion,
-            'capacidad' => $this->capacidad
-        ]);
+        $seccion = new Seccion;
 
-        $this->emitTo('seccion.show', 'cerrarVista');
-        $this->emit('alert', 'guardado');
+        $seccion->nombre = $this->nombre;
+        $seccion->descripcion = $this->descripcion;
+        $seccion->capacidad = $this->capacidad;
+
+        try {
+            $seccion->save();
+            $this->emitTo('seccion.show', 'cerrarVista');
+            $this->emit('alert', 'guardado');
+        } catch (\Exception $e) {
+            $this->emit('error');
+        }
 
     }
 

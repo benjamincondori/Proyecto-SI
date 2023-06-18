@@ -26,10 +26,6 @@ class Show extends Component
         'eliminarHorario' => 'eliminarHorario'
     ];
 
-    protected $queryString = [
-        'cant' => ['except' => '10']
-    ];
-
     public function seleccionarHorario($registroId)
     {
         $this->registroSeleccionado = Horario::findOrFail($registroId);
@@ -72,6 +68,12 @@ class Show extends Component
             $this->sort = $sort;
             $this->direction = 'asc';
         }
+    }
+
+    public function updatedCant()
+    {
+        $this->resetPage();
+        $this->gotoPage(1);
     }
 
     public function updatingBuscar()

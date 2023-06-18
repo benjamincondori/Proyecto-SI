@@ -14,6 +14,10 @@ class Create extends Component
         'descripcion' => 'required|max:150'
     ];
 
+    public function updated($propertyName) {
+        $this->validateOnly($propertyName);
+    }
+
     public function cancelar()
     {
         $this->emitTo('tipo-maquina.show', 'cerrarVista');
@@ -23,13 +27,18 @@ class Create extends Component
     {
         $this->validate();
 
-        Tipo_Maquina::create([
-            'nombre' => $this->nombre,
-            'descripcion' => $this->descripcion
-        ]);
+        $maquina = new Tipo_Maquina;
 
-        $this->emitTo('tipo-maquina.show', 'cerrarVista');
-        $this->emit('alert', 'guardado');
+        $maquina->nombre = $this->nombre;
+        $maquina->descripcion = $this->descripcion;
+
+        try {
+            $maquina->save();
+            $this->emitTo('tipo-maquina.show', 'cerrarVista');
+            $this->emit('alert', 'guardado');
+        } catch (\Exception $e) {
+            $this->emit('error');
+        }
 
     }
 

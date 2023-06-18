@@ -4,12 +4,12 @@
         <i class="fas fa-pencil-alt fa-2x"></i>
         <h3 class="fs-1 d-inline-block ml-1">Editar disciplina</h3>
     </div>
-    <form class="px-4 pt-2 pb-4">
+    <form class="px-4 pt-2 pb-2">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="nombre" class="control-label">Nombre</label>
-                    <input type="text" wire:model.defer="registroSeleccionado.nombre" class="form-control" id="nombre"
+                    <input type="text" wire:model="registroSeleccionado.nombre" class="form-control" id="nombre"
                         placeholder="Ej: Zumba">
                     @error('registroSeleccionado.nombre')
                         <span class="error text-danger">* {{ $message }}</span>
@@ -19,7 +19,7 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="precio" class="control-label">Precio</label>
-                    <input type="number" wire:model.defer="registroSeleccionado.precio" class="form-control" id="capacidad"
+                    <input type="number" wire:model="registroSeleccionado.precio" class="form-control" id="capacidad"
                         placeholder="Ej: 150 bs">
                     @error('registroSeleccionado.precio')
                         <span class="error text-danger">* {{ $message }}</span>
@@ -29,7 +29,7 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="seccion" class="control-label">Sección</label>
-                    <select class="form-control" wire:model.defer="registroSeleccionado.id_seccion" name="seccion"
+                    <select class="form-control" wire:model="registroSeleccionado.id_seccion" name="seccion"
                         id="seccion">
                         <option value="">Seleccionar</option>
                         @foreach ($secciones as $id => $nombre)
@@ -44,7 +44,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="descripcion" class="control-label">Descripción</label>
-                    <textarea wire:model.defer="registroSeleccionado.descripcion" class="form-control" id="descripcion" rows="5"></textarea>
+                    <textarea wire:model="registroSeleccionado.descripcion" class="form-control" id="descripcion" rows="5"></textarea>
                     @error('registroSeleccionado.descripcion')
                         <span class="error text-danger">* {{ $message }}</span>
                     @enderror

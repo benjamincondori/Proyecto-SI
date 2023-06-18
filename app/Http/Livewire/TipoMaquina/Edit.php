@@ -16,6 +16,11 @@ class Edit extends Component
         'registroSeleccionado.descripcion' => 'required|max:150'
     ];
 
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
     public function editarRegistro(Tipo_Maquina $registroSeleccionado)
     {
         $this->registroSeleccionado = $registroSeleccionado;
@@ -32,13 +37,18 @@ class Edit extends Component
     
         // Realizar la actualización del registro seleccionado
         $registro = Tipo_Maquina::find($this->registroSeleccionado['id']);
+
         $registro->nombre = $this->registroSeleccionado['nombre'];
         $registro->descripcion = $this->registroSeleccionado['descripcion'];
-        $registro->save();
-    
-        $this->emitTo('tipo-maquina.show','cerrarVista');
-        $this->emit('alert', 'actualizado');
-        $this->registroSeleccionado = null;
+
+        try {
+            $registro->save();
+            $this->emitTo('tipo-maquina.show','cerrarVista');
+            $this->emit('alert', 'actualizado');
+            $this->registroSeleccionado = null;
+        } catch (\Exception $e) {
+            $this->emit('error');
+        }
 
     }
 

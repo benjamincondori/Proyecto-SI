@@ -4,13 +4,14 @@
         <i class="fas fa-plus-circle fa-2x"></i>
         <h3 class="fs-1 d-inline-block ml-1">Crear nuevo casillero</h3>
     </div>
-    <form class="px-4 pt-2 pb-1">
+
+    <form class="px-4 pt-2 pb-2">
         <div class="row">
 
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="nro" class="control-label">Número del casillero</label>
-                    <input type="number" wire:model.defer="nro" class="form-control" id="nro"
+                    <input type="number" wire:model="nro" class="form-control" id="nro"
                         placeholder="Ej: 15">
                     @error('nro')
                         <span class="error text-danger">* {{ $message }}</span>
@@ -21,7 +22,7 @@
             <div class="col-md-5">
                 <div class="form-group">
                     <label for="tamaño" class="control-label">Tamaño</label>
-                    <input type="text" wire:model.defer="tamaño" class="form-control" id="tamaño"
+                    <input type="text" wire:model="tamaño" class="form-control" id="tamaño"
                         placeholder="Ej: Mediano">
                     @error('tamaño')
                         <span class="error text-danger">* {{ $message }}</span>
@@ -31,7 +32,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="precio" class="control-label">Precio</label>
-                    <input type="number" wire:model.defer="precio" class="form-control" id="capacidad"
+                    <input type="number" wire:model="precio" class="form-control" id="capacidad"
                         placeholder="Ej: 50 bs">
                     @error('precio')
                         <span class="error text-danger">* {{ $message }}</span>

@@ -25,10 +25,6 @@ class Show extends Component
         'eliminarAdministrativo' => 'eliminarAdministrativo'
     ];
 
-    protected $queryString = [
-        'cant' => ['except' => '10']
-    ];
-
     public function seleccionarAdministrativo($registroId, $vista)
     {
         $this->registroSeleccionado = Empleado::findOrFail($registroId);
@@ -42,7 +38,7 @@ class Show extends Component
         }
     }
 
-    public function eliminarEmpleado($registroId)
+    public function eliminarAdministrativo($registroId)
     {
         // Buscar el registro en base al nro
         $registro = Empleado::find($registroId);
@@ -78,6 +74,12 @@ class Show extends Component
             $this->sort = $sort;
             $this->direction = 'asc';
         }
+    }
+
+    public function updatedCant()
+    {
+        $this->resetPage();
+        $this->gotoPage(1);
     }
 
     public function updatingBuscar()

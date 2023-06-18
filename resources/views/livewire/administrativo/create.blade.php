@@ -4,13 +4,14 @@
         <i class="fas fa-user-plus fa-2x"></i>
         <h3 class="fs-1 d-inline-block ml-1">Crear nuevo administrativo</h3>
     </div>
-    <form class="px-4 pt-2 pb-4">
+    
+    <form class="px-4 pt-2 pb-2">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="field-1" class="control-label">Nombres</label>
-                    <input type="text" wire:model="nombre" class="form-control" id="field-1" placeholder="John">
-                    @error('nombre')
+                    <input type="text" wire:model="nombres" class="form-control" id="field-1" placeholder="John">
+                    @error('nombres')
                         <span class="error text-danger">* {{ $message }}</span>
                     @enderror
                 </div>
@@ -18,8 +19,8 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="field-2" class="control-label">Apellidos</label>
-                    <input type="text" wire:model="apellido" class="form-control" id="field-2" placeholder="Doe">
-                    @error('apellido')
+                    <input type="text" wire:model="apellidos" class="form-control" id="field-2" placeholder="Doe">
+                    @error('apellidos')
                         <span class="error text-danger">* {{ $message }}</span>
                     @enderror
                 </div>
@@ -86,10 +87,13 @@
                     <label for="field-10" class="control-label">Seleccionar imagen</label>
                     <div class="input-group">
                         <div class="custom-file">
-                            <input type="file" wire:model="imagen" class="custom-file-input" id="field-10">
+                            <input type="file" wire:model="fotografia" class="custom-file-input" id="field-10">
                             <label class="custom-file-label">Elija una foto</label>
                         </div>
                     </div>
+                    @error('fotografia')
+                        <span class="error text-danger" >* {{ $message }}</span>
+                    @enderror
                 </div>
             </div>
         </div>

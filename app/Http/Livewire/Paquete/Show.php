@@ -60,8 +60,6 @@ class Show extends Component
         $this->vistaCrear = false;
         $this->vistaEditar = false;
         $this->vistaVer = false;
-
-        // $this->mount();
     }
 
     public function order($sort) 
@@ -76,6 +74,12 @@ class Show extends Component
             $this->sort = $sort;
             $this->direction = 'asc';
         }
+    }
+
+    public function updatedCant()
+    {
+        $this->resetPage();
+        $this->gotoPage(1);
     }
 
     public function updatingBuscar()

@@ -19,6 +19,10 @@ class Empleado extends Model
         return $this->hasOne(Administrativo::class, 'id');
     }
 
+    public function entrenador(): HasOne {
+        return $this->hasOne(Entrenador::class, 'id');
+    }
+
     public function usuario(): BelongsTo
     {
         return $this->belongsTo(Usuario::class, 'id_usuario');

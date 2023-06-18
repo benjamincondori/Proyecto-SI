@@ -13,6 +13,10 @@ class Create extends Component
         'nombre' => 'required|max:30'
     ];
 
+    public function updated($propertyName) {
+        $this->validateOnly($propertyName);
+    }
+
     public function cancelar()
     {
         $this->emitTo('rol.show', 'cerrarVista');
@@ -22,13 +26,16 @@ class Create extends Component
     {
         $this->validate();
 
-        Rol::create([
-            'nombre' => $this->nombre
-        ]);
+        $rol = new Rol;
+        $rol->nombre = $this->nombre;
 
-        $this->emitTo('rol.show', 'cerrarVista');
-        $this->emit('alert', 'guardado');
-
+        try {
+            $rol->save();
+            $this->emitTo('rol.show', 'cerrarVista');
+            $this->emit('alert', 'guardado');
+        } catch (\Exception $e) {
+            $this->emit('error');
+        }
     }
 
     public function render()

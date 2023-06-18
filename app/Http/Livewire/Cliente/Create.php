@@ -10,26 +10,32 @@ class Create extends Component
 {
     use WithFileUploads;
 
-    public $id_cliente, $ci, $nombre, $apellido, $email, $telefono, $fecha_nacimiento,  $imagen, $genero, $id_usuario;
+    public $id_cliente, $ci, $nombres, $apellidos, $email, $telefono, $fecha_nacimiento, $imagen, $genero, $id_usuario;
 
     protected $rules = [
-        'ci' => 'required|max:10',
-        'nombre' => 'required|max:50',
-        'apellido' => 'required|max:50',
+        'ci' => 'required|max:10|unique:cliente',
+        'nombres' => 'required|max:50',
+        'apellidos' => 'required|max:50',
         'email' => 'required|email|max:100',
         'telefono' => 'required|max:10',
-        'genero' => 'required',
+        'genero' => 'required|max:1',
         'fecha_nacimiento' => 'required',
-        'imagen' => 'image|max:2048'
+        'imagen' => 'nullable|sometimes|image|max:2048'
     ];
 
-    public function cancelar()
-    {
+    public function updated($propertyName) {
+        $this->validateOnly($propertyName);
+    }
+
+    public function cancelar() {
         $this->emitTo('cliente.show', 'cerrarVista');
     }
 
-    public function generarID()
-    {
+    public function mount() {
+        $this->id_cliente = $this->generarID();
+    }
+
+    private function generarID() {
         $ultimoID = Cliente::max('id');
         $id = $ultimoID ? $ultimoID + 1 : 2300000000;
         return str_pad($id, 10, '0', STR_PAD_LEFT);
@@ -39,26 +45,30 @@ class Create extends Component
 
         $this->validate();
 
-        $cliente = Cliente::create([
-            'id' => $this->generarID(),
-            'ci' => $this->ci,
-            'nombres' => $this->nombre,
-            'apellidos' => $this->apellido,
-            'fecha_nacimiento' => $this->fecha_nacimiento,
-            'telefono' => $this->telefono,
-            'email' => $this->email,
-            'genero' => $this->genero,
-            'fotografia' => null,
-            'id_usuario' => null
-        ]);
+        $cliente = new Cliente;
 
-        $this->emitTo('cliente.show', 'cerrarVista');
-        $this->emit('alert', 'guardado');
+        $cliente->id = $this->id_cliente;
+        $cliente->ci = $this->ci;
+        $cliente->nombres = $this->nombres;
+        $cliente->apellidos = $this->apellidos;
+        $cliente->fecha_nacimiento = $this->fecha_nacimiento;
+        $cliente->telefono = $this->telefono;
+        $cliente->email = $this->email;
+        $cliente->genero = $this->genero;
+        $cliente->fotografia = $this->imagen;
+        $cliente->id_usuario = $this->id_usuario;
 
+        try {
+            $cliente->save();
+            $this->emitTo('cliente.show', 'cerrarVista');
+            $this->emit('alert', 'guardado');
+        } catch (\Exception $e) {
+            $this->emit('error');
+        }
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.cliente.create');
     }
+
 }

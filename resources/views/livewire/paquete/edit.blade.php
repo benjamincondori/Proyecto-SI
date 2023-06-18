@@ -4,12 +4,13 @@
         <i class="fas fa-pencil-alt fa-2x"></i>
         <h3 class="fs-1 d-inline-block ml-1">Editar paquete</h3>
     </div>
-    <form class="px-4 pt-2 pb-4">
+
+    <form class="px-4 pt-2 pb-2">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="nombre" class="control-label">Nombre</label>
-                    <input type="text" wire:model.defer="registroSeleccionado.nombre" class="form-control" id="nombre"
+                    <input type="text" wire:model="registroSeleccionado.nombre" class="form-control" id="nombre"
                         placeholder="Ej: Paquete básico">
                     @error('registroSeleccionado.nombre')
                         <span class="error text-danger">* {{ $message }}</span>
@@ -17,7 +18,7 @@
                 </div>
                 <div class="form-group">
                     <label for="descripcion" class="control-label">Descripción</label>
-                    <textarea wire:model.defer="registroSeleccionado.descripcion" class="form-control" id="descripcion" rows="5"></textarea>
+                    <textarea wire:model="registroSeleccionado.descripcion" class="form-control" id="descripcion" rows="5"></textarea>
                     @error('registroSeleccionado.descripcion')
                         <span class="error text-danger">* {{ $message }}</span>
                     @enderror
@@ -28,7 +29,7 @@
                     
                     @if ($seleccionarNuevo)
                         <label for="disciplinas" class="control-label">Seleccionar las Disciplinas (ctrl + click)</label>
-                        <select id="disciplinas" multiple class="form-control" wire:model.defer="selectedDisciplinas">
+                        <select id="disciplinas" multiple class="form-control" wire:model="selectedDisciplinas">
                             @foreach ($disciplinas as $disciplina)
                                 <option value="{{ $disciplina->id }}">{{ $disciplina->nombre }}</option>
                             @endforeach

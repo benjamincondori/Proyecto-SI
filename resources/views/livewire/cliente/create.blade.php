@@ -4,27 +4,28 @@
         <i class="fas fa-user-plus fa-2x"></i>
         <h3 class="fs-1 d-inline-block ml-1">Crear nuevo cliente</h3>
     </div>
-    <form class="px-4 pt-2 pb-4">
+    <form class="px-4 pt-2 pb-2">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="field-1" class="control-label">Nombres</label>
-                    <input type="text" wire:model="nombre" class="form-control" id="field-1" placeholder="John">
-                    @error('nombre')
-                        <span class="error text-danger">* {{ $message }}</span>
+                    <input type="text" wire:model="nombres" class="form-control" id="field-1" placeholder="John">
+                    @error('nombres')
+                        <span class="error text-danger" >* {{ $message }}</span>
                     @enderror
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="field-2" class="control-label">Apellidos</label>
-                    <input type="text" wire:model="apellido" class="form-control" id="field-2" placeholder="Doe">
-                    @error('apellido')
-                        <span class="error text-danger">* {{ $message }}</span>
+                    <input type="text" wire:model="apellidos" class="form-control" id="field-2" placeholder="Doe">
+                    @error('apellidos')
+                        <span class="error text-danger" >* {{ $message }}</span>
                     @enderror
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
@@ -37,18 +38,7 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label for="field-8" class="control-label">Dirección</label>
-                    <input type="text" wire:model="direccion" class="form-control" id="field-8"
-                        placeholder="Av. Busch">
-                    @error('direccion')
-                        <span class="error text-danger">* {{ $message }}</span>
-                    @enderror
-                </div>
-            </div>
-        </div> --}}
+
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -90,6 +80,9 @@
                             <label class="custom-file-label">Elija una foto</label>
                         </div>
                     </div>
+                    @error('imagen')
+                        <span class="error text-danger" >* {{ $message }}</span>
+                    @enderror
                 </div>
             </div>
         </div>
@@ -115,16 +108,14 @@
             </div>
         </div>
         <div class="form-group text-right m-b-0">
-            <div class="form-group text-right m-b-0">
-                <button type="button" wire:click="cancelar" wire:loading.attr="disabled"
+            <button type="button" wire:click="cancelar" wire:loading.attr="disabled"
                     class="btn btn-danger waves-effect m-l-5">
-                    Cancelar
-                </button>
-                <button class="btn btn-primary waves-effect waves-light" wire:click="guardarCliente"
+                Cancelar
+            </button>
+            <button class="btn btn-primary waves-effect waves-light" wire:click="guardarCliente"
                     wire:loading.attr="disabled" type="button">
-                    Guardar
-                </button>
-            </div>
+                Guardar
+            </button>
         </div>
     </form>
 

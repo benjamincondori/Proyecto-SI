@@ -25,10 +25,6 @@ class Show extends Component
         'eliminarDuracion' => 'eliminarDuracion'
     ];
 
-    protected $queryString = [
-        'cant' => ['except' => '10']
-    ];
-
     public function seleccionarPaquete($registroId)
     {
         $this->registroSeleccionado = Duracion::findOrFail($registroId);
@@ -69,6 +65,12 @@ class Show extends Component
             $this->sort = $sort;
             $this->direction = 'asc';
         }
+    }
+
+    public function updatedCant()
+    {
+        $this->resetPage();
+        $this->gotoPage(1);
     }
 
     public function updatingBuscar()

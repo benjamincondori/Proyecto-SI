@@ -16,6 +16,10 @@ class Create extends Component
         'precio' => 'required',
     ];
 
+    public function updated($propertyName) {
+        $this->validateOnly($propertyName);
+    }
+
     public function cancelar()
     {
         $this->emitTo('casillero.show', 'cerrarVista');
@@ -25,15 +29,20 @@ class Create extends Component
     {
         $this->validate();
 
-        Casillero::create([
-            'nro' => $this->nro,
-            'tamaño' => $this->tamaño,
-            'precio' => $this->precio,
-            'estado' => $this->estado
-        ]);
+        $casillero = new Casillero;
 
-        $this->emitTo('casillero.show', 'cerrarVista');
-        $this->emit('alert', 'guardado');
+        $casillero->nro = $this->nro;
+        $casillero->tamaño = $this->tamaño;
+        $casillero->precio = $this->precio;
+        $casillero->estado = $this->estado;
+
+        try {
+            $casillero->save();
+            $this->emitTo('casillero.show', 'cerrarVista');
+            $this->emit('alert', 'guardado');
+        } catch (\Exception $e) {
+            $this->emit('error');
+        }
 
     }
 

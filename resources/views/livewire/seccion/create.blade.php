@@ -4,12 +4,12 @@
         <i class="fas fa-plus-circle fa-2x"></i>
         <h3 class="fs-1 d-inline-block ml-1">Crear nueva sección</h3>
     </div>
-    <form  class="px-4 pt-2 pb-4">
+    <form  class="px-4 pt-2 pb-2">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="nombre" class="control-label">Nombre</label>
-                    <input type="text" wire:model.defer="nombre" class="form-control" id="nombre"
+                    <input type="text" wire:model="nombre" class="form-control" id="nombre"
                         placeholder="Ej: Sección de cardio">
                     @error('nombre')
                         <span class="error text-danger">* {{ $message }}</span>
@@ -19,7 +19,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="capacidad" class="control-label">Capacidad</label>
-                    <input type="number" wire:model.defer="capacidad" class="form-control" id="capacidad"
+                    <input type="number" wire:model="capacidad" class="form-control" id="capacidad"
                         placeholder="Ej: 20">
                     @error('capacidad')
                         <span class="error text-danger">* {{ $message }}</span>

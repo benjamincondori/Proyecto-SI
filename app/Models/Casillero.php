@@ -10,8 +10,7 @@ class Casillero extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $primaryKey = 'nro';
-    protected $fillable = ['nro', 'tamaño', 'precio', 'estado'];
+    protected $fillable = ['id', 'nro', 'tamaño', 'precio', 'estado'];
     protected $table = 'casillero';
 
 }
