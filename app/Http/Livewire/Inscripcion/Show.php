@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Inscripcion;
 
 use App\Models\Inscripcion;
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -49,6 +50,19 @@ class Show extends Component
         } 
     }
 
+    public function obtenerFechaInscripcion($registroId) {
+        $fecha_inscripcion = Inscripcion::find($registroId);
+        $fecha = Carbon::parse($fecha_inscripcion->fecha_inscripcion)->format('d/m/Y');
+        $hora = Carbon::parse($fecha_inscripcion->fecha_inscripcion)->format('H:i A');
+        return $fecha . ' - ' . $hora;
+    }
+
+    public function obtenerFechaInicio($registroId) {
+        $fecha = Inscripcion::find($registroId);
+        $fecha = Carbon::parse($fecha->fecha_inicio)->format('d/m/Y');
+        return $fecha;
+    }
+
     public function agregarNuevo()
     {
         $this->vistaCrear = true;
@@ -75,6 +89,12 @@ class Show extends Component
         }
     }
 
+    public function updatedCant()
+    {
+        $this->resetPage();
+        $this->gotoPage(1);
+    }
+
     public function updatingBuscar()
     {
         $this->resetPage();
@@ -88,4 +108,5 @@ class Show extends Component
 
         return view('livewire.inscripcion.show', ['inscripciones' => $inscripciones]);
     }
+
 }

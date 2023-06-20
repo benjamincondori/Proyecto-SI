@@ -6,22 +6,7 @@
 
         <!-- ========== Left Sidebar Start ========== -->
         <div class="left-side-menu">
-
-            <div class="slimscroll-menu">
-
-                <!--- Sidemenu -->
-                <div id="sidebar-menu">
-
-                    @include('plantillas.sidebar')
-
-                </div>
-                <!-- End Sidebar -->
-
-                <div class="clearfix"></div>
-
-            </div>
-            <!-- Sidebar -left -->
-
+            @include('plantillas.sidebar')
         </div>
         <!-- Left Sidebar End -->
 
@@ -32,7 +17,7 @@
         <div class="content-page">
             <div id="content">
 
-                <x-layouts.content title="Secciones" subtitle="Lista de Secciones" name="Lista de Secciones">
+                <x-layouts.content title="Secciones" subtitle="Lista de Secciones" name="Secciones">
 
                     <div class="row">
                         <div class="col-12">

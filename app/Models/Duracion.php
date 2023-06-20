@@ -15,6 +15,11 @@ class Duracion extends Model
     protected $table = 'duracion';
 
     public function paquetes():BelongsToMany {
-        return $this->belongsToMany(Paquete::class, 'paquete_duracion', 'id_duracion', 'id_paquete')->withPivot('precio', 'descuento');;
+        return $this->belongsToMany(Paquete::class, 'paquete_duracion', 'id_duracion', 'id_paquete')->withPivot('precio', 'descuento');
     }
+
+    public function inscripciones():BelongsToMany {
+        return $this->belongsToMany(Inscripcion::class, 'id_duracion');
+    }
+
 }

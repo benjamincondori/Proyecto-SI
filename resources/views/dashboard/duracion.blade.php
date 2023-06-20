@@ -6,22 +6,7 @@
 
         <!-- ========== Left Sidebar Start ========== -->
         <div class="left-side-menu">
-
-            <div class="slimscroll-menu">
-
-                <!--- Sidemenu -->
-                <div id="sidebar-menu">
-
-                    @include('plantillas.sidebar')
-
-                </div>
-                <!-- End Sidebar -->
-
-                <div class="clearfix"></div>
-
-            </div>
-            <!-- Sidebar -left -->
-
+            @include('plantillas.sidebar')
         </div>
         <!-- Left Sidebar End -->
 

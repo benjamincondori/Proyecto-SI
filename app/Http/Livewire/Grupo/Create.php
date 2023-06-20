@@ -65,6 +65,8 @@ class Create extends Component
 
     public function render()
     {
+        $this->dispatchBrowserEvent('bootstrapSelect');
+
         return view('livewire.grupo.create');
     }
 }

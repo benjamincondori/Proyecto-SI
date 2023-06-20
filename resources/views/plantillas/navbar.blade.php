@@ -10,6 +10,7 @@
                     Administrador &nbsp;<i class="la la-angle-down"></i>
                 </span>
             </a>
+
             <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                 <!-- item-->
                 <div class="dropdown-item noti-title">
@@ -41,7 +42,7 @@
             </div>
         </li>
 
-        <span class="mr-3"></span>
+        <span class="mr-2"></span>
 
     </ul>
 

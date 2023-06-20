@@ -12,13 +12,13 @@
 
             <div class="form-group d-none d-lg-flex align-items-center">
                 <span>Mostrar</span>
-                <select wire:model="cant" class="form-control px-1 mx-1">
+                <select wire:model="cant" class="custom-select px-3 mx-1">
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <span>entradas</span>
+                <span>resultados</span>
             </div>
 
             <div class="form-group w-50 d-flex">
@@ -38,43 +38,43 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table table-bordered mb-0">
-                <thead class="bg-light">
+            <table class="table table-bordered table-hover mb-0">
+                <thead class="bg-dark text-white text-nowrap">
                     <tr style="cursor: pointer">
-                        <th scope="col" style="width: 60px;" wire:click="order('id')">ID
+                        <th scope="col" wire:click="order('id')">ID
                             @if ($sort == 'id')
                                 @if ($direction == 'asc')
-                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                    <i class="fas fa-sort-alpha-down" style="margin-top: 4px; margin-left: 10px"></i>
                                 @else
-                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                    <i class="fas fa-sort-alpha-up " style="margin-top: 4px; margin-left: 10px"></i> 
                                 @endif
                             @else
-                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                                <i class="fas fa-sort " style="margin-top: 4px; margin-left: 10px"></i>
                             @endif
                         </th>
                         <th scope="col" wire:click="order('fecha_inscripcion')">Fecha Inscripción
                             @if ($sort == 'fecha_inscripcion')
                                 @if ($direction == 'asc')
-                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                    <i class="fas fa-sort-alpha-down" style="margin-top: 4px; margin-left: 10px"></i>
                                 @else
-                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                    <i class="fas fa-sort-alpha-up" style="margin-top: 4px; margin-left: 10px"></i> 
                                 @endif
                             @else
-                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                                <i class="fas fa-sort" style="margin-top: 4px; margin-left: 10px"></i>
                             @endif
                         </th>
-                        <th scope="col" wire:click="order('fecha_inicio')">Fecha Incio
+                        <th scope="col" wire:click="order('fecha_inicio')">Fecha Inicio
                             @if ($sort == 'fecha_inicio')
                                 @if ($direction == 'asc')
-                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                    <i class="fas fa-sort-alpha-down" style="margin-top: 4px; margin-left: 10px"></i>
                                 @else
-                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                    <i class="fas fa-sort-alpha-up" style="margin-top: 4px; margin-left: 10px"></i> 
                                 @endif
                             @else
-                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                                <i class="fas fa-sort" style="margin-top: 4px; margin-left: 10px"></i>
                             @endif
                         </th>
-                        <th scope="col" wire:click="order('id_cliente')">ID Cliente
+                        <th scope="col" wire:click="order('id_cliente')">Cliente
                             @if ($sort == 'id_cliente')
                                 @if ($direction == 'asc')
                                     <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
@@ -85,7 +85,7 @@
                                 <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
-                        <th scope="col" wire:click="order('id_administrativo')">ID Administrativo
+                        <th scope="col" wire:click="order('id_administrativo')">Administrativo
                             @if ($sort == 'id_administrativo')
                                 @if ($direction == 'asc')
                                     <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
@@ -96,7 +96,7 @@
                                 <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
-                        <th scope="col" wire:click="order('id_paquete')">ID Paquete
+                        <th scope="col" wire:click="order('id_paquete')">Paquete
                             @if ($sort == 'id_paquete')
                                 @if ($direction == 'asc')
                                     <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
@@ -107,31 +107,50 @@
                                 <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
-                        <th scope="col" wire:click="order('id_duracion')">ID Duración
+                        <th scope="col" wire:click="order('id_duracion')">Duración
                             @if ($sort == 'id_duracion')
                                 @if ($direction == 'asc')
-                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                    <i class="fas fa-sort-alpha-down" style="margin-top: 4px; margin-left: 10px"></i>
                                 @else
-                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                    <i class="fas fa-sort-alpha-up" style="margin-top: 4px; margin-left: 10px"></i> 
                                 @endif
                             @else
-                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                                <i class="fas fa-sort" style="margin-top: 4px; margin-left: 10px"></i>
                             @endif
                         </th>
+                        <th scope="col">Estado</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if ($inscripciones->count())
                         @foreach ($inscripciones as $inscripcion)
-                            <tr class="text-wrap text-center">
+                            <tr class="text-nowrap text-center">
                                 <th scope="row" class="align-middle">{{ $inscripcion->id }}</th>
-                                <td class="align-middle text-left">{{ $inscripcion->fecha_inscripcion }}</td>
-                                <td class="align-middle text-left">{{ $inscripcion->fecha_inicio }}</td>
-                                <td class="align-middle text-left">{{ $inscripcion->id_cliente }}</td>
-                                <td class="align-middle text-left">{{ $inscripcion->id_administrativo }}</td>
-                                <td class="align-middle text-left">{{ $inscripcion->id_paquete }}</td>
-                                <td class="align-middle text-left">{{ $inscripcion->id_duracion }}</td>
+                                <td class="align-middle">
+                                    {{ $this->obtenerFechaInscripcion($inscripcion->id) }}</td>
+                                <td class="align-middle">
+                                    {{ $this->obtenerFechaInicio($inscripcion->id) }}</td>
+                                <td class="align-middle text-left">
+                                    {{ $inscripcion->cliente->nombres }} 
+                                    {{ $inscripcion->cliente->apellidos }}</td>
+                                <td class="align-middle text-left">
+                                    {{ $inscripcion->administrativo->empleado->nombres }}
+                                    {{ $inscripcion->administrativo->empleado->apellidos }}</td>
+                                <td class="align-middle text-left">
+                                    {{ $inscripcion->paquete->nombre }}</td>
+                                <td class="align-middle text-left">
+                                    {{ $inscripcion->duracion->nombre }}</td>
+                                <td class="align-middle">
+                                    @if (is_null($inscripcion->detalle->estado))
+                                        <span class="text-warning py-1 px-2 rounded-lg d-inline-block"
+                                        style="background-color: #ffeeba; width: 90px">Pendiente</span>
+                                    @elseif ($inscripcion->detalle->estado === 0)
+                                        <span class="text-danger py-1 px-2 rounded-lg d-inline-block" style="background-color: #f8d7da; width: 90px">Vencida</span>
+                                    @elseif ($inscripcion->detalle->estado === 1)
+                                        <span class="text-success py-1 px-2 rounded-lg d-inline-block" style="background-color: #c3e6cb; width: 90px">Activa</span>
+                                    @endif
+                                </td>
                                 <td class="align-middle text-nowrap">
                                     <button type="button" title="Ver"
                                         wire:click="seleccionarPaquete({{ $inscripcion->id }}, 'ver')"
@@ -147,30 +166,39 @@
                         @endforeach
                     @else
                         <tr class="text-center">
-                            <td colspan="4">No existe ningún registro coincidente.</td>
+                            <td colspan="9">No existe ningún registro coincidente.</td>
                         </tr>
                     @endif
                 </tbody>
             </table>
+        </div>
 
+        <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
+            <div class="text-muted d-none d-sm-block pt-1">
+                Mostrando del {{ $inscripciones->firstItem() }} al {{ $inscripciones->lastItem() }} de {{ $inscripciones->total() }} resultados
+            </div>
             @if ($inscripciones->hasPages())
-                <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
-                    <div class="text-muted d-none d-sm-block pt-1">
-                        Mostrando {{ $inscripciones->firstItem() }} a {{ $inscripciones->lastItem() }} de {{ $inscripciones->total() }} resultados
-                    </div>
-                    <div class="pagination-links">
-                        {{ $inscripciones->links() }}
-                    </div>
+                <div class="pagination-links">
+                    {{ $inscripciones->links() }}
                 </div>
             @endif 
-
         </div>
+
     @endif
 
     @push('js')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
+            livewire.on('error', function(message) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Ha ocurrido un error. Por favor, intenta nuevamente.'           
+                })
+                console.error(message);
+            });
+
             livewire.on('alert', function(accion) {
 
                 var msj2 = accion.charAt(0).toUpperCase() + accion.slice(1);
@@ -195,7 +223,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
 
-                        livewire.emitTo('paquete.show', 'eliminarInscripcion', inscripcionId);
+                        livewire.emitTo('inscripcion.show', 'eliminarInscripcion', inscripcionId);
 
                         Swal.fire(
                             '¡Eliminado!',
@@ -206,6 +234,7 @@
                 })
             });
         </script>
+
     @endpush
 
 </div>

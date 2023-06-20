@@ -1,9 +1,16 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Models\Administrativo;
+use App\Models\Cliente;
 use App\Models\Disciplina;
+use App\Models\Grupo;
+use App\Models\Horario;
+use App\Models\Inscripcion;
+use App\Models\Paquete;
 use App\Models\Seccion;
 use App\Models\Usuario;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 
@@ -49,13 +56,17 @@ Route::get('/test-query', function () {
         // $disciplinas = Disciplina::all();
         // $secciones = Seccion::all(); 
 
-        // $disciplinas = Disciplina::with('seccion')->get();
+        // $paquetes = Paquete::with('disciplinas')->get();
+        $paquete = Paquete::find(1);
 
-        // $usuario = Usuario::with('cliente')->get();
+        $disciplinas =  $paquete->disciplinas;
+        foreach ($disciplinas as $disciplina) {
+            $nombreDisciplina = $disciplina->nombre;
+            // Puedes utilizar $nombreDisciplina para lo que necesites
+            echo $nombreDisciplina;
+        }
+        // return $disciplinas->nombre;
 
-        $usuario = Usuario::with('empleado')->find(1);
-
-        return $usuario;
     } catch (\Exception $e) {
         return "Error al consultar la base de datos: " . $e->getMessage();
     }
