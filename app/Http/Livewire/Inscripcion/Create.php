@@ -76,7 +76,6 @@ class Create extends Component
 
     public function mount() {
         $this->id_administrativo = '2200000003';
-        // $this->paquetes = Paquete::pluck('nombre', 'id')->toArray();
         $this->paquetes = Paquete::all();
         $this->duraciones = Duracion::pluck('nombre', 'id')->toArray();
         $this->grupos = Grupo::all();
@@ -121,4 +120,5 @@ class Create extends Component
     {
         return view('livewire.inscripcion.create');
     }
+    
 }

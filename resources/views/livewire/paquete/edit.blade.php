@@ -26,10 +26,12 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    
                     @if ($seleccionarNuevo)
                         <label for="disciplinas" class="control-label">Seleccionar las Disciplinas (ctrl + click)</label>
-                        <select id="disciplinas" multiple class="form-control" wire:model="selectedDisciplinas">
+                        <button type="button" class="btn btn-xs btn-outline-info waves-effect waves-light ml-2" wire:click="$set('seleccionarNuevo', false)">
+                            <i class="fas fa-reply"></i>
+                        </button>
+                        <select id="disciplinas" multiple class="form-control mt-2" wire:model="selectedDisciplinas">
                             @foreach ($disciplinas as $disciplina)
                                 <option value="{{ $disciplina->id }}">{{ $disciplina->nombre }}</option>
                             @endforeach
@@ -39,9 +41,9 @@
                         @enderror
                     @else
                         <label for="disciplinas" class="control-label">Disciplinas del Paquete</label>
-                        <button type="button" class="btn btn-xs btn-outline-info waves-effect waves-light" wire:click="$set('seleccionarNuevo', true)">Seleccionar</button>
+                        <button type="button" class="btn btn-xs btn-outline-info waves-effect waves-light ml-1" wire:click="$set('seleccionarNuevo', true)">Seleccionar</button>
                         <br>
-                        <div class="radio radio-info mb-2">
+                        <div class="radio radio-info mt-2">
                             @foreach ($seleccionados as $disciplina)
                                 &nbsp;&nbsp;&nbsp;
                                 <input type="radio" checked>

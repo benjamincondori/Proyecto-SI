@@ -57,15 +57,27 @@ Route::get('/test-query', function () {
         // $secciones = Seccion::all(); 
 
         // $paquetes = Paquete::with('disciplinas')->get();
-        $paquete = Paquete::find(1);
 
-        $disciplinas =  $paquete->disciplinas;
+        $inscripcion = Inscripcion::find(9);
+        $paquete = $inscripcion->paquete;
+        $disciplinas = $paquete->disciplinas;
+        $grupos = [];
+
         foreach ($disciplinas as $disciplina) {
-            $nombreDisciplina = $disciplina->nombre;
-            // Puedes utilizar $nombreDisciplina para lo que necesites
-            echo $nombreDisciplina;
+            $grupos[] = $disciplina->grupos;
         }
-        // return $disciplinas->nombre;
+
+        // return $grupos;
+
+        return Grupo::join('disciplina', 'grupo.id_disciplina', '=', 'disciplina.id')
+        ->join('disciplina_paquete', 'disciplina.id', '=', 'disciplina_paquete.id_disciplina')
+        ->join('paquete', 'disciplina_paquete.id_paquete', '=', 'paquete.id')
+        ->join('inscripcion', 'paquete.id', '=', 'inscripcion.id_paquete')
+        ->where('inscripcion.id', 14)
+        ->select('grupo.*')
+        ->get();
+
+        
 
     } catch (\Exception $e) {
         return "Error al consultar la base de datos: " . $e->getMessage();

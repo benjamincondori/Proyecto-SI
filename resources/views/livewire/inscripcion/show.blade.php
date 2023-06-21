@@ -156,7 +156,7 @@
                                         wire:click="seleccionarPaquete({{ $inscripcion->id }}, 'ver')"
                                         class="btn btn-sm btn-warning"><i class="fas fa-eye"></i></button>
                                     <button type="button" title="Editar"
-                                        wire:click="seleccionarPaquete({{ $inscripcion->id }}, 'editar')"
+                                        wire:click="seleccionarInscripcion({{ $inscripcion->id }}, 'editar')"
                                         class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
                                     <button type="button"title="Eliminar"
                                         wire:click="$emit('eliminarRegistro', {{ $inscripcion->id }})"
