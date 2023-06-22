@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LoginController;
 use App\Models\Administrativo;
 use App\Models\Cliente;
 use App\Models\Disciplina;
@@ -13,32 +14,36 @@ use App\Models\Usuario;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
+Route::group(['middleware' => 'guest'], function() {
+    Route::get('/', [LoginController::class, 'index'])->name('index');
+    Route::get('/login', [LoginController::class, 'login'])->name('login');
+    Route::post('/login', [LoginController::class, 'authenticate']);
+});
 
-Route::get('/', function(){
-    return view('index');
-})->name('index');
 
-Route::get('/login', function() {
-    return view('login');
-})->name('login');
 
-Route::controller(DashboardController::class)->group(function () {
-    Route::get('/dashboard', 'dashboard')->name('dashboard');
-    Route::get('/administrativos', 'administrativos')->name('dashboard.administrativos');
-    Route::get('/entrenadores', 'entrenadores')->name('dashboard.entrenadores');
-    Route::get('/clientes', 'clientes')->name('dashboard.clientes');
-    Route::get('/inscripciones', 'inscripciones')->name('dashboard.inscripciones');
-    Route::get('/usuarios', 'usuarios')->name('dashboard.usuarios');
-    Route::get('/roles', 'roles')->name('dashboard.roles');
-    Route::get('/permisos', 'permisos')->name('dashboard.permisos');
-    Route::get('/disciplinas', 'disciplinas')->name('dashboard.disciplinas');
-    Route::get('/secciones', 'secciones')->name('dashboard.secciones');
-    Route::get('/maquinas', 'maquinas')->name('dashboard.maquinas');
-    Route::get('/horarios', 'horarios')->name('dashboard.horarios');
-    Route::get('/grupos', 'grupos')->name('dashboard.grupos');
-    Route::get('/paquetes', 'paquetes')->name('dashboard.paquetes');
-    Route::get('/duraciones', 'duraciones')->name('dashboard.duraciones');
-    Route::get('/casilleros', 'casilleros')->name('dashboard.casilleros');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/administrativos', [DashboardController::class, 'administrativos'])->name('dashboard.administrativos');
+    Route::get('/entrenadores', [DashboardController::class, 'entrenadores'])->name('dashboard.entrenadores');
+    Route::get('/clientes', [DashboardController::class, 'clientes'])->name('dashboard.clientes');
+    Route::get('/inscripciones', [DashboardController::class, 'inscripciones'])->name('dashboard.inscripciones');
+    Route::get('/usuarios', [DashboardController::class, 'usuarios'])->name('dashboard.usuarios');
+    Route::get('/roles', [DashboardController::class, 'roles'])->name('dashboard.roles');
+    Route::get('/permisos', [DashboardController::class, 'permisos'])->name('dashboard.permisos');
+    Route::get('/disciplinas', [DashboardController::class, 'disciplinas'])->name('dashboard.disciplinas');
+    Route::get('/secciones', [DashboardController::class, 'secciones'])->name('dashboard.secciones');
+    Route::get('/maquinas', [DashboardController::class, 'maquinas'])->name('dashboard.maquinas');
+    Route::get('/horarios', [DashboardController::class, 'horarios'])->name('dashboard.horarios');
+    Route::get('/grupos', [DashboardController::class, 'grupos'])->name('dashboard.grupos');
+    Route::get('/paquetes', [DashboardController::class, 'paquetes'])->name('dashboard.paquetes');
+    Route::get('/duraciones', [DashboardController::class, 'duraciones'])->name('dashboard.duraciones');
+    Route::get('/casilleros', [DashboardController::class, 'casilleros'])->name('dashboard.casilleros');
+
+    Route::get('/logout', function () {
+        abort(404); 
+    });
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
 

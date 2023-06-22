@@ -83,7 +83,7 @@ class Show extends Component
     public function render()
     {
         $usuarios = Usuario::where('id', 'like', '%' . $this->buscar . '%')
-            ->orWhere('usuario', 'like', '%' . $this->buscar . '%')
+            ->orWhere('email', 'like', '%' . $this->buscar . '%')
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->cant);
 

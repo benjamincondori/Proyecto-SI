@@ -16,19 +16,25 @@
                         </div>
 
                         <h5 class="auth-title">Iniciar Sesión</h5>
-
-                        <form action="#">
-
+                        
+                        <form method="POST" >
+                            @csrf
                             <div class="form-group mb-3">
-                                <label for="emailaddress">Correo Electrónico:</label>
-                                <input class="form-control" type="email" id="emailaddress" required=""
-                                    placeholder="Ingrese su correo electrónico">
+                                <label for="email">Correo Electrónico:</label>
+                                <input class="form-control" name="email" type="email" id="email" 
+                                value="{{ old('email') }}" placeholder="Ingrese su correo electrónico" autofocus>
+                                @error('email')
+                                    <span class="error text-danger">* {{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div class="form-group mb-1">
                                 <label for="password">Contraseña:</label>
-                                <input class="form-control" type="password" required="" id="password"
+                                <input class="form-control" name="password" type="password" id="password"
                                     placeholder="Ingrese su contraseña">
+                                @error('password')
+                                    <span class="error text-danger">* {{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div class="form-group">
@@ -38,7 +44,7 @@
                             </div>
 
                             <div class="form-group mb-0 text-center">
-                                <button class="btn btn-dark btn-block" type="button"> INGRESAR </button>
+                                <button class="btn btn-dark btn-block" type="submit"> INGRESAR </button>
                             </div>
 
                         </form>

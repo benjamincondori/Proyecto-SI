@@ -50,7 +50,7 @@
                                 <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
-                        <th scope="col" wire:click="order('usuario')">Usuario
+                        <th scope="col" wire:click="order('usuario')">Nombre del Usuario
                             @if ($sort == 'usuario')
                                 @if ($direction == 'asc')
                                     <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>

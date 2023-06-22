@@ -34,11 +34,14 @@
                 <div class="dropdown-divider"></div>
 
                 <!-- item-->
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                    <i class="fe-log-out"></i>
-                    <span>Cerrar Sesión</span>
-                </a>
-
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <a href="javascript:void(0);" class="dropdown-item notify-item" onclick="this.closest('form').submit()">
+                        <i class="fe-log-out"></i>
+                        <span>Cerrar Sesión</span>
+                    </a>
+                </form>
+                
             </div>
         </li>
 
