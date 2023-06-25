@@ -9,6 +9,7 @@ use App\Models\Inscripcion;
 use App\Models\Paquete;
 use Carbon\Carbon;
 use DateTime;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Edit extends Component
@@ -48,6 +49,11 @@ class Edit extends Component
         return $id;
     }
 
+    private function obtenerIdAdmin() {
+        $user = Auth::user();
+        return $user->empleado->id;
+    }
+
     private function obtenerNombreCliente($id) {
         $cliente = Cliente::findOrFail($id);
         $nombre = $id.' - '.$cliente->nombres.' '.$cliente->apellidos;
@@ -60,16 +66,6 @@ class Edit extends Component
         $fechaHoraActualString = $fechaHoraActual->format('Y-m-d H:i:s');
         return $fechaHoraActualString;
     }
-
-    // public function obtenerGrupos($id_inscripcion) {
-    //     return Grupo::join('disciplina', 'grupo.id_disciplina', '=', 'disciplina.id')
-    //     ->join('disciplina_paquete', 'disciplina.id', '=', 'disciplina_paquete.id_disciplina')
-    //     ->join('paquete', 'disciplina_paquete.id_paquete', '=', 'paquete.id')
-    //     ->join('inscripcion', 'paquete.id', '=', 'inscripcion.id_paquete')
-    //     ->where('inscripcion.id', $id_inscripcion)
-    //     ->select('grupo.*')
-    //     ->get();
-    // }
 
     public function obtenerGrupos($paqueteId)
     {
@@ -122,6 +118,7 @@ class Edit extends Component
     }
 
     public function mount() {
+        $this->registroSeleccionado['id_administrativo'] = $this->obtenerIdAdmin();
         $this->paquetes = Paquete::all();
         $this->duraciones = Duracion::pluck('nombre', 'id')->toArray();
     }
@@ -141,8 +138,6 @@ class Edit extends Component
             'selectedGrupos' => $this->seleccionarNuevo ? 'required' : ''
         ]);
         
-        // dd($this->id_cliente, $this->registroSeleccionado->fecha_inicio, $this->idPaquete, $this->registroSeleccionado->id_duracion, $this->obtenerFechaActual(), $this->selectedGrupos);
-    
         // Realizar la actualización del registro seleccionado
         $inscripcion = Inscripcion::find($this->registroSeleccionado['id']);
 
@@ -150,7 +145,7 @@ class Edit extends Component
         $inscripcion->id_paquete = $this->idPaquete;
         $inscripcion->id_duracion = $this->registroSeleccionado['id_duracion'];
         $inscripcion->id_cliente = $this->id_cliente;
-        // $inscripcion->id_administrativo = $this->id_administrativo;
+        $inscripcion->id_administrativo = $this->registroSeleccionado['id_administrativo'];
         $inscripcion->fecha_inscripcion = $this->obtenerFechaActual();
 
         try {

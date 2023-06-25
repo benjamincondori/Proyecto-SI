@@ -9,6 +9,7 @@ use App\Models\Inscripcion;
 use App\Models\Paquete;
 use Carbon\Carbon;
 use DateTime;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Create extends Component
@@ -44,6 +45,11 @@ class Create extends Component
         return $id;
     }
 
+    private function obtenerIdAdmin() {
+        $user = Auth::user();
+        return $user->empleado->id;
+    }
+
     private function obtenerFechaActual() {
         date_default_timezone_set('America/La_Paz');
         $fechaHoraActual = new DateTime();
@@ -51,9 +57,23 @@ class Create extends Component
         return $fechaHoraActualString;
     }
 
+    public function obtenerGrupos($paqueteId)
+    {
+        return Grupo::join('disciplina', 'grupo.id_disciplina', '=', 'disciplina.id')
+            ->join('disciplina_paquete', 'disciplina.id', '=', 'disciplina_paquete.id_disciplina')
+            ->join('paquete', 'disciplina_paquete.id_paquete', '=', 'paquete.id')
+            ->where('paquete.id', $paqueteId)
+            ->select('grupo.*')
+            ->get();
+    }
+
     public function formatoHora($hora)
     {
         return Carbon::createFromFormat('H:i:s', $hora)->format('H:i A');
+    }
+
+    public function updatedIdPaquete() {
+        $this->grupos = $this->obtenerGrupos($this->id_paquete);
     }
 
     public function updatedSearch()
@@ -75,7 +95,7 @@ class Create extends Component
     }
 
     public function mount() {
-        $this->id_administrativo = '2200000003';
+        $this->id_administrativo = $this->obtenerIdAdmin();
         $this->paquetes = Paquete::all();
         $this->duraciones = Duracion::pluck('nombre', 'id')->toArray();
         $this->grupos = Grupo::all();

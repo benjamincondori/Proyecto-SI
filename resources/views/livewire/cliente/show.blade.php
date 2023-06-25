@@ -26,7 +26,7 @@
                     <i class="fas fa-search"></i>
                 </button>
             </div>
-            
+
             <div class="form-group">
                 <button type="button" wire:click="agregarNuevo" class="btn btn-primary waves-effect waves-light">
                     <i class="fas fa-plus-circle"></i>&nbsp;

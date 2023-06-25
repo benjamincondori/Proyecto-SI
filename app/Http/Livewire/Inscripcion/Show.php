@@ -43,9 +43,18 @@ class Show extends Component
     public function eliminarInscripcion($registroId)
     {
         // Buscar el registro en base al ID
-        $registro = Inscripcion::find($registroId);
-        if ($registro) {
-            $registro->delete();
+        $inscripcion = Inscripcion::find($registroId);
+        if ($inscripcion) {
+            $grupos = $inscripcion->grupos;
+            
+            // Eliminar la inscripción y la relación en cascada
+            $inscripcion->delete();
+
+            // Actualizar el número de integrantes en cada grupo
+            foreach ($grupos as $grupo) {
+                $grupo->decrement('nro_integrantes');
+            }
+
             $this->registroSeleccionado = null;
         } 
     }

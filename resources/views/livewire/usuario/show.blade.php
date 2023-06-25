@@ -16,7 +16,7 @@
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <span>resultados</span>
+                <span>registros</span>
             </div>
 
             <div class="form-group w-50 d-flex">
@@ -39,7 +39,7 @@
             <table class="table table-bordered table-hover mb-0">
                 <thead class="bg-dark text-white">
                     <tr style="cursor: pointer">
-                        <th scope="col" style="width: 120px;" wire:click="order('id')">ID
+                        <th scope="col" style="width: 100px;" wire:click="order('id')">ID
                             @if ($sort == 'id')
                                 @if ($direction == 'asc')
                                     <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
@@ -50,8 +50,8 @@
                                 <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
-                        <th scope="col" wire:click="order('usuario')">Nombre del Usuario
-                            @if ($sort == 'usuario')
+                        <th scope="col" wire:click="order('nombres')">Nombre del Usuario
+                            @if ($sort == 'nombres')
                                 @if ($direction == 'asc')
                                     <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
                                 @else
@@ -61,54 +61,67 @@
                                 <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
-                        <th scope="col">Email</th>
+                        <th scope="col" wire:click="order('email')">Email
+                            @if ($sort == 'email')
+                                @if ($direction == 'asc')
+                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                @else
+                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                @endif
+                            @else
+                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                            @endif
+                        </th>
+                        <th scope="col">Rol</th>
                         <th scope="col" style="width: 160px;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if ($usuarios->count())
-                        @foreach ($usuarios as $usuario)
+                    @if ($empleados->count())
+                        @foreach ($empleados as $empleado)
                             <tr class="text-wrap text-center">
-                                <th scope="row" class="align-middle">{{ $usuario->id }}</th>
+                                <th scope="row" class="align-middle">{{ $empleado->usuario->id }}</th>
                                 <td class="align-middle text-left">
-                                    @if ($usuario->cliente)
-                                        {{ $usuario->cliente->nombres }} {{ $usuario->cliente->apellidos }}
-                                    @elseif ($usuario->empleado)
-                                        {{ $usuario->empleado->nombres }} {{ $usuario->empleado->apellidos }}
-                                    @endif
+                                    {{ $empleado->nombres }} {{ $empleado->apellidos }}
                                 </td>
                                 <td class="align-middle text-left"> 
-                                    @if ($usuario->cliente)
-                                        {{ $usuario->cliente->email }}
-                                    @elseif ($usuario->empleado)
-                                        {{ $usuario->empleado->email }}
+                                    {{ $empleado->email }}
+                                </td>
+                                <td class="align-middle"> 
+                                    @php
+                                        $rol = $empleado->usuario->rol->nombre;
+                                    @endphp
+                                    @if ($rol === 'Recepcionista')
+                                        <span class="text-warning py-1 px-2 rounded-lg d-inline-block"
+                                        style="background-color: #ffeeba; width: 120px">{{ $rol }}</span>
+                                    @elseif ($rol === 'Administrador')
+                                        <span class="text-success py-1 px-2 rounded-lg d-inline-block" style="background-color: #c3e6cb; width: 120px">{{ $rol }}</span>
                                     @endif
                                 </td>
                                 <td class="align-middle text-nowrap">
-                                    <button type="button" title="Editar" wire:click="seleccionarUsuario({{ $usuario->id }})" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                    <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $usuario->id }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                    <button type="button" title="Editar" wire:click="seleccionarUsuario({{ $empleado->usuario->id }})" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
+                                    <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $empleado->usuario->id }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         @endforeach
                     @else
                         <tr class="text-center">
-                            <td colspan="4">No existe ningún registro coincidente.</td>
+                            <td colspan="5">No existe ningún registro coincidente.</td>
                         </tr>
                     @endif
                 </tbody>
             </table>
+        </div>
 
-            <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
-                <div class="text-muted d-none d-sm-block pt-1">
-                    Mostrando del {{ $usuarios->firstItem() }} al {{ $usuarios->lastItem() }} de {{ $usuarios->total() }} resultados
-                </div>
-                @if ($usuarios->hasPages())
-                    <div class="pagination-links">
-                        {{ $usuarios->links() }}
-                    </div>
-                @endif   
+        <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
+            <div class="text-muted d-none d-sm-block pt-1">
+                Mostrando del {{ $empleados->firstItem() }} al {{ $empleados->lastItem() }} de {{ $empleados->total() }} registros
             </div>
-
+            @if ($empleados->hasPages())
+                <div class="pagination-links">
+                    {{ $empleados->links() }}
+                </div>
+            @endif   
         </div>
 
     @endif

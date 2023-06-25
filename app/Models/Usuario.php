@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -16,7 +18,6 @@ class Usuario extends Authenticatable
     public $timestamps = false;
     protected $table = 'usuario';
     protected $fillable = ['id', 'email', 'password', 'id_rol'];
-
 
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -33,6 +34,8 @@ class Usuario extends Authenticatable
         return $this->hasOne(Empleado::class, 'id_usuario');
     }
 
-    
+    public function rol(): BelongsTo {
+        return $this->belongsTo(Rol::class, 'id_rol');
+    }
 
 }

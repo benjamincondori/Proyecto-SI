@@ -24,6 +24,16 @@
 
     <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
     <script src="{{ asset('assets/js/app.min.js') }}"></script>  
+
+    <script>
+        livewire.on('accesoDenegado', function() {
+            Swal.fire({
+                icon: 'warning',
+                title: '¡Acceso Denegado!',
+                text: 'No tiene los permisos necesarios.'           
+            })
+        });
+    </script>
     
     @stack('js')
 

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Cliente;
 
 use App\Models\Cliente;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -53,13 +54,16 @@ class Show extends Component
 
     public function agregarNuevo()
     {
-        $this->vistaCrear = true;
+        if (verificarPermiso('Cliente_Create')) {
+            $this->vistaCrear = true;
+        } else {
+            $this->emit('accesoDenegado');
+        }
     }
 
     public function cerrarVista()
     {
         $this->vistaCrear = false;
-        
         $this->vistaEditar = false;
         $this->vistaVer = false;
     }

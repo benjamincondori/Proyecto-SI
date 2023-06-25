@@ -7,7 +7,15 @@
                 role="button" aria-haspopup="false" aria-expanded="false">
                 <img src="assets/images/users/user-1.jpg" alt="user-image" class="rounded-circle">
                 <span class="pro-user-name ml-1">
-                    Administrador &nbsp;<i class="la la-angle-down"></i>
+                    @php
+                        $user = Auth::user();
+                        if (Auth::check() && $user->empleado) {
+                            $nombre = $user->empleado->nombres .' '. $user->empleado->apellidos;
+                        } else {
+                            $nombre = 'Admin';
+                        }
+                    @endphp 
+                    {{ $nombre }} &nbsp;<i class="la la-angle-down"></i>
                 </span>
             </a>
 

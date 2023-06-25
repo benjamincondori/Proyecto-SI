@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Usuario;
 
+use App\Models\Empleado;
 use App\Models\Usuario;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -82,11 +83,15 @@ class Show extends Component
 
     public function render()
     {
-        $usuarios = Usuario::where('id', 'like', '%' . $this->buscar . '%')
-            ->orWhere('email', 'like', '%' . $this->buscar . '%')
-            ->orderBy($this->sort, $this->direction)
+        $empleados = Empleado::join('usuario', 'empleado.id_usuario', '=', 'usuario.id')
+            ->join('administrativo', 'empleado.id', '=', 'administrativo.id')
+            ->where('empleado.id', 'like', '%' . $this->buscar . '%')
+            ->orWhere('empleado.email', 'like', '%' . $this->buscar . '%')
+            ->orWhere('empleado.nombres', 'like', '%' . $this->buscar . '%')
+            ->orWhere('empleado.apellidos', 'like', '%' . $this->buscar . '%')
+            ->orderBy('empleado.'.$this->sort, $this->direction)
             ->paginate($this->cant);
 
-        return view('livewire.usuario.show', ['usuarios' => $usuarios]);
+        return view('livewire.usuario.show', ['empleados' => $empleados]);
     }
 }

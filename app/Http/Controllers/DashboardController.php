@@ -38,6 +38,10 @@ class DashboardController extends Controller
         return view('dashboard.permisos');
     }
 
+    public function asignar() {
+        return view('dashboard.asignar');
+    }
+
     public function disciplinas() {
         return view('dashboard.disciplina');
     }

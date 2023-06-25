@@ -27,7 +27,12 @@ class Edit extends Component
             ],
             'registroSeleccionado.nombres' => 'required|max:50',
             'registroSeleccionado.apellidos' => 'required|max:50',
-            'registroSeleccionado.email' => 'required|email|max:100',
+            'registroSeleccionado.email' => [
+                'required',
+                'email',
+                'max:100',
+                Rule::unique('cliente', 'email')->ignore($registroId)
+            ],
             'registroSeleccionado.telefono' => 'required|max:10',
             'registroSeleccionado.genero' => 'required|max:1',
             'registroSeleccionado.fecha_nacimiento' => 'required',
@@ -65,21 +70,23 @@ class Edit extends Component
     {
         $this->validate($this->getUpdateRules());
     
-        // Realizar la actualización del registro seleccionado
-        $cliente = Cliente::find($this->registroSeleccionado['id']);
-
-        $cliente->ci = $this->registroSeleccionado['ci'];
-        $cliente->nombres = $this->registroSeleccionado['nombres'];
-        $cliente->apellidos = $this->registroSeleccionado['apellidos'];
-        $cliente->fecha_nacimiento = $this->registroSeleccionado['fecha_nacimiento'];
-        $cliente->telefono = $this->registroSeleccionado['telefono'];
-        $cliente->email = $this->registroSeleccionado['email'];
-        $cliente->genero = $this->registroSeleccionado['genero'];
-        $cliente->fotografia = $this->registroSeleccionado['fotografia'];
-        $cliente->id_usuario = $this->registroSeleccionado['id_usuario'];
-
         try {
+
+            // Realizar la actualización del registro seleccionado
+            $cliente = Cliente::find($this->registroSeleccionado['id']);
+
+            $cliente->ci = $this->registroSeleccionado['ci'];
+            $cliente->nombres = $this->registroSeleccionado['nombres'];
+            $cliente->apellidos = $this->registroSeleccionado['apellidos'];
+            $cliente->fecha_nacimiento = $this->registroSeleccionado['fecha_nacimiento'];
+            $cliente->telefono = $this->registroSeleccionado['telefono'];
+            $cliente->email = $this->registroSeleccionado['email'];
+            $cliente->genero = $this->registroSeleccionado['genero'];
+            $cliente->fotografia = $this->registroSeleccionado['fotografia'];
+            $cliente->id_usuario = $this->registroSeleccionado['id_usuario'];
+        
             $cliente->save();
+            
             $this->emitTo('cliente.show','cerrarVista');
             $this->emit('alert', 'actualizado');
             $this->registroSeleccionado = null;

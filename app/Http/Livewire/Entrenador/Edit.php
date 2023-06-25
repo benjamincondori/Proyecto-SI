@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Entrenador;
 
 use App\Models\Empleado;
+use App\Models\Rol;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -72,22 +73,23 @@ class Edit extends Component
     {
         $this->validate($this->getUpdateRules());
         
-        // Realizar la actualización del registro seleccionado
-        $empleado = Empleado::find($this->registroSeleccionado['id']);
-
-        $empleado->ci = $this->registroSeleccionado['ci'];
-        $empleado->nombres = $this->registroSeleccionado['nombres'];
-        $empleado->apellidos = $this->registroSeleccionado['apellidos'];
-        $empleado->fecha_nacimiento = $this->registroSeleccionado['fecha_nacimiento'];
-        $empleado->direccion = $this->registroSeleccionado['direccion'];
-        $empleado->telefono = $this->registroSeleccionado['telefono'];
-        $empleado->email = $this->registroSeleccionado['email'];
-        $empleado->genero = $this->registroSeleccionado['genero'];
-        $empleado->turno = $this->registroSeleccionado['turno'];
-        $empleado->fotografia = $this->registroSeleccionado['fotografia'];
-        $empleado->id_usuario = $this->registroSeleccionado['id_usuario'];
-
         try {
+
+            // Realizar la actualización del registro seleccionado
+            $empleado = Empleado::find($this->registroSeleccionado['id']);
+
+            $empleado->ci = $this->registroSeleccionado['ci'];
+            $empleado->nombres = $this->registroSeleccionado['nombres'];
+            $empleado->apellidos = $this->registroSeleccionado['apellidos'];
+            $empleado->fecha_nacimiento = $this->registroSeleccionado['fecha_nacimiento'];
+            $empleado->direccion = $this->registroSeleccionado['direccion'];
+            $empleado->telefono = $this->registroSeleccionado['telefono'];
+            $empleado->email = $this->registroSeleccionado['email'];
+            $empleado->genero = $this->registroSeleccionado['genero'];
+            $empleado->turno = $this->registroSeleccionado['turno'];
+            $empleado->fotografia = $this->registroSeleccionado['fotografia'];
+            $empleado->id_usuario = $this->registroSeleccionado['id_usuario'];
+            
             $empleado->save();
 
             $entrenador = $empleado->entrenador;

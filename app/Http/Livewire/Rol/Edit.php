@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Rol;
 
 use App\Models\Rol;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class Edit extends Component
@@ -11,16 +12,28 @@ class Edit extends Component
 
     protected $listeners = ['editarRegistro'];
 
-    protected $rules = [
-        'registroSeleccionado.nombre' => 'required|max:30'
+    protected function getUpdateRules() {
+        $registroId = $this->registroSeleccionado['id'];
+
+        return [
+            'registroSeleccionado.nombre' => [
+                'required',
+                'max:30',
+                Rule::unique('rol', 'nombre')->ignore($registroId),
+            ],
+        ];
+    }
+
+    protected $validationAttributes = [
+        'registroSeleccionado.nombre' => 'nombre'
     ];
 
     public function updated($propertyName)
     {
-        $this->validateOnly($propertyName);
+        $this->validateOnly($propertyName, $this->getUpdateRules());
     }
 
-    public function editarRegistro(Rol $registroSeleccionado)
+    public function editarRegistro($registroSeleccionado)
     {
         $this->registroSeleccionado = $registroSeleccionado;
     }
@@ -32,20 +45,22 @@ class Edit extends Component
 
     public function actualizarRol() 
     {
-        $this->validate();
+        $this->validate($this->getUpdateRules());
     
-        // Realizar la actualización del registro seleccionado
-        $rol = Rol::find($this->registroSeleccionado['id']);
-
-        $rol->nombre = $this->registroSeleccionado['nombre'];
-
         try {
+            // Realizar la actualización del registro seleccionado
+            $rol = Rol::find($this->registroSeleccionado['id']);
+
+            $rol->nombre = $this->registroSeleccionado['nombre'];
+            
             $rol->save();
+
             $this->emitTo('rol.show','cerrarVista');
             $this->emit('alert', 'actualizado');
             $this->registroSeleccionado = null;
         } catch (\Exception $e) {
-            $this->emit('error');
+            $message = $e->getMessage();
+            $this->emit('error', $message);
         }
     }
 

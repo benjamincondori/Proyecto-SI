@@ -16,7 +16,7 @@
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <span>resultados</span>
+                <span>registros</span>
             </div>
 
             <div class="form-group w-50 d-flex">
@@ -85,7 +85,7 @@
 
             <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
                 <div class="text-muted d-none d-sm-block pt-1">
-                    Mostrando del {{ $roles->firstItem() }} al {{ $roles->lastItem() }} de {{ $roles->total() }} resultados
+                    Mostrando del {{ $roles->firstItem() }} al {{ $roles->lastItem() }} de {{ $roles->total() }} registros
                 </div>
                 @if ($roles->hasPages())
                     <div class="pagination-links">
@@ -102,12 +102,13 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
-            livewire.on('error', function() {
+            livewire.on('error', function(message) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Ha ocurrido un error. Por favor, intenta nuevamente.'           
                 })
+                console.error(message);
             });
 
             livewire.on('alert', function(accion) {

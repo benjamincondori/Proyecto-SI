@@ -10,7 +10,7 @@ class Create extends Component
     public $id_rol, $nombre;
 
     protected $rules = [
-        'nombre' => 'required|max:30'
+        'nombre' => 'required|max:30|unique:rol'
     ];
 
     public function updated($propertyName) {
@@ -26,15 +26,17 @@ class Create extends Component
     {
         $this->validate();
 
-        $rol = new Rol;
-        $rol->nombre = $this->nombre;
-
         try {
+            $rol = new Rol;
+            $rol->nombre = $this->nombre;
+
             $rol->save();
+            
             $this->emitTo('rol.show', 'cerrarVista');
             $this->emit('alert', 'guardado');
         } catch (\Exception $e) {
-            $this->emit('error');
+            $message = $e->getMessage();
+            $this->emit('error', $message);
         }
     }
 

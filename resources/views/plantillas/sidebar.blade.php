@@ -28,6 +28,9 @@
                     <li>
                         <a href="{{ route('dashboard.permisos') }}">Permisos</a>
                     </li>
+                    <li>
+                        <a href="{{ route('dashboard.asignar') }}">Asignar Permisos</a>
+                    </li>
                 </ul>
             </li>
 
