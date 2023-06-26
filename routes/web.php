@@ -26,7 +26,7 @@ Route::middleware(['guest'])->group(function () {
 });
 
 
-Route::middleware(['auth'])->group(function() {
+Route::middleware(['auth.admin'])->group(function() {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/administrativos', [DashboardController::class, 'administrativos'])->name('dashboard.administrativos');
     Route::get('/entrenadores', [DashboardController::class, 'entrenadores'])->name('dashboard.entrenadores');
@@ -50,10 +50,13 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
-Route::get('/cliente/dashboard', [ClienteController::class, 'index'])->name('cliente.index');
+Route::middleware(['auth.cliente'])->group(function () {
+    Route::get('/cliente/dashboard', [ClienteController::class, 'index'])->name('cliente.index');
+});
 
-Route::get('/instructor/dashboard', [InstructorController::class, 'index'])->name('instructor.index');
-
+Route::middleware(['auth.instructor'])->group(function () {
+    Route::get('/instructor/dashboard', [InstructorController::class, 'index'])->name('instructor.index');
+});
 
 
 
@@ -103,6 +106,9 @@ Route::get('/test-query', function () {
     }
 });
 
+Route::get('/test', function() {
+    return auth()->user()->rol->nombre;
+});
 
 
 

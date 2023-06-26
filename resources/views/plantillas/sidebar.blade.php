@@ -13,15 +13,19 @@
             </li>
 
             <li>
-                <a href="javascript: void(0);">
+                <a href="{{ route('dashboard.usuarios') }}">
                     <i class="fas fa-user-cog"></i>
                     <span> Usuarios </span>
+                </a>
+            </li>
+
+            <li>
+                <a href="javascript: void(0);">
+                    <i class="fas fa-key"></i>
+                    <span> Roles y Permisos </span>
                     <span class="menu-arrow"></span>
                 </a>
                 <ul class="nav-second-level" aria-expanded="false">
-                    <li>
-                        <a href="{{ route('dashboard.usuarios') }}">Lista de usuarios</a>
-                    </li>
                     <li>
                         <a href="{{ route('dashboard.roles') }}">Roles</a>
                     </li>
@@ -138,7 +142,6 @@
             <li>
                 <a href="javascript: void(0);">
                     <i class="fas fa-archive"></i>
-                    {{-- <i class="fas fa-gift"></i> --}}
                     <span> Paquetes </span>
                     <span class="menu-arrow"></span>
                 </a>
