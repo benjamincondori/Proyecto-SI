@@ -14,6 +14,6 @@ class ClienteMiddleware
             return $next($request);
         }
         
-        return back()->with('error', 'Acceso restringido');
+        return redirect('/cliente/dashboard');
     }
 }

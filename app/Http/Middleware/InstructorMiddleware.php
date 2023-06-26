@@ -14,6 +14,6 @@ class InstructorMiddleware
             return $next($request);
         }
         
-        return back()->with('error', 'Acceso restringido');
+        return redirect('/instructor/dashboard');
     }
 }

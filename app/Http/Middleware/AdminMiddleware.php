@@ -16,6 +16,6 @@ class AdminMiddleware
             return $next($request);
         }
 
-        return back()->with('error', 'Acceso restringido');
+        return redirect('/dashboard');
     }
 }
