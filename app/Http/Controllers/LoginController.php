@@ -34,19 +34,19 @@ class LoginController extends Controller
 
             switch ($rol) {
                 case 'Administrador':
-                    return redirect()->intended('dashboard');
+                    return redirect()->route('dashboard');
                     break;
                 case 'Recepcionista':
-                    return redirect()->intended('dashboard');
+                    return redirect()->route('dashboard');
                     break;
                 case 'Instructor':
-                    return redirect()->intended('instructor/dashboard');
+                    return redirect()->route('instructor.index');
                     break;
                 case 'Cliente':
-                    return redirect()->intended('cliente/dashboard');
+                    return redirect()->route('cliente.index');
                     break;
                 default:
-                    return redirect()->intended('/');
+                    return redirect()->route('/');
                     break;
             }
 

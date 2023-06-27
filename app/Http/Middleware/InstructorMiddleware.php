@@ -14,6 +14,6 @@ class InstructorMiddleware
             return $next($request);
         }
         
-        return redirect('/instructor/dashboard');
+        return redirect('/');
     }
 }

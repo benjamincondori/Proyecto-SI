@@ -16,7 +16,7 @@ class Show extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $registroSeleccionado;
+    public $registroSeleccionado, $verificarPermiso;
     public $vistaCrear = false;
     public $vistaEditar = false;
     public $buscar = '';
@@ -31,9 +31,13 @@ class Show extends Component
 
     public function seleccionarGrupo($registroId)
     {
-        $this->registroSeleccionado = Grupo::findOrFail($registroId);
-        $this->vistaEditar = true;
-        $this->emit('editarRegistro', $this->registroSeleccionado);
+        if (verificarPermiso('Grupo_Editar')) {
+            $this->registroSeleccionado = Grupo::findOrFail($registroId);
+            $this->vistaEditar = true;
+            $this->emit('editarRegistro', $this->registroSeleccionado);
+        } else {
+            $this->emit('accesoDenegado');
+        }
     }
 
     public function eliminarGrupo($registroId)
@@ -50,7 +54,11 @@ class Show extends Component
 
     public function agregarNuevo()
     {
-        $this->vistaCrear = true;
+        if (verificarPermiso('Grupo_Crear')) {
+            $this->vistaCrear = true;
+        } else {
+            $this->emit('accesoDenegado');
+        }
     }
 
     public function cerrarVista()
@@ -103,6 +111,10 @@ class Show extends Component
     public function updatingBuscar()
     {
         $this->resetPage();
+    }
+
+    public function mount() {
+        $this->verificarPermiso = verificarPermiso('Grupo_Eliminar');
     }
 
     public function render()

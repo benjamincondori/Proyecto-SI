@@ -30,10 +30,13 @@
                     <i class="fas fa-check-circle"></i>&nbsp;
                     Sincronizar todos
                 </button>
-                <button type="button" wire:click="$emit('revocarTodos', {{ $id_rol }})" class="btn btn-danger waves-effect waves-light">
-                    <i class="fas fa-times-circle"></i>&nbsp;
-                    Revocar todos
-                </button>
+                @if (verificarPermiso('Revocar_Todos'))
+                    <button type="button"
+                    wire:click="$emit('revocarTodos', {{ $this->id_rol }})" class="btn btn-danger waves-effect waves-light">
+                        <i class="fas fa-times-circle"></i>&nbsp;
+                        Revocar todos
+                    </button>
+                @endif
             </div>
 
         </div>
@@ -53,18 +56,34 @@
                             <tr class="text-wrap text-center">
                                 <th scope="row" class="align-middle">{{ $permiso->id }}</th>
                                 <td class="align-middle">
-                                    <div class="checkbox checkbox-primary">
-                                        <input id="{{ $permiso->id }}" value="{{ $permiso->id }}" type="checkbox" wire:click="togglePermiso({{ $permiso->id }})"
-                                        {{-- {{ $this->verificarPermiso($permiso->id) ? 'checked' : '' }} --}}
-                                        @if ($this->verificarPermiso($permiso->id))
-                                            checked
-                                        @endif
-                                        >
-                                        <label for="{{ $permiso->id }}">
-                                            {{ $permiso->nombre }}</td>
-                                        </label>
-                                    </div>
-                                <td class="align-middle">{{ $this->getCantidadRoles($permiso->id) }}</td>
+                                    @if (verificarPermiso('Asignar_Permiso'))
+                                        <div class="checkbox checkbox-primary">
+                                            <input id="{{ $permiso->id }}" value="{{ $permiso->id }}" type="checkbox" wire:click="togglePermiso({{ $permiso->id }})"
+                                                @if ($this->verificarPermiso($permiso->id))
+                                                    checked
+                                                @endif
+                                            >
+                                            <label for="{{ $permiso->id }}">
+                                                {{ $permiso->nombre }}
+                                            </label>
+                                        </div>
+                                    @else
+                                        <div class="checkbox checkbox-primary">
+                                            <input id="{{ $permiso->id }}" value="{{ $permiso->id }}" type="checkbox" wire:click="togglePermiso({{ $permiso->id }})"
+                                                @if ($this->verificarPermiso($permiso->id))
+                                                    checked
+                                                @endif
+                                                disabled
+                                            >
+                                            <label for="{{ $permiso->id }}">
+                                                {{ $permiso->nombre }}
+                                            </label>
+                                        </div>
+                                    @endif
+                                    
+                                </td>
+                                <td class="align-middle">
+                                    {{ $this->getCantidadRoles($permiso->id) }}</td>
                             </tr>
                         @endforeach
                     @else
@@ -102,6 +121,7 @@
                 console.error(message);
             });
 
+
             livewire.on('asignar_rol', function(icon, title, text) {
                 Swal.fire({
                     icon: icon,
@@ -110,16 +130,6 @@
                 })
             });
 
-            livewire.on('alert', function(accion) {
-
-                var msj2 = accion.charAt(0).toUpperCase() + accion.slice(1);
-
-                Swal.fire(
-                    '¡' + msj2 + '!',
-                    'El permiso ha sido ' + accion + ' correctamente.',
-                    'success'
-                )
-            });
 
             livewire.on('revocarTodos', function(idRol) {
                 if (idRol) {
@@ -151,8 +161,8 @@
                         text: 'Debes seleccionar un rol'           
                     })
                 }
-                
             });
+
         </script>
     @endpush
 

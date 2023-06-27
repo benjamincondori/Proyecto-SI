@@ -12,7 +12,7 @@ class Show extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $registroSeleccionado;
+    public $registroSeleccionado, $verificarPermiso;
     public $vistaCrear = false;
     public $vistaEditar = false;
     public $buscar = '';
@@ -27,9 +27,13 @@ class Show extends Component
 
     public function seleccionarPermiso($registroId)
     {
-        $this->registroSeleccionado = Permiso::findOrFail($registroId);
-        $this->vistaEditar = true;
-        $this->emit('editarRegistro', $this->registroSeleccionado);
+        if (verificarPermiso('Permiso_Editar')) {
+            $this->registroSeleccionado = Permiso::findOrFail($registroId);
+            $this->vistaEditar = true;
+            $this->emit('editarRegistro', $this->registroSeleccionado);
+        } else {
+            $this->emit('accesoDenegado');
+        }
     }
 
     public function eliminarPermiso($registroId)
@@ -46,7 +50,11 @@ class Show extends Component
 
     public function agregarNuevo()
     {
-        $this->vistaCrear = true;
+        if (verificarPermiso('Permiso_Crear')) {
+            $this->vistaCrear = true;
+        } else {
+            $this->emit('accesoDenegado');
+        }
     }
 
     public function cerrarVista()
@@ -78,6 +86,10 @@ class Show extends Component
     public function updatingBuscar()
     {
         $this->resetPage();
+    }
+
+    public function mount() {
+        $this->verificarPermiso = verificarPermiso('Permiso_Rol');
     }
 
     public function render()

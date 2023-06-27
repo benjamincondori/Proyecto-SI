@@ -12,7 +12,7 @@ class Show extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $registroSeleccionado;
+    public $registroSeleccionado, $verificarPermiso;
     public $vistaCrear = false;
     public $vistaEditar = false;
     public $buscar = '';
@@ -27,9 +27,13 @@ class Show extends Component
 
     public function seleccionarSeccion($registroId)
     {
-        $this->registroSeleccionado = Seccion::findOrFail($registroId);
-        $this->vistaEditar = true;
-        $this->emit('editarRegistro', $this->registroSeleccionado);
+        if (verificarPermiso('Seccion_Editar')) {
+            $this->registroSeleccionado = Seccion::findOrFail($registroId);
+            $this->vistaEditar = true;
+            $this->emit('editarRegistro', $this->registroSeleccionado);
+        } else {
+            $this->emit('accesoDenegado');
+        }
     }
 
     public function eliminarSeccion($registroId)
@@ -46,7 +50,11 @@ class Show extends Component
 
     public function agregarNuevo()
     {
-        $this->vistaCrear = true;
+        if (verificarPermiso('Seccion_Crear')) {
+            $this->vistaCrear = true;
+        } else {
+            $this->emit('accesoDenegado');
+        }
     }
 
     public function cerrarVista()
@@ -78,6 +86,10 @@ class Show extends Component
     public function updatingBuscar()
     {
         $this->resetPage();
+    }
+
+    public function mount() {
+        $this->verificarPermiso = verificarPermiso('Seccion_Eliminar');
     }
 
     public function render()

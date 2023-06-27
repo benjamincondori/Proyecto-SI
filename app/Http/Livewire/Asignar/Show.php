@@ -49,20 +49,23 @@ class Show extends Component
     }
 
     public function sincronizarTodos() {
-        if ($this->id_rol) {
-            try {
-                $rol = Rol::findOrFail($this->id_rol);
-                $permisos = Permiso::pluck('id')->toArray();
-                $rol->permisos()->sync($permisos);
-
-                $this->emit('asignar_rol', 'success', '¡Permisos Asignados!', 'Los permisos han sido sincronizados exitosamente.');
-                // $this->id_rol = null;
-            } catch (Exception $e) {
-                $message = $e->getMessage();
-                $this->emit('error', $message);
+        if (verificarPermiso('Asignar_Permisos')) {
+            if ($this->id_rol) {
+                try {
+                    $rol = Rol::findOrFail($this->id_rol);
+                    $permisos = Permiso::pluck('id')->toArray();
+                    $rol->permisos()->sync($permisos);
+    
+                    $this->emit('asignar_rol', 'success', '¡Permisos Asignados!', 'Los permisos han sido sincronizados exitosamente.');
+                } catch (Exception $e) {
+                    $message = $e->getMessage();
+                    $this->emit('error', $message);
+                }
+            }else {
+                $this->emit('asignar_rol', 'info', 'Oops...', 'Debes seleccionar un rol.');
             }
-        }else {
-            $this->emit('asignar_rol', 'info', 'Oops...', 'Debes seleccionar un rol.');
+        } else {
+            $this->emit('accesoDenegado');
         }
     }
 
@@ -71,7 +74,6 @@ class Show extends Component
             try {
                 $rol = Rol::findOrFail($this->id_rol);
                 $rol->permisos()->detach();
-                // $this->id_rol = null;
             } catch (Exception $e) {
                 $message = $e->getMessage();
                 $this->emit('error', $message);

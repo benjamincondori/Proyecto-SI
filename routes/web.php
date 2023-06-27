@@ -4,19 +4,6 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\LoginController;
-use App\Models\Administrativo;
-use App\Models\Cliente;
-use App\Models\Disciplina;
-use App\Models\Empleado;
-use App\Models\Grupo;
-use App\Models\Horario;
-use App\Models\Inscripcion;
-use App\Models\Paquete;
-use App\Models\Permiso;
-use App\Models\Rol;
-use App\Models\Seccion;
-use App\Models\Usuario;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest'])->group(function () {
@@ -26,7 +13,7 @@ Route::middleware(['guest'])->group(function () {
 });
 
 
-Route::middleware(['auth.admin'])->group(function() {
+Route::middleware(['auth', 'auth.admin'])->group(function() {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/administrativos', [DashboardController::class, 'administrativos'])->name('dashboard.administrativos');
     Route::get('/entrenadores', [DashboardController::class, 'entrenadores'])->name('dashboard.entrenadores');
@@ -50,65 +37,17 @@ Route::middleware(['auth.admin'])->group(function() {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
-Route::middleware(['auth.cliente'])->group(function () {
+Route::middleware(['auth', 'auth.cliente'])->group(function () {
     Route::get('/cliente/dashboard', [ClienteController::class, 'index'])->name('cliente.index');
 });
 
-Route::middleware(['auth.instructor'])->group(function () {
+Route::middleware(['auth', 'auth.instructor'])->group(function () {
     Route::get('/instructor/dashboard', [InstructorController::class, 'index'])->name('instructor.index');
 });
 
 
 
 
-
-
-
-Route::get('/test-query', function () {
-    try {
-        // $results = Empleado::all();
-        // $results = DB::table('empleado')->get();
-        // $empleados = Empleado::whereHas('administrativos', function ($query) {
-        //     $query->whereIn('cargo', ['administrador', 'recepcionista']);
-        // })->get();
-
-        // $disciplinas = Disciplina::all();
-        // $seccion = $disciplinas->seccion();
-
-        // $disciplinas = Disciplina::all();
-        // $secciones = Seccion::all(); 
-
-        // $paquetes = Paquete::with('disciplinas')->get();
-
-        $inscripcion = Inscripcion::find(9);
-        $paquete = $inscripcion->paquete;
-        $disciplinas = $paquete->disciplinas;
-        $grupos = [];
-
-        foreach ($disciplinas as $disciplina) {
-            $grupos[] = $disciplina->grupos;
-        }
-
-        // return $grupos;
-
-        return Grupo::join('disciplina', 'grupo.id_disciplina', '=', 'disciplina.id')
-        ->join('disciplina_paquete', 'disciplina.id', '=', 'disciplina_paquete.id_disciplina')
-        ->join('paquete', 'disciplina_paquete.id_paquete', '=', 'paquete.id')
-        ->join('inscripcion', 'paquete.id', '=', 'inscripcion.id_paquete')
-        ->where('inscripcion.id', 14)
-        ->select('grupo.*')
-        ->get();
-
-        
-
-    } catch (\Exception $e) {
-        return "Error al consultar la base de datos: " . $e->getMessage();
-    }
-});
-
-Route::get('/test', function() {
-    return auth()->user()->rol->nombre;
-});
 
 
 

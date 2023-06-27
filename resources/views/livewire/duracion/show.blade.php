@@ -15,14 +15,17 @@
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <span>resultados</span>
+                <span>registros</span>
             </div>
 
             <div class="form-group w-50 d-flex">
-                <input type="text" wire:model="buscar" class="form-control" placeholder="Buscar...">
-                <button class="btn text-secondary" type="button" disabled>
-                    <i class="fas fa-search"></i>
-                </button>
+                @if (verificarPermiso('Duracion_Buscar'))
+                    <input type="text" wire:model="buscar" class="form-control" 
+                    placeholder="Buscar...">
+                    <button class="btn text-secondary" type="button" disabled>
+                        <i class="fas fa-search"></i>
+                    </button>
+                @endif
             </div>
             
             <div class="form-group">
@@ -86,7 +89,7 @@
                                         wire:click="seleccionarPaquete({{ $duracion->id }}, 'editar')"
                                         class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
                                     <button type="button"title="Eliminar"
-                                        wire:click="$emit('eliminarRegistro', {{ $duracion->id }})"
+                                        wire:click="$emit('eliminarRegistro', {{ $duracion->id }}, {{ $this->verificarPermiso }})"
                                         class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
@@ -101,7 +104,7 @@
 
             <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
                 <div class="text-muted d-none d-sm-block pt-1">
-                    Mostrando del {{ $duraciones->firstItem() }} al {{ $duraciones->lastItem() }} de {{ $duraciones->total() }} resultados
+                    Mostrando del {{ $duraciones->firstItem() }} al {{ $duraciones->lastItem() }} de {{ $duraciones->total() }} registros
                 </div>
                 @if ($duraciones->hasPages())
                     <div class="pagination-links">
@@ -125,10 +128,9 @@
                 })
             });
 
+
             livewire.on('alert', function(accion) {
-
                 var msj2 = accion.charAt(0).toUpperCase() + accion.slice(1);
-
                 Swal.fire(
                     '¡' + msj2 + '!',
                     'La duración ha sido ' + accion + ' correctamente.',
@@ -136,28 +138,37 @@
                 )
             });
 
-            livewire.on('eliminarRegistro', duracionId => {
-                Swal.fire({
-                    title: '¿Está seguro?',
-                    text: "¡Se eliminará la duración definitivamente!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: '¡Sí, eliminar!',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
 
-                        livewire.emitTo('duracion.show', 'eliminarDuracion', duracionId);
+            livewire.on('eliminarRegistro', function(duracionId, tienePermiso) {
+                if (tienePermiso) {
+                    Swal.fire({
+                        title: '¿Está seguro?',
+                        text: "¡Se eliminará la duración definitivamente!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Sí, eliminar!',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
 
-                        Swal.fire(
-                            '¡Eliminado!',
-                            'La duración ha sido eliminado.',
-                            'success'
-                        )
-                    }
-                })
+                            livewire.emitTo('duracion.show', 'eliminarDuracion', duracionId);
+
+                            Swal.fire(
+                                '¡Eliminado!',
+                                'La duración ha sido eliminado.',
+                                'success'
+                            )
+                        }
+                    })
+                } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '¡Acceso Denegado!',
+                        text: 'No tiene los permisos necesarios.'           
+                    })
+                }
             });
         </script>
     @endpush

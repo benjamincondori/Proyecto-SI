@@ -12,7 +12,7 @@ class Show extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $registroSeleccionado;
+    public $registroSeleccionado, $verificarPermiso;
     public $vistaVer = false;
     public $vistaCrear = false;
     public $vistaEditar = false;
@@ -31,11 +31,19 @@ class Show extends Component
         $this->registroSeleccionado = Empleado::findOrFail($registroId);
 
         if ($vista === 'ver') {
-            $this->vistaVer = true;
-            $this->emit('verRegistro', $this->registroSeleccionado);
+            if (verificarPermiso('Entrenador_Ver')) {
+                $this->vistaVer = true;
+                $this->emit('verRegistro', $this->registroSeleccionado);
+            } else {
+                $this->emit('accesoDenegado');
+            }
         } elseif ('editar') {
-            $this->vistaEditar = true;
-            $this->emit('editarRegistro', $this->registroSeleccionado);
+            if (verificarPermiso('Entrenador_Editar')) {
+                $this->vistaEditar = true;
+                $this->emit('editarRegistro', $this->registroSeleccionado);
+            } else {
+                $this->emit('accesoDenegado');
+            }
         }
     }
 
@@ -53,7 +61,11 @@ class Show extends Component
 
     public function agregarNuevo()
     {
-        $this->vistaCrear = true;
+        if (verificarPermiso('Entrenador_Crear')) {
+            $this->vistaCrear = true;
+        } else {
+            $this->emit('accesoDenegado');
+        }
     }
 
     public function cerrarVista()
@@ -88,9 +100,12 @@ class Show extends Component
         $this->resetPage();
     }
 
+    public function mount() {
+        $this->verificarPermiso = verificarPermiso('Entrenador_Eliminar');
+    }
+
     public function render()
     {
-
         $entrenadores = Empleado::where('tipo_empleado', 'E')
             ->where(function ($query) {
                 $buscar = '%' . $this->buscar . '%';

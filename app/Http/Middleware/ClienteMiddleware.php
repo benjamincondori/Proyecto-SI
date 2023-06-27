@@ -14,6 +14,6 @@ class ClienteMiddleware
             return $next($request);
         }
         
-        return redirect('/cliente/dashboard');
+        return redirect('/');
     }
 }

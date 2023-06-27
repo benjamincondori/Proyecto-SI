@@ -13,7 +13,7 @@ class Show extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $registroSeleccionado;
+    public $registroSeleccionado, $verificarPermiso;
     public $vistaVer = false;
     public $vistaEditar = false;
     public $vistaCrear = false;
@@ -32,11 +32,19 @@ class Show extends Component
         $this->registroSeleccionado = Inscripcion::findOrFail($registroId);
 
         if ($vista === 'ver') {
-            $this->vistaVer = true;
-            $this->emit('verRegistro', $this->registroSeleccionado);
+            if (verificarPermiso('Inscripcion_Ver')) {
+                $this->vistaVer = true;
+                $this->emit('verRegistro', $this->registroSeleccionado);
+            } else {
+                $this->emit('accesoDenegado');
+            }
         } elseif ('editar') {
-            $this->vistaEditar = true;
-            $this->emit('editarRegistro', $this->registroSeleccionado);
+            if (verificarPermiso('Inscripcion_Editar')) {
+                $this->vistaEditar = true;
+                $this->emit('editarRegistro', $this->registroSeleccionado);
+            } else {
+                $this->emit('accesoDenegado');
+            }
         }
     }
 
@@ -74,7 +82,11 @@ class Show extends Component
 
     public function agregarNuevo()
     {
-        $this->vistaCrear = true;
+        if (verificarPermiso('Inscripcion_Crear')) {
+            $this->vistaCrear = true;
+        } else {
+            $this->emit('accesoDenegado');
+        }
     }
 
     public function cerrarVista()
@@ -107,6 +119,10 @@ class Show extends Component
     public function updatingBuscar()
     {
         $this->resetPage();
+    }
+
+    public function mount() {
+        $this->verificarPermiso = verificarPermiso('Inscripcion_Eliminar');
     }
 
     public function render()

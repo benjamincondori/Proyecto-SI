@@ -12,7 +12,7 @@ class Show extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $registroSeleccionado;
+    public $registroSeleccionado, $verificarPermiso;
     public $vistaCrear = false;
     public $vistaEditar = false;
     public $buscar = '';
@@ -27,9 +27,13 @@ class Show extends Component
 
     public function seleccionarCasillero($registroId)
     {
-        $this->registroSeleccionado = Casillero::findOrFail($registroId);
-        $this->vistaEditar = true;
-        $this->emit('editarRegistro', $this->registroSeleccionado);
+        if (verificarPermiso('Casillero_Editar')) {
+            $this->registroSeleccionado = Casillero::findOrFail($registroId);
+            $this->vistaEditar = true;
+            $this->emit('editarRegistro', $this->registroSeleccionado);
+        } else {
+            $this->emit('accesoDenegado');
+        }
     }
 
     public function eliminarCasillero($registroId)
@@ -46,7 +50,11 @@ class Show extends Component
 
     public function agregarNuevo()
     {
-        $this->vistaCrear = true;
+        if (verificarPermiso('Casillero_Crear')) {
+            $this->vistaCrear = true;
+        } else {
+            $this->emit('accesoDenegado');
+        }
     }
 
     public function cerrarVista()
@@ -78,6 +86,10 @@ class Show extends Component
     public function updatingBuscar()
     {
         $this->resetPage();
+    }
+
+    public function mount() {
+        $this->verificarPermiso = verificarPermiso('Casillero_Eliminar');
     }
 
     public function render()

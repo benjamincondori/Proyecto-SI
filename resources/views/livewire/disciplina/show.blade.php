@@ -15,14 +15,17 @@
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <span>resultados</span>
+                <span>registros</span>
             </div>
 
             <div class="form-group w-50 d-flex">
-                <input type="text" wire:model="buscar" class="form-control" placeholder="Buscar...">
-                <button class="btn text-secondary" type="button" disabled>
-                    <i class="fas fa-search"></i>
-                </button>
+                @if (verificarPermiso('Disciplina_Buscar'))
+                    <input type="text" wire:model="buscar" class="form-control" 
+                    placeholder="Buscar...">
+                    <button class="btn text-secondary" type="button" disabled>
+                        <i class="fas fa-search"></i>
+                    </button>
+                @endif
             </div>
             
             <div class="form-group">
@@ -97,7 +100,7 @@
                                 <td class="align-middle text-left">{{ $this->obtenerNombreSeccion($disciplina->id_seccion ) }}</td>
                                 <td class="align-middle text-nowrap">
                                     <button type="button" title="Editar" wire:click="seleccionarDisciplina({{ $disciplina->id }})" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                    <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $disciplina->id }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                    <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $disciplina->id }}, {{ $this->verificarPermiso }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         @endforeach
@@ -111,7 +114,7 @@
 
             <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
                 <div class="text-muted d-none d-sm-block pt-1">
-                    Mostrando del {{ $disciplinas->firstItem() }} al {{ $disciplinas->lastItem() }} de {{ $disciplinas->total() }} resultados
+                    Mostrando del {{ $disciplinas->firstItem() }} al {{ $disciplinas->lastItem() }} de {{ $disciplinas->total() }} registros
                 </div>
                 @if ($disciplinas->hasPages())
                     <div class="pagination-links">
@@ -136,10 +139,9 @@
                 })
             });
 
+
             livewire.on('alert', function(accion) {
-
                 var msj2 = accion.charAt(0).toUpperCase() + accion.slice(1);
-
                 Swal.fire(
                     '¡' + msj2 + '!',
                     'La disciplina ha sido ' + accion + ' correctamente.',
@@ -147,28 +149,37 @@
                 )
             });
 
-            livewire.on('eliminarRegistro', disciplinaId => {
-                Swal.fire({
-                    title: '¿Está seguro?',
-                    text: "¡Se eliminará la disciplina definitivamente!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: '¡Sí, eliminar!',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
 
-                        livewire.emitTo('disciplina.show', 'eliminarDisciplina', disciplinaId);
+            livewire.on('eliminarRegistro', function(disciplinaId, tienePermiso) {
+                if (tienePermiso) {
+                    Swal.fire({
+                        title: '¿Está seguro?',
+                        text: "¡Se eliminará la disciplina definitivamente!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Sí, eliminar!',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
 
-                        Swal.fire(
-                            '¡Eliminado!',
-                            'La disciplina ha sido eliminado.',
-                            'success'
-                        )
-                    }
-                })
+                            livewire.emitTo('disciplina.show', 'eliminarDisciplina', disciplinaId);
+
+                            Swal.fire(
+                                '¡Eliminado!',
+                                'La disciplina ha sido eliminado.',
+                                'success'
+                            )
+                        }
+                    })
+                } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '¡Acceso Denegado!',
+                        text: 'No tiene los permisos necesarios.'           
+                    })
+                }
             });
         </script>
     @endpush

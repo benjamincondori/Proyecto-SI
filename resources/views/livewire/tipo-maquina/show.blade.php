@@ -16,14 +16,17 @@
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <span>resultados</span>
+                <span>registros</span>
             </div>
 
             <div class="form-group w-50 d-flex">
-                <input type="text" wire:model="buscar" class="form-control" placeholder="Buscar...">
-                <button class="btn text-secondary" type="button" disabled>
-                    <i class="fas fa-search"></i>
-                </button>
+                @if (verificarPermiso('Maquina_Buscar')) 
+                    <input type="text" wire:model="buscar" class="form-control" 
+                    placeholder="Buscar...">
+                    <button class="btn text-secondary" type="button" disabled>
+                        <i class="fas fa-search"></i>
+                    </button>
+                @endif
             </div>
             
             <div class="form-group">
@@ -84,7 +87,7 @@
                                 <td class="align-middle text-left">{{ $maquina->descripcion }}</td>
                                 <td class="align-middle text-nowrap">
                                     <button type="button" title="Editar" wire:click="seleccionarMaquina({{ $maquina }})" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                    <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $maquina->id }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                    <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $maquina->id }}, {{ $this->verificarPermiso }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         @endforeach
@@ -98,7 +101,7 @@
             
             <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
                 <div class="text-muted d-none d-sm-block pt-1">
-                    Mostrando del {{ $maquinas->firstItem() }} al {{ $maquinas->lastItem() }} de {{ $maquinas->total() }} resultados
+                    Mostrando del {{ $maquinas->firstItem() }} al {{ $maquinas->lastItem() }} de {{ $maquinas->total() }} registros
                 </div>
                 @if ($maquinas->hasPages())
                     <div class="pagination-links">
@@ -123,10 +126,9 @@
                 })
             });
 
+
             livewire.on('alert', function(accion) {
-
                 var msj2 = accion.charAt(0).toUpperCase() + accion.slice(1);
-
                 Swal.fire(
                     '¡' + msj2 + '!',
                     'La máquina ha sido ' + accion + ' correctamente.',
@@ -134,28 +136,37 @@
                 )
             });
 
-            livewire.on('eliminarRegistro', maquinaId => {
-                Swal.fire({
-                    title: '¿Está seguro?',
-                    text: "¡Se eliminará la máquina definitivamente!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: '¡Sí, eliminar!',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
 
-                        livewire.emitTo('tipo-maquina.show', 'eliminarMaquina', maquinaId);
+            livewire.on('eliminarRegistro', function(maquinaId, tienePermiso) {
+                if (tienePermiso) {
+                    Swal.fire({
+                        title: '¿Está seguro?',
+                        text: "¡Se eliminará la máquina definitivamente!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Sí, eliminar!',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
 
-                        Swal.fire(
-                            '¡Eliminado!',
-                            'La máquina ha sido eliminado.',
-                            'success'
-                        )
-                    }
-                })
+                            livewire.emitTo('tipo-maquina.show', 'eliminarMaquina', maquinaId);
+
+                            Swal.fire(
+                                '¡Eliminado!',
+                                'La máquina ha sido eliminado.',
+                                'success'
+                            )
+                        }
+                    })
+                } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '¡Acceso Denegado!',
+                        text: 'No tiene los permisos necesarios.'           
+                    })
+                }
             });
         </script>
     @endpush

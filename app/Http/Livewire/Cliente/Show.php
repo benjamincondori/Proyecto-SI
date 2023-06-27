@@ -13,7 +13,7 @@ class Show extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $registroSeleccionado;
+    public $registroSeleccionado, $verificarPermiso;
     public $vistaVer = false;
     public $vistaCrear = false;
     public $vistaEditar = false;
@@ -32,11 +32,19 @@ class Show extends Component
         $this->registroSeleccionado = Cliente::findOrFail($registroId);
 
         if ($vista === 'ver') {
-            $this->vistaVer = true;
-            $this->emit('verRegistro', $this->registroSeleccionado);
+            if (verificarPermiso('Cliente_Ver')) {
+                $this->vistaVer = true;
+                $this->emit('verRegistro', $this->registroSeleccionado);
+            } else {
+                $this->emit('accesoDenegado');
+            }
         } elseif ('editar') {
-            $this->vistaEditar = true;
-            $this->emit('editarRegistro', $this->registroSeleccionado);
+            if (verificarPermiso('Cliente_Editar')) {
+                $this->vistaEditar = true;
+                $this->emit('editarRegistro', $this->registroSeleccionado);
+            } else {
+                $this->emit('accesoDenegado');
+            }
         }
     }
 
@@ -54,7 +62,7 @@ class Show extends Component
 
     public function agregarNuevo()
     {
-        if (verificarPermiso('Cliente_Create')) {
+        if (verificarPermiso('Cliente_Crear')) {
             $this->vistaCrear = true;
         } else {
             $this->emit('accesoDenegado');
@@ -91,6 +99,10 @@ class Show extends Component
     public function updatingBuscar()
     {
         $this->resetPage();
+    }
+
+    public function mount() {
+        $this->verificarPermiso = verificarPermiso('Cliente_Eliminar');
     }
 
     public function render()

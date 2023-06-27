@@ -20,10 +20,13 @@
             </div>
 
             <div class="form-group w-50 d-flex">
-                <input type="text" wire:model="buscar" class="form-control" placeholder="Buscar...">
-                <button class="btn text-secondary" type="button" disabled>
-                    <i class="fas fa-search"></i>
-                </button>
+                @if (verificarPermiso('Permiso_Buscar'))  
+                    <input type="text" wire:model="buscar" class="form-control" 
+                    placeholder="Buscar...">
+                    <button class="btn text-secondary" type="button" disabled>
+                        <i class="fas fa-search"></i>
+                    </button>
+                @endif
             </div>
             
             <div class="form-group">
@@ -71,7 +74,7 @@
                                 <td class="align-middle text-left">{{ $permiso->nombre }}</td>
                                 <td class="align-middle text-nowrap">
                                     <button type="button" title="Editar" wire:click="seleccionarPermiso({{ $permiso->id }})" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                    <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $permiso->id }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                    <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $permiso->id }}, {{ $this->verificarPermiso }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         @endforeach
@@ -110,10 +113,9 @@
                 console.error(message);
             });
 
+
             livewire.on('alert', function(accion) {
-
                 var msj2 = accion.charAt(0).toUpperCase() + accion.slice(1);
-
                 Swal.fire(
                     '¡' + msj2 + '!',
                     'El permiso ha sido ' + accion + ' correctamente.',
@@ -121,28 +123,37 @@
                 )
             });
 
-            livewire.on('eliminarRegistro', permisoId => {
-                Swal.fire({
-                    title: '¿Está seguro?',
-                    text: "¡Se eliminará el permiso definitivamente!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: '¡Sí, eliminar!',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
 
-                        livewire.emitTo('permiso.show', 'eliminarPermiso', permisoId);
+            livewire.on('eliminarRegistro', function(permisoId, tienePermiso) {
+                if (tienePermiso) {
+                    Swal.fire({
+                        title: '¿Está seguro?',
+                        text: "¡Se eliminará el permiso definitivamente!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Sí, eliminar!',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
 
-                        Swal.fire(
-                            '¡Eliminado!',
-                            'El permiso ha sido eliminado.',
-                            'success'
-                        )
-                    }
-                })
+                            livewire.emitTo('permiso.show', 'eliminarPermiso', permisoId);
+
+                            Swal.fire(
+                                '¡Eliminado!',
+                                'El permiso ha sido eliminado.',
+                                'success'
+                            )
+                        }
+                    })
+                } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '¡Permiso Denegado!',
+                        text: 'No tiene los permisos necesarios.'           
+                    })
+                }
             });
         </script>
     @endpush

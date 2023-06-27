@@ -20,10 +20,13 @@
             </div>
 
             <div class="form-group w-50 d-flex">
-                <input type="text" wire:model="buscar" class="form-control" placeholder="Buscar...">
-                <button class="btn text-secondary" type="button" disabled>
-                    <i class="fas fa-search"></i>
-                </button>
+                @if (verificarPermiso('Rol_Buscar')) 
+                    <input type="text" wire:model="buscar" class="form-control" 
+                    placeholder="Buscar...">
+                    <button class="btn text-secondary" type="button" disabled>
+                        <i class="fas fa-search"></i>
+                    </button>
+                @endif
             </div>
             
             <div class="form-group">
@@ -71,7 +74,7 @@
                                 <td class="align-middle text-left">{{ $rol->nombre }}</td>
                                 <td class="align-middle text-nowrap">
                                     <button type="button" title="Editar" wire:click="seleccionarRol({{ $rol->id }})" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                    <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $rol->id }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                    <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $rol->id }}, {{ $this->verificarPermiso }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         @endforeach
@@ -111,10 +114,9 @@
                 console.error(message);
             });
 
+
             livewire.on('alert', function(accion) {
-
                 var msj2 = accion.charAt(0).toUpperCase() + accion.slice(1);
-
                 Swal.fire(
                     '¡' + msj2 + '!',
                     'El rol ha sido ' + accion + ' correctamente.',
@@ -122,28 +124,37 @@
                 )
             });
 
-            livewire.on('eliminarRegistro', rolId => {
-                Swal.fire({
-                    title: '¿Está seguro?',
-                    text: "¡Se eliminará el rol definitivamente!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: '¡Sí, eliminar!',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
+            
+            livewire.on('eliminarRegistro', function(rolId, tienePermiso) {
+                if (tienePermiso) {
+                    Swal.fire({
+                        title: '¿Está seguro?',
+                        text: "¡Se eliminará el rol definitivamente!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Sí, eliminar!',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
 
-                        livewire.emitTo('rol.show', 'eliminarRol', rolId);
+                            livewire.emitTo('rol.show', 'eliminarRol', rolId);
 
-                        Swal.fire(
-                            '¡Eliminado!',
-                            'El rol ha sido eliminado.',
-                            'success'
-                        )
-                    }
-                })
+                            Swal.fire(
+                                '¡Eliminado!',
+                                'El rol ha sido eliminado.',
+                                'success'
+                            )
+                        }
+                    })
+                } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '¡Acceso Denegado!',
+                        text: 'No tiene los permisos necesarios.'           
+                    })
+                }
             });
         </script>
     @endpush

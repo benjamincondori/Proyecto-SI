@@ -11,7 +11,7 @@ class Show extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $registroSeleccionado;
+    public $registroSeleccionado, $verificarPermiso;
     public $vistaVer = false;
     public $vistaCrear = false;
     public $vistaEditar = false;
@@ -30,12 +30,24 @@ class Show extends Component
         $this->registroSeleccionado = Empleado::findOrFail($registroId);
 
         if ($vista === 'ver') {
-            $this->vistaVer = true;
-            $this->emit('verRegistro', $this->registroSeleccionado);
+            if (verificarPermiso('Administrativo_Ver')) {
+                $this->vistaVer = true;
+                $this->emit('verRegistro', $this->registroSeleccionado);
+            } else {
+                $this->emit('accesoDenegado');
+            }
         } elseif ('editar') {
-            $this->vistaEditar = true;
-            $this->emit('editarRegistro', $this->registroSeleccionado);
+            if (verificarPermiso('Administrativo_Editar')) {
+                $this->vistaEditar = true;
+                $this->emit('editarRegistro', $this->registroSeleccionado);
+            } else {
+                $this->emit('accesoDenegado');
+            }
         }
+    }
+
+    public function verificarPermiso() {
+        return verificarPermiso('Administrativo_Eliminar');
     }
 
     public function eliminarAdministrativo($registroId)
@@ -52,7 +64,11 @@ class Show extends Component
 
     public function agregarNuevo()
     {
-        $this->vistaCrear = true;
+        if (verificarPermiso('Administrativo_Crear')) {
+            $this->vistaCrear = true;
+        } else {
+            $this->emit('accesoDenegado');
+        }
     }
 
     public function cerrarVista()
@@ -87,17 +103,19 @@ class Show extends Component
         $this->resetPage();
     }
 
+    public function mount() {
+        $this->verificarPermiso = verificarPermiso('Administrativo_Eliminar');
+    }
+
     public function render()
     {
-
         $administrativos = Empleado::where('tipo_empleado', 'A')
             ->where(function ($query) {
                 $buscar = '%' . $this->buscar . '%';
                 $query->where('id', 'like', $buscar)
                     ->orWhere('ci', 'like', $buscar)
                     ->orWhere('nombres', 'like', $buscar)
-                    ->orWhere('apellidos', 'like', $buscar)
-                    ->orWhere('email', 'like', $buscar);
+                    ->orWhere('apellidos', 'like', $buscar);
             })
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->cant);
