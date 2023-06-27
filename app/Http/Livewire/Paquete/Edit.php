@@ -57,13 +57,13 @@ class Edit extends Component
             'selectedDisciplinas' => $this->seleccionarNuevo ? 'required' : ''
         ]);
     
-        // Realiza la actualización del registro seleccionado
-        $paquete = Paquete::find($this->registroSeleccionado['id']);
-
-        $paquete->nombre = $this->registroSeleccionado['nombre'];
-        $paquete->descripcion = $this->registroSeleccionado['descripcion'];
-
         try {
+            // Realiza la actualización del registro seleccionado
+            $paquete = Paquete::find($this->registroSeleccionado['id']);
+
+            $paquete->nombre = $this->registroSeleccionado['nombre'];
+            $paquete->descripcion = $this->registroSeleccionado['descripcion'];
+
             $paquete->save();
             if ($this->seleccionarNuevo) {
                 // Asocia las disciplinas seleccionadas al paquete

@@ -11,7 +11,7 @@ class Detalle_Inscripcion extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $table = 'detalle_inscripcion';
+    protected $table = 'DETALLE_INSCRIPCION';
     protected $fillable = ['id', 'fecha_inicio', 'fecha_vencimiento', 'dias_restantes', 'estado', 'id_paquete', 'id_inscripcion'];
 
     public function inscripcion(): BelongsTo

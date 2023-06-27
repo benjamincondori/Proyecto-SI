@@ -28,13 +28,13 @@ class Create extends Component
     {
         $this->validate();
 
-        $seccion = new Seccion;
-
-        $seccion->nombre = $this->nombre;
-        $seccion->descripcion = $this->descripcion;
-        $seccion->capacidad = $this->capacidad;
-
         try {
+            $seccion = new Seccion;
+
+            $seccion->nombre = $this->nombre;
+            $seccion->descripcion = $this->descripcion;
+            $seccion->capacidad = $this->capacidad;
+
             $seccion->save();
             $this->emitTo('seccion.show', 'cerrarVista');
             $this->emit('alert', 'guardado');

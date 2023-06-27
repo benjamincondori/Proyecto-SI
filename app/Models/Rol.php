@@ -12,7 +12,7 @@ class Rol extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $table = 'rol';
+    protected $table = 'ROL';
     protected $fillable = ['id', 'nombre'];
 
     public function usuarios(): HasMany {
@@ -20,7 +20,7 @@ class Rol extends Model
     }
 
     public function permisos(): BelongsToMany {
-        return $this->belongsToMany(Permiso::class, 'rol_permiso', 'id_rol', 'id_permiso');
+        return $this->belongsToMany(Permiso::class, 'ROL_PERMISO', 'id_rol', 'id_permiso');
     }
 
 }

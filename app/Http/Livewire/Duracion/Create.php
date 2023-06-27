@@ -27,11 +27,11 @@ class Create extends Component
     {
         $this->validate();
 
-        $duracion = new Duracion;
-        $duracion->nombre = $this->nombre;
-        $duracion->dias_duracion = $this->dias_duracion;
-
         try {
+            $duracion = new Duracion;
+            $duracion->nombre = $this->nombre;
+            $duracion->dias_duracion = $this->dias_duracion;
+
             $duracion->save();
             $this->emitTo('duracion.show', 'cerrarVista');
             $this->emit('alert', 'guardado');

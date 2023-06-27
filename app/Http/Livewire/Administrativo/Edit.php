@@ -25,7 +25,7 @@ class Edit extends Component
             'registroSeleccionado.ci' => [
                 'required',
                 'max:10',
-                Rule::unique('empleado', 'ci')->ignore($registroId),
+                Rule::unique('EMPLEADO', 'ci')->ignore($registroId),
             ],
             'registroSeleccionado.nombres' => 'required|max:50',
             'registroSeleccionado.apellidos' => 'required|max:50',
@@ -33,7 +33,7 @@ class Edit extends Component
                 'required',
                 'email',
                 'max:100',
-                Rule::unique('empleado', 'email')->ignore($registroId)
+                Rule::unique('EMPLEADO', 'email')->ignore($registroId)
             ],
             'registroSeleccionado.direccion' => 'required|max:80',
             'registroSeleccionado.telefono' => 'required|max:10',

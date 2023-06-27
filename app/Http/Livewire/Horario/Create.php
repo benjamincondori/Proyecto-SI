@@ -28,12 +28,12 @@ class Create extends Component
     {
         $this->validate();
 
-        $horario = new Horario;
-        $horario->descripcion = $this->descripcion;
-        $horario->hora_inicio = $this->hora_inicio;
-        $horario->hora_fin = $this->hora_fin;
-
         try {
+            $horario = new Horario;
+            $horario->descripcion = $this->descripcion;
+            $horario->hora_inicio = $this->hora_inicio;
+            $horario->hora_fin = $this->hora_fin;
+
             $horario->save();
             $this->emitTo('horario.show', 'cerrarVista');
             $this->emit('alert', 'guardado');

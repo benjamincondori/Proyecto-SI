@@ -14,7 +14,7 @@ class Disciplina extends Model
 
     public $timestamps = false;
     protected $fillable = ['id', 'nombre', 'descripcion', 'precio', 'id_seccion'];
-    protected $table = 'disciplina';
+    protected $table = 'DISCIPLINA';
 
     public function seccion():BelongsTo
     {
@@ -26,7 +26,7 @@ class Disciplina extends Model
     }
 
     public function paquetes():BelongsToMany {
-        return $this->belongsToMany(Paquete::class, 'disciplina_paquete', 'id_disciplina', 'id_paquete');
+        return $this->belongsToMany(Paquete::class, 'DISCIPLINA_PAQUETE', 'id_disciplina', 'id_paquete');
     }
 
 }

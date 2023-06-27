@@ -10,6 +10,6 @@ class Tipo_Maquina extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $table = 'tipo_maquina';
+    protected $table = 'TIPO_MAQUINA';
     protected $fillable = ['id', 'nombre', 'descripcion'];
 }

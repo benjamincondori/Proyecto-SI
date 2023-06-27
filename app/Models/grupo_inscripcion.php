@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Rol_Permiso extends Model
+class grupo_inscripcion extends Model
 {
     use HasFactory;
 
     public $timestamps = false;
-    protected $primaryKey = ['id_rol', 'id_permiso'];
-    protected $table = 'ROL_PERMISO';
-    protected $fillable = ['id_rol', 'id_permiso'];
+    protected $table = 'GRUPO_INSCRIPCION';
+    protected $fillable = ['id_inscripcion', 'id_grupo'];
 }

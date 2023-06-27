@@ -13,7 +13,7 @@ class Administrativo extends Model
     
     public $timestamps = false;
     protected $fillable = ['id', 'cargo'];
-    protected $table = 'administrativo';
+    protected $table = 'ADMINISTRATIVO';
 
     public function empleado(): BelongsTo
     {

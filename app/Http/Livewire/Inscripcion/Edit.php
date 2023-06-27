@@ -26,7 +26,7 @@ class Edit extends Component
 
     protected $rules = [
         'registroSeleccionado.fecha_inicio' => 'required',
-        'id_cliente' => 'required|exists:cliente,id',
+        'id_cliente' => 'required|exists:CLIENTE,id',
         'idPaquete' => 'required',
         'registroSeleccionado.id_duracion' => 'required'
     ];
@@ -69,11 +69,11 @@ class Edit extends Component
 
     public function obtenerGrupos($paqueteId)
     {
-        return Grupo::join('disciplina', 'grupo.id_disciplina', '=', 'disciplina.id')
-            ->join('disciplina_paquete', 'disciplina.id', '=', 'disciplina_paquete.id_disciplina')
-            ->join('paquete', 'disciplina_paquete.id_paquete', '=', 'paquete.id')
-            ->where('paquete.id', $paqueteId)
-            ->select('grupo.*')
+        return Grupo::join('DISCIPLINA', 'GRUPO.id_disciplina', '=', 'DISCIPLINA.id')
+            ->join('DISCIPLINA_PAQUETE', 'DISCIPLINA.id', '=', 'DISCIPLINA_PAQUETE.id_disciplina')
+            ->join('PAQUETE', 'DISCIPLINA_PAQUETE.id_paquete', '=', 'PAQUETE.id')
+            ->where('PAQUETE.id', $paqueteId)
+            ->select('GRUPO.*')
             ->get();
     }
 
@@ -96,7 +96,7 @@ class Edit extends Component
 
             $this->id_cliente = $this->obtenerIdCliente($this->search);
             $this->validate([
-                'id_cliente' => 'required|exists:cliente,id',
+                'id_cliente' => 'required|exists:CLIENTE,id',
             ]);
         } else {
             $this->searchResults = [];
@@ -132,23 +132,23 @@ class Edit extends Component
     {
         $this->validate([
             'registroSeleccionado.fecha_inicio' => 'required',
-            'id_cliente' => 'required|exists:cliente,id',
+            'id_cliente' => 'required|exists:CLIENTE,id',
             'idPaquete' => 'required',
             'registroSeleccionado.id_duracion' => 'required',
             'selectedGrupos' => $this->seleccionarNuevo ? 'required' : ''
         ]);
         
-        // Realizar la actualización del registro seleccionado
-        $inscripcion = Inscripcion::find($this->registroSeleccionado['id']);
-
-        $inscripcion->fecha_inicio = $this->registroSeleccionado['fecha_inicio'];
-        $inscripcion->id_paquete = $this->idPaquete;
-        $inscripcion->id_duracion = $this->registroSeleccionado['id_duracion'];
-        $inscripcion->id_cliente = $this->id_cliente;
-        $inscripcion->id_administrativo = $this->registroSeleccionado['id_administrativo'];
-        $inscripcion->fecha_inscripcion = $this->obtenerFechaActual();
-
         try {
+            // Realizar la actualización del registro seleccionado
+            $inscripcion = Inscripcion::find($this->registroSeleccionado['id']);
+
+            $inscripcion->fecha_inicio = $this->registroSeleccionado['fecha_inicio'];
+            $inscripcion->id_paquete = $this->idPaquete;
+            $inscripcion->id_duracion = $this->registroSeleccionado['id_duracion'];
+            $inscripcion->id_cliente = $this->id_cliente;
+            $inscripcion->id_administrativo = $this->registroSeleccionado['id_administrativo'];
+            $inscripcion->fecha_inscripcion = $this->obtenerFechaActual();
+
             $inscripcion->save();
 
             if($this->seleccionarNuevo) {

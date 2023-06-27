@@ -12,11 +12,7 @@ class Paquete_Duracion extends Model
 
     public $timestamps = false;
     protected $primaryKey = ['id_paquete', 'id_duracion'];
-    protected $table = 'paquete_duracion';
+    protected $table = 'PAQUETE_DURACION';
     protected $fillable = ['id_paquete', 'id_duracion', 'precio', 'descuento'];
-
-    // public function Inscripciones(): HasMany {
-    //     return $this->hasMany(Inscripcion::class, 'id_paquete', 'id_duracion');
-    // }
 
 }

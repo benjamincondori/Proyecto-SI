@@ -36,14 +36,14 @@ class Edit extends Component
     {
         $this->validate();
     
-        // Realizar la actualización del registro seleccionado
-        $registro = Seccion::find($this->registroSeleccionado['id']);
-
-        $registro->nombre = $this->registroSeleccionado['nombre'];
-        $registro->descripcion = $this->registroSeleccionado['descripcion'];
-        $registro->capacidad = $this->registroSeleccionado['capacidad'];
-
         try {
+            // Realizar la actualización del registro seleccionado
+            $registro = Seccion::find($this->registroSeleccionado['id']);
+
+            $registro->nombre = $this->registroSeleccionado['nombre'];
+            $registro->descripcion = $this->registroSeleccionado['descripcion'];
+            $registro->capacidad = $this->registroSeleccionado['capacidad'];
+
             $registro->save();
             $this->emitTo('seccion.show','cerrarVista');
             $this->emit('alert', 'actualizado');

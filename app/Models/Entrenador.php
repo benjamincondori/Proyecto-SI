@@ -13,7 +13,7 @@ class Entrenador extends Model
 
     public $timestamps = false;
     protected $fillable = ['id', 'especialidad'];
-    protected $table = 'entrenador';
+    protected $table = 'ENTRENADOR';
 
     public function empleado(): BelongsTo
     {

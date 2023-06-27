@@ -12,7 +12,7 @@ class Cliente extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $table = 'cliente';
+    protected $table = 'CLIENTE';
     protected $fillable = ['id', 'ci', 'nombres', 'apellidos', 'fecha_nacimiento', 'telefono', 'email', 'genero', 'fotografia', 'id_usuario'];
 
     public function usuario(): BelongsTo

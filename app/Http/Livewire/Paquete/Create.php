@@ -35,11 +35,11 @@ class Create extends Component
     {
         $this->validate();
 
-        $paquete = new Paquete;
-        $paquete->nombre = $this->nombre;
-        $paquete->descripcion = $this->descripcion;
-
         try {
+            $paquete = new Paquete;
+            $paquete->nombre = $this->nombre;
+            $paquete->descripcion = $this->descripcion;
+
             $paquete->save();
             // Obtén los IDs de las disciplinas seleccionadas
             $disciplinasSeleccionadas = $this->selectedDisciplinas;

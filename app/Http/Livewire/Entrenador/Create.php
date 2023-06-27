@@ -16,7 +16,7 @@ class Create extends Component
     public $id_empleado, $ci, $nombres, $apellidos, $email, $direccion, $telefono, $fecha_nacimiento, $especialidad, $turno, $fotografia, $genero, $tipo_empleado, $id_usuario;
 
     protected $rules = [
-        'ci' => 'required|max:10|unique:empleado',
+        'ci' => 'required|max:10|unique:EMPLEADO',
         'nombres' => 'required|max:50',
         'apellidos' => 'required|max:50',
         'email' => 'required|email|max:100',

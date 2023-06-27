@@ -12,7 +12,7 @@ class Empleado extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $table = 'empleado';
+    protected $table = 'EMPLEADO';
     protected $fillable = ['id', 'ci', 'nombres', 'apellidos', 'fecha_nacimiento', 'direccion', 'telefono', 'email', 'genero', 'turno', 'fotografia', 'tipo_empleado', 'id_usuario'];
 
     public function administrativo(): HasOne {

@@ -47,14 +47,14 @@ class Create extends Component
     {
         $this->validate();
 
-        $grupo = new Grupo;
-        $grupo->nombre = $this->nombre;
-        $grupo->nro_integrantes = $this->nro_integrantes;
-        $grupo->id_disciplina = $this->id_disciplina;
-        $grupo->id_entrenador = $this->id_entrenador;
-        $grupo->id_horario = $this->id_horario;
-        
         try {
+            $grupo = new Grupo;
+            $grupo->nombre = $this->nombre;
+            $grupo->nro_integrantes = $this->nro_integrantes;
+            $grupo->id_disciplina = $this->id_disciplina;
+            $grupo->id_entrenador = $this->id_entrenador;
+            $grupo->id_horario = $this->id_horario;
+        
             $grupo->save();
             $this->emitTo('grupo.show', 'cerrarVista');
             $this->emit('alert', 'guardado');
@@ -65,8 +65,6 @@ class Create extends Component
 
     public function render()
     {
-        $this->dispatchBrowserEvent('bootstrapSelect');
-
         return view('livewire.grupo.create');
     }
 }

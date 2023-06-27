@@ -35,13 +35,13 @@ class Edit extends Component
     {
         $this->validate();
     
-        // Realizar la actualización del registro seleccionado
-        $registro = Tipo_Maquina::find($this->registroSeleccionado['id']);
-
-        $registro->nombre = $this->registroSeleccionado['nombre'];
-        $registro->descripcion = $this->registroSeleccionado['descripcion'];
-
         try {
+            // Realizar la actualización del registro seleccionado
+            $registro = Tipo_Maquina::find($this->registroSeleccionado['id']);
+
+            $registro->nombre = $this->registroSeleccionado['nombre'];
+            $registro->descripcion = $this->registroSeleccionado['descripcion'];
+
             $registro->save();
             $this->emitTo('tipo-maquina.show','cerrarVista');
             $this->emit('alert', 'actualizado');

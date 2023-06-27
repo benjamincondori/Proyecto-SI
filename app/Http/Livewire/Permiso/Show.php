@@ -89,7 +89,7 @@ class Show extends Component
     }
 
     public function mount() {
-        $this->verificarPermiso = verificarPermiso('Permiso_Rol');
+        $this->verificarPermiso = verificarPermiso('Permiso_Eliminar');
     }
 
     public function render()

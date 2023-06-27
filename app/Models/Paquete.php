@@ -12,14 +12,14 @@ class Paquete extends Model
 
     public $timestamps = false;
     protected $fillable = ['id', 'nombre', 'descripcion'];
-    protected $table = 'paquete';
+    protected $table = 'PAQUETE';
 
     public function disciplinas():BelongsToMany {
-        return $this->belongsToMany(Disciplina::class, 'disciplina_paquete', 'id_paquete', 'id_disciplina');
+        return $this->belongsToMany(Disciplina::class, 'DISCIPLINA_PAQUETE', 'id_paquete', 'id_disciplina');
     }
 
     public function duraciones():BelongsToMany {
-        return $this->belongsToMany(Duracion::class, 'paquete_duracion', 'id_paquete', 'id_duracion')->withPivot('precio', 'descuento');
+        return $this->belongsToMany(Duracion::class, 'PAQUETE_DURACION', 'id_paquete', 'id_duracion')->withPivot('precio', 'descuento');
     }
 
     public function inscripciones():BelongsToMany {

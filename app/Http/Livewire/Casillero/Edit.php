@@ -19,7 +19,7 @@ class Edit extends Component
         return [
             'registroSeleccionado.nro' => [
                 'required',
-                Rule::unique('casillero', 'nro')->ignore($registroId)
+                Rule::unique('CASILLERO', 'nro')->ignore($registroId)
             ],
             'registroSeleccionado.tamaño' => 'required|max:10',
             'registroSeleccionado.precio' => 'required'
@@ -51,16 +51,17 @@ class Edit extends Component
     {
         $this->validate($this->getUpdateRules());
     
-        // Realizar la actualización del registro seleccionado
-        $casillero = Casillero::find($this->registroSeleccionado['id']);
-
-        $casillero->nro = $this->registroSeleccionado['nro'];
-        $casillero->tamaño = $this->registroSeleccionado['tamaño'];
-        $casillero->precio = $this->registroSeleccionado['precio'];
-        $casillero->estado = $this->registroSeleccionado['estado'];
-
         try {
+            // Realizar la actualización del registro seleccionado
+            $casillero = Casillero::find($this->registroSeleccionado['id']);
+
+            $casillero->nro = $this->registroSeleccionado['nro'];
+            $casillero->tamaño = $this->registroSeleccionado['tamaño'];
+            $casillero->precio = $this->registroSeleccionado['precio'];
+            $casillero->estado = $this->registroSeleccionado['estado'];
+        
             $casillero->save();
+
             $this->emitTo('casillero.show','cerrarVista');
             $this->emit('alert', 'actualizado');
             $this->registroSeleccionado = null;

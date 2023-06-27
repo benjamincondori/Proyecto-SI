@@ -36,13 +36,13 @@ class Edit extends Component
     {
         $this->validate();
     
-        // Realizar la actualización del registro seleccionado
-        $registro = Horario::find($this->registroSeleccionado['id']);
-        $registro->descripcion = $this->registroSeleccionado['descripcion'];
-        $registro->hora_inicio = $this->registroSeleccionado['hora_inicio'];
-        $registro->hora_fin = $this->registroSeleccionado['hora_fin'];
-        
         try {
+            // Realizar la actualización del registro seleccionado
+            $registro = Horario::find($this->registroSeleccionado['id']);
+            $registro->descripcion = $this->registroSeleccionado['descripcion'];
+            $registro->hora_inicio = $this->registroSeleccionado['hora_inicio'];
+            $registro->hora_fin = $this->registroSeleccionado['hora_fin'];
+            
             $registro->save();
             $this->emitTo('horario.show','cerrarVista');
             $this->emit('alert', 'actualizado');

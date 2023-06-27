@@ -27,12 +27,12 @@ class Create extends Component
     {
         $this->validate();
 
-        $maquina = new Tipo_Maquina;
-
-        $maquina->nombre = $this->nombre;
-        $maquina->descripcion = $this->descripcion;
-
         try {
+            $maquina = new Tipo_Maquina;
+
+            $maquina->nombre = $this->nombre;
+            $maquina->descripcion = $this->descripcion;
+
             $maquina->save();
             $this->emitTo('tipo-maquina.show', 'cerrarVista');
             $this->emit('alert', 'guardado');

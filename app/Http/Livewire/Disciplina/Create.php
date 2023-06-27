@@ -39,14 +39,14 @@ class Create extends Component
     {
         $this->validate();
 
-        $disciplina = new Disciplina;
-
-        $disciplina->nombre = $this->nombre;
-        $disciplina->descripcion = $this->descripcion;
-        $disciplina->precio = $this->precio;
-        $disciplina->id_seccion = $this->id_seccion;
-
         try {
+            $disciplina = new Disciplina;
+
+            $disciplina->nombre = $this->nombre;
+            $disciplina->descripcion = $this->descripcion;
+            $disciplina->precio = $this->precio;
+            $disciplina->id_seccion = $this->id_seccion;
+
             $disciplina->save();
             $this->emitTo('disciplina.show', 'cerrarVista');
             $this->emit('alert', 'guardado');

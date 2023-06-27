@@ -24,7 +24,7 @@ class Edit extends Component
             'registroSeleccionado.ci' => [
                 'required',
                 'max:10',
-                Rule::unique('empleado', 'ci')->ignore($registroId),
+                Rule::unique('EMPLEADO', 'ci')->ignore($registroId),
             ],
             'registroSeleccionado.nombres' => 'required|max:50',
             'registroSeleccionado.apellidos' => 'required|max:50',

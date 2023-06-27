@@ -55,16 +55,16 @@ class Edit extends Component
     {
         $this->validate();
     
-        // Realizar la actualización del registro seleccionado
-        $registro = Grupo::find($this->registroSeleccionado['id']);
-
-        $registro->nombre = $this->registroSeleccionado['nombre'];
-        $registro->nro_integrantes = $this->registroSeleccionado['nro_integrantes'];
-        $registro->id_disciplina = $this->registroSeleccionado['id_disciplina'];
-        $registro->id_entrenador = $this->registroSeleccionado['id_entrenador'];
-        $registro->id_horario = $this->registroSeleccionado['id_horario'];
-
         try {
+            // Realizar la actualización del registro seleccionado
+            $registro = Grupo::find($this->registroSeleccionado['id']);
+
+            $registro->nombre = $this->registroSeleccionado['nombre'];
+            $registro->nro_integrantes = $this->registroSeleccionado['nro_integrantes'];
+            $registro->id_disciplina = $this->registroSeleccionado['id_disciplina'];
+            $registro->id_entrenador = $this->registroSeleccionado['id_entrenador'];
+            $registro->id_horario = $this->registroSeleccionado['id_horario'];
+
             $registro->save();
             $this->emitTo('grupo.show','cerrarVista');
             $this->emit('alert', 'actualizado');

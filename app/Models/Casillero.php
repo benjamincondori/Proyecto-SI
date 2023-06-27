@@ -11,6 +11,6 @@ class Casillero extends Model
 
     public $timestamps = false;
     protected $fillable = ['id', 'nro', 'tamaño', 'precio', 'estado'];
-    protected $table = 'casillero';
+    protected $table = 'CASILLERO';
 
 }

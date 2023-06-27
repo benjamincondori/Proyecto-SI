@@ -11,7 +11,7 @@ class Seccion extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $table = 'seccion';
+    protected $table = 'SECCION';
     protected $fillable = ['id', 'nombre', 'descripcion', 'capacidad'];
 
     public function disciplinas(): HasMany {

@@ -95,13 +95,13 @@ class Show extends Component
 
     public function render()
     {
-        $empleados = Empleado::join('usuario', 'empleado.id_usuario', '=', 'usuario.id')
-            ->join('administrativo', 'empleado.id', '=', 'administrativo.id')
-            ->where('empleado.id', 'like', '%' . $this->buscar . '%')
-            ->orWhere('empleado.email', 'like', '%' . $this->buscar . '%')
-            ->orWhere('empleado.nombres', 'like', '%' . $this->buscar . '%')
-            ->orWhere('empleado.apellidos', 'like', '%' . $this->buscar . '%')
-            ->orderBy('empleado.'.$this->sort, $this->direction)
+        $empleados = Empleado::join('USUARIO', 'EMPLEADO.id_usuario', '=', 'USUARIO.id')
+            ->join('ADMINISTRATIVO', 'EMPLEADO.id', '=', 'ADMINISTRATIVO.id')
+            ->where('EMPLEADO.id', 'like', '%' . $this->buscar . '%')
+            ->orWhere('EMPLEADO.email', 'like', '%' . $this->buscar . '%')
+            ->orWhere('EMPLEADO.nombres', 'like', '%' . $this->buscar . '%')
+            ->orWhere('EMPLEADO.apellidos', 'like', '%' . $this->buscar . '%')
+            ->orderBy('EMPLEADO.'.$this->sort, $this->direction)
             ->paginate($this->cant);
 
         return view('livewire.usuario.show', ['empleados' => $empleados]);

@@ -35,13 +35,13 @@ class Edit extends Component
     {
         $this->validate();
     
-        // Realizar la actualización del registro seleccionado
-        $registro = Duracion::find($this->registroSeleccionado['id']);
-
-        $registro->nombre = $this->registroSeleccionado['nombre'];
-        $registro->dias_duracion = $this->registroSeleccionado['dias_duracion'];
-        
         try {
+            // Realizar la actualización del registro seleccionado
+            $registro = Duracion::find($this->registroSeleccionado['id']);
+
+            $registro->nombre = $this->registroSeleccionado['nombre'];
+            $registro->dias_duracion = $this->registroSeleccionado['dias_duracion'];
+        
             $registro->save();
             $this->emitTo('duracion.show','cerrarVista');
             $this->emit('alert', 'actualizado');

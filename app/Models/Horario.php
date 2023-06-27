@@ -11,7 +11,7 @@ class Horario extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $table = 'horario';
+    protected $table = 'HORARIO';
     protected $fillable = ['id', 'descripcion', 'hora_inicio', 'hora_fin'];
 
     public function grupos(): HasMany {

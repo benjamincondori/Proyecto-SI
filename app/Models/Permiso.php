@@ -11,11 +11,11 @@ class Permiso extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $table = 'permiso';
+    protected $table = 'PERMISO';
     protected $fillable = ['id', 'nombre'];
 
     public function roles(): BelongsToMany {
-        return $this->belongsToMany(Rol::class, 'rol_permiso', 'id_permiso', 'id_rol');
+        return $this->belongsToMany(Rol::class, 'ROL_PERMISO', 'id_permiso', 'id_rol');
     }
 
 }

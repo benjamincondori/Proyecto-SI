@@ -16,7 +16,7 @@ class Usuario extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     public $timestamps = false;
-    protected $table = 'usuario';
+    protected $table = 'USUARIO';
     protected $fillable = ['id', 'email', 'password', 'id_rol'];
 
     protected $casts = [

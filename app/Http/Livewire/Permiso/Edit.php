@@ -19,7 +19,7 @@ class Edit extends Component
             'registroSeleccionado.nombre' => [
                 'required',
                 'max:60',
-                Rule::unique('permiso', 'nombre')->ignore($registroId),
+                Rule::unique('PERMISO', 'nombre')->ignore($registroId),
             ],
         ];
     }

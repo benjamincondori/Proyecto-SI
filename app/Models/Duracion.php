@@ -12,10 +12,10 @@ class Duracion extends Model
 
     public $timestamps = false;
     protected $fillable = ['id', 'nombre', 'dias_duracion'];
-    protected $table = 'duracion';
+    protected $table = 'DURACION';
 
     public function paquetes():BelongsToMany {
-        return $this->belongsToMany(Paquete::class, 'paquete_duracion', 'id_duracion', 'id_paquete')->withPivot('precio', 'descuento');
+        return $this->belongsToMany(Paquete::class, 'PAQUETE_DURACION', 'id_duracion', 'id_paquete')->withPivot('precio', 'descuento');
     }
 
     public function inscripciones():BelongsToMany {

@@ -13,7 +13,7 @@ class Inscripcion extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $table = 'inscripcion';
+    protected $table = 'INSCRIPCION';
     protected $fillable = ['id', 'fecha_inscripcion', 'fecha_inicio', 'id_cliente', 'id_administrativo', 'id_paquete', 'id_duracion', 'id_pago'];
 
     public function cliente(): BelongsTo {
@@ -38,7 +38,7 @@ class Inscripcion extends Model
     }
 
     public function grupos():BelongsToMany {
-        return $this->belongsToMany(Grupo::class, 'grupo_inscripcion', 'id_inscripcion', 'id_grupo');
+        return $this->belongsToMany(Grupo::class, 'GRUPO_INSCRIPCION', 'id_inscripcion', 'id_grupo');
     }
 
 }

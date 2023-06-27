@@ -10,7 +10,7 @@ class Create extends Component
     public $id_permiso, $nombre;
 
     protected $rules = [
-        'nombre' => 'required|max:60|unique:permiso'
+        'nombre' => 'required|max:60|unique:PERMISO'
     ];
 
     public function updated($propertyName) {

@@ -22,7 +22,7 @@ class Create extends Component
 
     protected $rules = [
         'fecha_inicio' => 'required',
-        'id_cliente' => 'required|exists:cliente,id',
+        'id_cliente' => 'required|exists:CLIENTE,id',
         'id_paquete' => 'required',
         'id_duracion' => 'required',
         'selectedGrupos' => 'required'
@@ -59,11 +59,11 @@ class Create extends Component
 
     public function obtenerGrupos($paqueteId)
     {
-        return Grupo::join('disciplina', 'grupo.id_disciplina', '=', 'disciplina.id')
-            ->join('disciplina_paquete', 'disciplina.id', '=', 'disciplina_paquete.id_disciplina')
-            ->join('paquete', 'disciplina_paquete.id_paquete', '=', 'paquete.id')
-            ->where('paquete.id', $paqueteId)
-            ->select('grupo.*')
+        return Grupo::join('DISCIPLINA', 'GRUPO.id_disciplina', '=', 'DISCIPLINA.id')
+            ->join('DISCIPLINA_PAQUETE', 'DISCIPLINA.id', '=', 'DISCIPLINA_PAQUETE.id_disciplina')
+            ->join('PAQUETE', 'DISCIPLINA_PAQUETE.id_paquete', '=', 'PAQUETE.id')
+            ->where('PAQUETE.id', $paqueteId)
+            ->select('GRUPO.*')
             ->get();
     }
 
@@ -86,7 +86,7 @@ class Create extends Component
 
             $this->id_cliente = $this->obtenerIdCliente($this->search);
             $this->validate([
-                'id_cliente' => 'required|exists:cliente,id',
+                'id_cliente' => 'required|exists:CLIENTE,id',
             ]);
         } else {
             $this->searchResults = [];
@@ -110,16 +110,16 @@ class Create extends Component
 
         $this->validate();
 
-        $inscripcion = new Inscripcion();
-
-        $inscripcion->fecha_inicio = $this->fecha_inicio;
-        $inscripcion->id_paquete = $this->id_paquete;
-        $inscripcion->id_duracion = $this->id_duracion;
-        $inscripcion->id_cliente = $this->id_cliente;
-        $inscripcion->id_administrativo = $this->id_administrativo;
-        $inscripcion->fecha_inscripcion = $this->obtenerFechaActual();
-
         try {
+            $inscripcion = new Inscripcion();
+
+            $inscripcion->fecha_inicio = $this->fecha_inicio;
+            $inscripcion->id_paquete = $this->id_paquete;
+            $inscripcion->id_duracion = $this->id_duracion;
+            $inscripcion->id_cliente = $this->id_cliente;
+            $inscripcion->id_administrativo = $this->id_administrativo;
+            $inscripcion->fecha_inscripcion = $this->obtenerFechaActual();
+
             $inscripcion->save();
 
             // Obtén los IDs de los grupos seleccionados

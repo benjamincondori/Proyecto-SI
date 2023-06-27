@@ -12,7 +12,7 @@ class Grupo extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $table = 'grupo';
+    protected $table = 'GRUPO';
     protected $fillable = ['id', 'nombre', 'nro_integrantes', 'id_disciplina', 'id_entrenador', 'id_horario'];
 
     public function horario():BelongsTo
@@ -31,6 +31,6 @@ class Grupo extends Model
     }
 
     public function inscripciones():BelongsToMany {
-        return $this->belongsToMany(Inscripcion::class, 'grupo_inscripcion', 'id_grupo', 'id_inscripcion');
+        return $this->belongsToMany(Inscripcion::class, 'GRUPO_INSCRIPCION', 'id_grupo', 'id_inscripcion');
     }
 }

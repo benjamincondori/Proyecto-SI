@@ -11,7 +11,7 @@ class Create extends Component
     public $estado = true;
 
     protected $rules = [
-        'nro' => 'required|unique:casillero,nro',
+        'nro' => 'required|unique:CASILLERO,nro',
         'tamaño' => 'required|max:10',
         'precio' => 'required',
     ];
@@ -29,15 +29,16 @@ class Create extends Component
     {
         $this->validate();
 
-        $casillero = new Casillero;
-
-        $casillero->nro = $this->nro;
-        $casillero->tamaño = $this->tamaño;
-        $casillero->precio = $this->precio;
-        $casillero->estado = $this->estado;
-
         try {
+            $casillero = new Casillero;
+
+            $casillero->nro = $this->nro;
+            $casillero->tamaño = $this->tamaño;
+            $casillero->precio = $this->precio;
+            $casillero->estado = $this->estado;
+
             $casillero->save();
+
             $this->emitTo('casillero.show', 'cerrarVista');
             $this->emit('alert', 'guardado');
         } catch (\Exception $e) {

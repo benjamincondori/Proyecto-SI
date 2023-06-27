@@ -17,10 +17,10 @@ class Create extends Component
     public $id_cliente, $ci, $nombres, $apellidos, $email, $telefono, $fecha_nacimiento, $imagen, $genero, $id_usuario;
 
     protected $rules = [
-        'ci' => 'required|max:10|unique:cliente',
+        'ci' => 'required|max:10|unique:CLIENTE',
         'nombres' => 'required|max:50',
         'apellidos' => 'required|max:50',
-        'email' => 'required|email|max:100|unique:cliente',
+        'email' => 'required|email|max:100|unique:CLIENTE',
         'telefono' => 'required|max:10',
         'genero' => 'required|max:1',
         'fecha_nacimiento' => 'required',
