@@ -4,6 +4,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\LoginController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest'])->group(function () {
@@ -34,8 +35,9 @@ Route::middleware(['auth', 'auth.admin'])->group(function() {
     Route::get('/logout', function () {
         abort(404); 
     });
-    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
+
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'auth.cliente'])->group(function () {
     Route::get('/cliente/dashboard', [ClienteController::class, 'index'])->name('cliente.index');
@@ -46,7 +48,11 @@ Route::middleware(['auth', 'auth.instructor'])->group(function () {
 });
 
 
+Route::get('/test', function() {
+    $usuario = Auth::user();
 
+    return $usuario->empleado->entrenador->especialidad;
+});
 
 
 
