@@ -48,11 +48,7 @@ Route::middleware(['auth', 'auth.instructor'])->group(function () {
 });
 
 
-Route::get('/test', function() {
-    $usuario = Auth::user();
 
-    return $usuario->empleado->entrenador->especialidad;
-});
 
 
 
