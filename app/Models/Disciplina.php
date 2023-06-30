@@ -18,7 +18,7 @@ class Disciplina extends Model
 
     public function seccion():BelongsTo
     {
-        return $this->belongsTo(Seccion::class);
+        return $this->belongsTo(Seccion::class, 'id_seccion');
     }
     
     public function grupos(): HasMany {

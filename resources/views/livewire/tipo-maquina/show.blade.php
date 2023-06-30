@@ -20,7 +20,7 @@
             </div>
 
             <div class="form-group w-50 d-flex">
-                @if (verificarPermiso('Maquina_Buscar')) 
+                @if (verificarPermiso('TipoMaquina_Buscar')) 
                     <input type="text" wire:model="buscar" class="form-control" 
                     placeholder="Buscar...">
                     <button class="btn text-secondary" type="button" disabled>
@@ -86,7 +86,7 @@
                                 <td class="align-middle text-left">{{ $maquina->nombre }}</td>
                                 <td class="align-middle text-left">{{ $maquina->descripcion }}</td>
                                 <td class="align-middle text-nowrap">
-                                    <button type="button" title="Editar" wire:click="seleccionarMaquina({{ $maquina }})" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
+                                    <button type="button" title="Editar" wire:click="seleccionarTipoMaquina({{ $maquina }})" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
                                     <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $maquina->id }}, {{ $this->verificarPermiso }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
@@ -118,12 +118,13 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
-            livewire.on('error', function() {
+            livewire.on('error', function(message) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Ha ocurrido un error. Por favor, intenta nuevamente.'           
                 })
+                console.error(message);
             });
 
 
@@ -151,7 +152,7 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
 
-                            livewire.emitTo('tipo-maquina.show', 'eliminarMaquina', maquinaId);
+                            livewire.emitTo('tipo-maquina.show', 'eliminarTipoMaquina', maquinaId);
 
                             Swal.fire(
                                 '¡Eliminado!',

@@ -39,20 +39,20 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="paquetes" class="control-label">Seleccionar Paquete</label>
-                        <select id="paquetes" class="form-control" wire:model="id_paquete">
-                            <option value="">Seleccionar</option>
-                            @foreach ($paquetes as $paquete)
-                                @php
-                                    $disciplinas = '';
-                                    foreach ($paquete->disciplinas as $disciplina) {
-                                        $disciplinas .= $disciplina->nombre . ', ' ;
-                                    }
-                                    $disciplinas = rtrim($disciplinas, ', ');
-                                @endphp
-                                <option value="{{ $paquete->id }}" class="cursor-pointer"
-                                    title="{{$disciplinas}}">{{ $paquete->nombre }}</option>
-                            @endforeach
-                        </select>
+                    <select id="paquetes" class="form-control" wire:model="id_paquete">
+                        <option value="">Seleccionar</option>
+                        @foreach ($paquetes as $paquete)
+                            @php
+                                $disciplinas = '';
+                                foreach ($paquete->disciplinas as $disciplina) {
+                                    $disciplinas .= $disciplina->nombre . ', ' ;
+                                }
+                                $disciplinas = rtrim($disciplinas, ', ');
+                            @endphp
+                            <option value="{{ $paquete->id }}" class="cursor-pointer"
+                                title="{{$disciplinas}}">{{ $paquete->nombre }}</option>
+                        @endforeach
+                    </select>
                     @error('id_paquete')
                         <span class="error text-danger">* {{ $message }}</span>
                     @enderror

@@ -17,13 +17,13 @@
         <div class="content-page">
             <div id="content">
 
-                <x-layouts.content title="Roles y Permisos" subtitle="Asignar Permisos" name="Asignar Permisos">
+                <x-layouts.content title="Secciones" subtitle="Asignar Máquinas" name="Asignar Máquinas">
 
                     <div class="row">
                         <div class="col-12">
                             <div class="card-box">
                 
-                                @livewire('asignar.show')
+                                @livewire('asignar-maquina.show')
 
                             </div>
                         </div> 

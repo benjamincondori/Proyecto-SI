@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Livewire\TipoMaquina;
+namespace App\Http\Livewire\AsignarMaquina;
 
+use App\Models\Maquina;
 use Livewire\Component;
-use App\Models\Tipo_Maquina;
 use Livewire\WithPagination;
 
 class Show extends Component
@@ -17,17 +17,17 @@ class Show extends Component
     public $vistaEditar = false;
     public $buscar = '';
     public $cant = '10';
-    public $sort = 'id';
-    public $direction = 'asc';
+    public $sort = 'codigo';
+    public $direction = 'desc';
 
     protected $listeners = [
         'cerrarVista' => 'cerrarVista',
-        'eliminarTipoMaquina' => 'eliminarTipoMaquina'
+        'eliminarMaquina' => 'eliminarMaquina'
     ];
 
-    public function seleccionarTipoMaquina(Tipo_Maquina $maquina)
+    public function seleccionarMaquina(Maquina $maquina)
     {
-        if (verificarPermiso('TipoMaquina_Editar')) {
+        if (verificarPermiso('Maquina_Editar')) {
             $this->vistaEditar = true;
             $this->emit('editarRegistro', $maquina);
         } else {
@@ -35,10 +35,10 @@ class Show extends Component
         }
     }
 
-    public function eliminarTipoMaquina($registroId)
+    public function eliminarMaquina($registroId)
     {
         // Buscar el registro en base al ID
-        $registro = Tipo_Maquina::find($registroId);
+        $registro = Maquina::find($registroId);
 
         // Verificar si el registro existe antes de eliminarlo
         if ($registro) {
@@ -49,7 +49,7 @@ class Show extends Component
 
     public function agregarNuevo()
     {
-        if (verificarPermiso('TipoMaquina_Crear')) {
+        if (verificarPermiso('Maquina_Crear')) {
             $this->vistaCrear = true;
         } else {
             $this->emit('accesoDenegado');
@@ -88,15 +88,15 @@ class Show extends Component
     }
 
     public function mount() {
-        $this->verificarPermiso = verificarPermiso('TipoMaquina_Eliminar');
+        $this->verificarPermiso = verificarPermiso('Maquina_Eliminar');
     }
 
     public function render()
     {
-        $maquinas = Tipo_Maquina::where('nombre', 'like', '%' . $this->buscar . '%')
+        $maquinas = Maquina::where('codigo', 'like', '%' . $this->buscar . '%')
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->cant);
 
-        return view('livewire.tipo-maquina.show', ['maquinas' => $maquinas]);
+        return view('livewire.asignar-maquina.show', ['maquinas' => $maquinas]);
     }
 }

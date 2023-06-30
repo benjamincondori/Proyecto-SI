@@ -32,12 +32,16 @@
                         <li>
                             <a href="{{ route('dashboard.roles') }}">Roles</a>
                         </li>
-                        <li>
-                            <a href="{{ route('dashboard.permisos') }}">Permisos</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('dashboard.asignar') }}">Asignar Permisos</a>
-                        </li>
+                        @if (verificarPermiso('Permiso_Listado'))
+                            <li>
+                                <a href="{{ route('dashboard.permisos') }}">Permisos</a>
+                            </li>
+                        @endif
+                        @if (verificarPermiso('AsignarPermiso_Listado'))
+                            <li>
+                                <a href="{{ route('dashboard.asignarPermiso') }}">Asignar Permisos</a>
+                            </li>
+                        @endif
                     </ul>
                 </li>
             @endif
@@ -194,6 +198,11 @@
                         @if (verificarPermiso('Maquina_Listado'))
                             <li>
                                 <a href="{{ route('dashboard.maquinas') }}">Máquinas o Equipos</a>
+                            </li>
+                        @endif
+                        @if (verificarPermiso('AsignarMaquina_Listado'))
+                            <li>
+                                <a href="{{ route('dashboard.asignarMaquina') }}">Asignar Máquinas</a>
                             </li>
                         @endif
                     </ul>

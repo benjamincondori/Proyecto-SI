@@ -38,7 +38,7 @@ class DashboardController extends Controller
         return view('dashboard.permisos');
     }
 
-    public function asignar() {
+    public function asignarPermiso() {
         return view('dashboard.asignar');
     }
 
@@ -52,6 +52,10 @@ class DashboardController extends Controller
 
     public function maquinas() {
         return view('dashboard.maquina');
+    }
+
+    public function asignarMaquina() {
+        return view('dashboard.asignar-maquina');
     }
 
     public function horarios() {

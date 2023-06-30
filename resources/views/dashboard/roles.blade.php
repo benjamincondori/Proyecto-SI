@@ -17,7 +17,7 @@
         <div class="content-page">
             <div id="content">
 
-                <x-layouts.content title="Roles" subtitle="Lista de Roles" name="Roles">
+                <x-layouts.content title="Roles y Permisos" subtitle="Roles" name="Roles">
 
                     <div class="row">
                         <div class="col-12">

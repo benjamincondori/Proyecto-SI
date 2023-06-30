@@ -1,9 +1,9 @@
 <div>
 
     @if ($vistaCrear)
-        <livewire:casillero.create>
+        <livewire:asignar-maquina.create>
     @elseif ($vistaEditar)
-        <livewire:casillero.edit>
+        <livewire:asignar-maquina.edit>
     @else
 
         <div class="mb-2 d-flex justify-content-between">
@@ -20,7 +20,7 @@
             </div>
 
             <div class="form-group w-50 d-flex">
-                @if (verificarPermiso('Casillero_Buscar'))                  
+                @if (verificarPermiso('Maquina_Buscar')) 
                     <input type="text" wire:model="buscar" class="form-control" 
                     placeholder="Buscar...">
                     <button class="btn text-secondary" type="button" disabled>
@@ -32,7 +32,7 @@
             <div class="form-group">
                 <button type="button" wire:click="agregarNuevo" class="btn btn-primary waves-effect waves-light">
                     <i class="fas fa-plus-circle"></i>&nbsp;
-                    Nuevo Casillero
+                    Asignar Máquina
                 </button>
             </div>
 
@@ -42,8 +42,8 @@
             <table class="table table-bordered table-hover mb-0">
                 <thead class="bg-dark text-white">
                     <tr style="cursor: pointer">
-                        <th scope="col" style="width: 100px;" wire:click="order('nro')">Nro
-                            @if ($sort == 'nro')
+                        <th scope="col" style="width: 120px;" wire:click="order('codigo')">CODIGO
+                            @if ($sort == 'codigo')
                                 @if ($direction == 'asc')
                                     <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
                                 @else
@@ -53,19 +53,8 @@
                                 <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
-                        <th scope="col" wire:click="order('tamaño')">Tamaño
-                            @if ($sort == 'tamaño')
-                                @if ($direction == 'asc')
-                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
-                                @else
-                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
-                                @endif
-                            @else
-                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
-                            @endif
-                        </th>
-                        <th scope="col" wire:click="order('precio')">Precio
-                            @if ($sort == 'precio')
+                        <th scope="col" wire:click="order('id_tipo')">Máquina
+                            @if ($sort == 'id_tipo')
                                 @if ($direction == 'asc')
                                     <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
                                 @else
@@ -86,47 +75,58 @@
                                 <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
+                        <th scope="col" wire:click="order('id_seccion')">Sección
+                            @if ($sort == 'id_seccion')
+                                @if ($direction == 'asc')
+                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                @else
+                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                @endif
+                            @else
+                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                            @endif
+                        </th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if ($casilleros->count())
-                        @foreach ($casilleros as $casillero)
+                    @if ($maquinas->count())
+                        @foreach ($maquinas as $maquina)
                             <tr class="text-wrap text-center">
-                                <th scope="row" class="align-middle">{{ $casillero->nro }}</th>
-                                <td class="align-middle text-left">{{ $casillero->tamaño }}</td>
-                                <td class="align-middle">{{ $casillero->precio }}</td>
+                                <th scope="row" class="align-middle">{{ $maquina->codigo }}</th>
+                                <td class="align-middle text-left">{{ $maquina->tipo->nombre }}</td>
                                 <td class="align-middle">
-                                    @if ($casillero->estado)
-                                        <span class="text-success py-1 px-2 rounded-lg" style="background-color: #c3e6cb">Disponible</span>
+                                    @if ($maquina->estado)
+                                        <span class="text-success py-1 px-2 rounded-lg d-inline-block" style="background-color: #b7ffc8; width: 120px">Habilitado</span>
                                     @else
-                                        <span class="text-danger py-1 px-2 rounded-lg" style="background-color: #f8d7da">Ocupado</span>
+                                        <span class="text-danger py-1 px-2 rounded-lg d-inline-block" style="background-color: #f9c8cc; width: 120px">Deshabilitado</span>
                                     @endif
                                 </td>
+                                <td class="align-middle text-left">{{ $maquina->seccion->nombre }}</td>
                                 <td class="align-middle text-nowrap">
-                                    <button type="button" title="Editar" wire:click="seleccionarCasillero({{ $casillero->id }})" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                    <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $casillero->id }}, {{ $this->verificarPermiso }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                    <button type="button" title="Editar" wire:click="seleccionarMaquina({{ $maquina }})" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
+                                    <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $maquina->id }}, {{ $this->verificarPermiso }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         @endforeach
                     @else
                         <tr class="text-center">
-                            <td colspan="5">No existe ningún registro coincidente.</td>
+                            <td colspan="4">No existe ningún registro coincidente.</td>
                         </tr>
                     @endif
                 </tbody>
-            </table>
-
+            </table>    
+            
             <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
                 <div class="text-muted d-none d-sm-block pt-1">
-                    Mostrando del {{ $casilleros->firstItem() }} al {{ $casilleros->lastItem() }} de {{ $casilleros->total() }} registros
+                    Mostrando del {{ $maquinas->firstItem() }} al {{ $maquinas->lastItem() }} de {{ $maquinas->total() }} registros
                 </div>
-                @if ($casilleros->hasPages())
+                @if ($maquinas->hasPages())
                     <div class="pagination-links">
-                        {{ $casilleros->links() }}
+                        {{ $maquinas->links() }}
                     </div>
-                @endif   
-            </div>
+                @endif    
+            </div>    
 
         </div>
 
@@ -150,17 +150,17 @@
                 var msj2 = accion.charAt(0).toUpperCase() + accion.slice(1);
                 Swal.fire(
                     '¡' + msj2 + '!',
-                    'El casillero ha sido ' + accion + ' correctamente.',
+                    'La máquina ha sido ' + accion + ' correctamente.',
                     'success'
                 )
             });
 
 
-            livewire.on('eliminarRegistro', function(casilleroId, tienePermiso) {
+            livewire.on('eliminarRegistro', function(maquinaId, tienePermiso) {
                 if (tienePermiso) {
                     Swal.fire({
                         title: '¿Está seguro?',
-                        text: "¡Se eliminará el casillero definitivamente!",
+                        text: "¡Se eliminará la máquina definitivamente!",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
@@ -170,11 +170,11 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
 
-                            livewire.emitTo('casillero.show', 'eliminarCasillero', casilleroId);
+                            livewire.emitTo('asignar-maquina.show', 'eliminarMaquina', maquinaId);
 
                             Swal.fire(
                                 '¡Eliminado!',
-                                'El casillero ha sido eliminado.',
+                                'La máquina ha sido eliminado.',
                                 'success'
                             )
                         }
@@ -191,4 +191,5 @@
     @endpush
 
 </div>
+
 

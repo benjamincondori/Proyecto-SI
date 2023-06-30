@@ -23,10 +23,11 @@ Route::middleware(['auth', 'auth.admin'])->group(function() {
     Route::get('/usuarios', [DashboardController::class, 'usuarios'])->name('dashboard.usuarios');
     Route::get('/roles', [DashboardController::class, 'roles'])->name('dashboard.roles');
     Route::get('/permisos', [DashboardController::class, 'permisos'])->name('dashboard.permisos');
-    Route::get('/asignar-permisos', [DashboardController::class, 'asignar'])->name('dashboard.asignar');
+    Route::get('/asignar-permisos', [DashboardController::class, 'asignarPermiso'])->name('dashboard.asignarPermiso');
     Route::get('/disciplinas', [DashboardController::class, 'disciplinas'])->name('dashboard.disciplinas');
     Route::get('/secciones', [DashboardController::class, 'secciones'])->name('dashboard.secciones');
     Route::get('/maquinas', [DashboardController::class, 'maquinas'])->name('dashboard.maquinas');
+    Route::get('/asignar-maquinas', [DashboardController::class, 'asignarMaquina'])->name('dashboard.asignarMaquina');
     Route::get('/horarios', [DashboardController::class, 'horarios'])->name('dashboard.horarios');
     Route::get('/grupos', [DashboardController::class, 'grupos'])->name('dashboard.grupos');
     Route::get('/paquetes', [DashboardController::class, 'paquetes'])->name('dashboard.paquetes');
