@@ -44,7 +44,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="field-4" class="control-label">Cédula de identidad</label>
-                    <input type="number" wire:model="ci" class="form-control" id="field-4" placeholder="1234567">
+                    <input type="number" wire:model="ci" class="form-control" id="field-4" placeholder="1234567" min="0">
                     @error('ci')
                         <span class="error text-danger">* {{ $message }}</span>
                     @enderror
@@ -54,7 +54,7 @@
                 <div class="form-group">
                     <label for="field-5" class="control-label">Número telefónico</label>
                     <input type="number" wire:model="telefono" class="form-control" id="field-5"
-                        placeholder="12345678">
+                        placeholder="12345678" min="0">
                     @error('telefono')
                         <span class="error text-danger">* {{ $message }}</span>
                     @enderror
@@ -108,6 +108,31 @@
                 @enderror
             </div>
         </div>
+        <hr style="color: lightgray; background-color: lightgray; height: 1px;">
+
+        <div class="row">
+            <div class="checkbox checkbox-primary mb-3">
+                <input class="ml-2" id="enfermedades" type="checkbox" wire:model="presentaEnfermedad">
+                <label for="enfermedades" style="cursor: pointer">
+                    ¿Presenta alguna enfermedad?
+                </label>
+            </div>
+        </div>
+
+        @if ($this->presentaEnfermedad)
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Descripción de Enfermadades</label>
+                        <textarea wire:model="enfermedades" class="form-control" rows="4" placeholder="Ej: Hipertensión arterial, problemas en las rodillas."></textarea>
+                        @error('enfermedades')
+                            <span class="error text-danger" >* {{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+        @endif
+
         <div class="form-group text-right m-b-0">
             <button type="button" wire:click="cancelar" wire:loading.attr="disabled"
                     class="btn btn-danger waves-effect m-l-5">

@@ -169,7 +169,7 @@
                         @endforeach
                     @else
                         <tr class="text-center">
-                            <td colspan="9">No existe ningún registro coincidente.</td>
+                            <td colspan="9">No existe ningún registro.</td>
                         </tr>
                     @endif
                 </tbody>
@@ -178,7 +178,7 @@
 
         <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
             <div class="text-muted d-none d-sm-block pt-1">
-                Mostrando del {{ $inscripciones->firstItem() }} al {{ $inscripciones->lastItem() }} de {{ $inscripciones->total() }} registros
+                Mostrando del {{ ($inscripciones->firstItem()) ? $inscripciones->firstItem() : 0 }} al {{ ($inscripciones->lastItem()) ? $inscripciones->lastItem() : 0 }} de {{ $inscripciones->total() }} registros
             </div>
             @if ($inscripciones->hasPages())
                 <div class="pagination-links">

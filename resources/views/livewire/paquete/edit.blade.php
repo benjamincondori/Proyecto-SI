@@ -24,33 +24,21 @@
                     @enderror
                 </div>
             </div>
+
             <div class="col-md-6">
                 <div class="form-group">
-                    @if ($seleccionarNuevo)
-                        <label for="disciplinas" class="control-label">Seleccionar las Disciplinas (ctrl + click)</label>
-                        <button type="button" class="btn btn-xs btn-outline-info waves-effect waves-light ml-2" wire:click="$set('seleccionarNuevo', false)">
-                            <i class="fas fa-reply"></i>
-                        </button>
-                        <select id="disciplinas" multiple class="form-control mt-2" wire:model="selectedDisciplinas">
-                            @foreach ($disciplinas as $disciplina)
-                                <option value="{{ $disciplina->id }}">{{ $disciplina->nombre }}</option>
-                            @endforeach
-                        </select>
-                        @error('selectedDisciplinas')
-                            <span class="error text-danger">* {{ $message }}</span>
-                        @enderror
-                    @else
-                        <label for="disciplinas" class="control-label">Disciplinas del Paquete</label>
-                        <button type="button" class="btn btn-xs btn-outline-info waves-effect waves-light ml-1" wire:click="$set('seleccionarNuevo', true)">Seleccionar</button>
-                        <br>
-                        <div class="radio radio-info mt-2">
-                            @foreach ($seleccionados as $disciplina)
-                                &nbsp;&nbsp;&nbsp;
-                                <input type="radio" checked>
-                                <label>{{ $disciplina->nombre }}</label><br>
-                            @endforeach
-                        </div> 
-                    @endif
+                    <label for="disciplinas" class="control-label">Disciplinas del Paquete</label>
+                    @foreach ($disciplinas as $id => $nombre)
+                        <div class="checkbox checkbox-primary">
+                            <input class="ml-2" id="{{ 'disciplina_'.$id }}" value="{{ $id }}" type="checkbox" wire:model="selectedDisciplinas">
+                            <label for="{{ 'disciplina_'.$id }}" style="cursor: pointer">
+                                {{ $nombre }}
+                            </label>
+                        </div>
+                    @endforeach
+                    @error('selectedDisciplinas')
+                        <span class="error text-danger">* {{ $message }}</span>
+                    @enderror
                 </div>
             </div>
         </div>

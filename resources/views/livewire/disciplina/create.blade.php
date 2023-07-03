@@ -21,7 +21,7 @@
                 <div class="form-group">
                     <label for="precio" class="control-label">Precio</label>
                     <input type="number" wire:model="precio" class="form-control" id="capacidad"
-                        placeholder="Ej: 150 bs">
+                        placeholder="Ej: 150 bs" min="0">
                     @error('precio')
                         <span class="error text-danger">* {{ $message }}</span>
                     @enderror

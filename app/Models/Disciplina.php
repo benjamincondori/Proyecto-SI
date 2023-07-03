@@ -29,4 +29,8 @@ class Disciplina extends Model
         return $this->belongsToMany(Paquete::class, 'DISCIPLINA_PAQUETE', 'id_disciplina', 'id_paquete');
     }
 
+    public function entrenadores():BelongsToMany {
+        return $this->belongsToMany(Entrenador::class, 'ENTRENADOR_DISCIPLINA', 'id_disciplina', 'id_entrenador');
+    }
+
 }

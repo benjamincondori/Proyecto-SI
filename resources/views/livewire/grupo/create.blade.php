@@ -22,18 +22,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="integrantes" class="control-label">Número de integrantes</label>
-                    <input type="number" wire:model="nro_integrantes" class="form-control" id="integrantes"
-                        placeholder="Ej: 20">
-                    @error('nro_integrantes')
-                        <span class="error text-danger">* {{ $message }}</span>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="disciplina" class="control-label">Disciplina</label>
                     <select class="form-control" wire:model="id_disciplina" name="disciplina" id="disciplina">
@@ -48,13 +37,14 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="entrenador" class="control-label">Entrenador</label>
                     <select class="form-control" wire:model="id_entrenador" name="entrenador" id="entrenador">
                         <option value="">Seleccionar</option>
                         @foreach ($entrenadores as $entrenador)
-                            <option value="{{ $entrenador->id }}">{{ $entrenador->nombres }} {{ $entrenador->apellidos }}</option>
+                            <option value="{{ $entrenador->id }}">
+                                {{ $this->obtenerNombreEntrenador($entrenador->id) }}</option>
                         @endforeach
                     </select>
                     @error('id_entrenador')
@@ -63,7 +53,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="horario" class="control-label">Horario</label>
                     <select class="form-control" wire:model="id_horario" name="horario" id="horario">

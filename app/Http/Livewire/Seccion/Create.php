@@ -39,7 +39,8 @@ class Create extends Component
             $this->emitTo('seccion.show', 'cerrarVista');
             $this->emit('alert', 'guardado');
         } catch (\Exception $e) {
-            $this->emit('error');
+            $message = $e->getMessage();
+            $this->emit('error', $message);
         }
 
     }

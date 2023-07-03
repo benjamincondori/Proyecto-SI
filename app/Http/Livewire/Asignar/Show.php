@@ -16,6 +16,8 @@ class Show extends Component
     
     public $roles, $id_rol;
     public $cant = '10';
+    public $sort = 'id';
+    public $direction = 'asc';
 
     protected $listeners = [
         'revocarTodos' => 'revocarTodos'
@@ -99,9 +101,26 @@ class Show extends Component
         return 0;
     }
 
+    public function order($sort) 
+    {
+        if ($this->sort == $sort) {
+            if ($this->direction == 'desc') {
+                $this->direction = 'asc';
+            } else {
+                $this->direction = 'desc';
+            }
+        } else {
+            $this->sort = $sort;
+            $this->direction = 'asc';
+        }
+    }
+
     public function render()
     {
-        $permisosPaginados = Permiso::paginate($this->cant);
+        $permisosPaginados = Permiso::orderBy($this->sort, $this->direction)
+            ->paginate($this->cant);
+
+        // $permisosPaginados = Permiso::paginate($this->cant);
         $permisos = $permisosPaginados->items();
         return view('livewire.asignar.show', ['permisos' => $permisos, 'permisosPaginados' => $permisosPaginados]);
     }

@@ -54,7 +54,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="field-4" class="control-label">Cédula de identidad</label>
-                    <input type="number" wire:model="registroSeleccionado.ci" class="form-control" id="field-4" placeholder="1234567">
+                    <input type="number" wire:model="registroSeleccionado.ci" class="form-control" id="field-4" placeholder="1234567" min="0">
                     @error('registroSeleccionado.ci')
                         <span class="error text-danger">* {{ $message }}</span>
                     @enderror
@@ -64,7 +64,7 @@
                 <div class="form-group">
                     <label for="field-5" class="control-label">Número telefónico</label>
                     <input type="number" wire:model="registroSeleccionado.telefono" class="form-control" id="field-5"
-                        placeholder="12345678">
+                        placeholder="12345678" min="0">
                     @error('registroSeleccionado.telefono')
                         <span class="error text-danger">* {{ $message }}</span>
                     @enderror

@@ -26,17 +26,21 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="disciplinas" class="control-label">Seleccionar las Disciplinas (ctrl + click)</label>
-                        <select id="disciplinas" multiple class="form-control" wire:model="selectedDisciplinas">
-                            @foreach ($disciplinas as $id => $nombre)
-                                <option value="{{ $id }}">{{ $nombre }}</option>
-                            @endforeach
-                        </select>
+                    <label for="disciplinas" class="control-label">Seleccionar las Disciplinas</label>
+                    @foreach ($disciplinas as $id => $nombre)
+                        <div class="checkbox checkbox-primary">
+                            <input class="ml-2" id="{{ 'disciplina_'.$id }}" value="{{ $id }}" type="checkbox" wire:model="selectedDisciplinas">
+                            <label for="{{ 'disciplina_'.$id }}" style="cursor: pointer">
+                                {{ $nombre }}
+                            </label>
+                        </div>
+                    @endforeach
                     @error('selectedDisciplinas')
                         <span class="error text-danger">* {{ $message }}</span>
                     @enderror
                 </div>
             </div>
+
         </div>
 
         <div class="form-group text-right m-b-0">

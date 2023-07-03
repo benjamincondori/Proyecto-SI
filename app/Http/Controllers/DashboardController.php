@@ -46,6 +46,10 @@ class DashboardController extends Controller
         return view('dashboard.disciplina');
     }
 
+    public function asignarInstructor() {
+        return view('dashboard.asignar-instructor');
+    }
+
     public function secciones() {
         return view('dashboard.seccion');
     }
@@ -72,6 +76,10 @@ class DashboardController extends Controller
 
     public function duraciones() {
         return view('dashboard.duracion');
+    }
+
+    public function asignarDuracion() {
+        return view('dashboard.asignar-duracion');
     }
 
     public function casilleros() {

@@ -40,28 +40,28 @@
 
         <div class="table-responsive">
             <table class="table table-bordered table-hover mb-0">
-                <thead class="bg-dark text-white">
+                <thead class="bg-dark text-white text-nowrap">
                     <tr style="cursor: pointer">
                         <th scope="col" style="width: 120px;" wire:click="order('id')">ID
                             @if ($sort == 'id')
                                 @if ($direction == 'asc')
-                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                    <i class="fas fa-sort-alpha-down float-md-right" style="margin-top: 4px"></i>
                                 @else
-                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                    <i class="fas fa-sort-alpha-up float-md-right" style="margin-top: 4px"></i> 
                                 @endif
                             @else
-                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                                <i class="fas fa-sort float-md-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
                         <th scope="col" wire:click="order('nombre')">Rol
                             @if ($sort == 'nombre')
                                 @if ($direction == 'asc')
-                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                    <i class="fas fa-sort-alpha-down float-md-right" style="margin-top: 4px"></i>
                                 @else
-                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                    <i class="fas fa-sort-alpha-up float-md-right" style="margin-top: 4px"></i> 
                                 @endif
                             @else
-                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                                <i class="fas fa-sort float-md-right" style="margin-top: 4px"></i>
                             @endif
                         <th scope="col" style="width: 160px;">Acciones</th>
                     </tr>
@@ -80,23 +80,22 @@
                         @endforeach
                     @else
                         <tr class="text-center">
-                            <td colspan="3">No existe ningún registro coincidente.</td>
+                            <td colspan="3">No existe ningún registro.</td>
                         </tr>
                     @endif
                 </tbody>
             </table>
+        </div>
 
-            <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
-                <div class="text-muted d-none d-sm-block pt-1">
-                    Mostrando del {{ $roles->firstItem() }} al {{ $roles->lastItem() }} de {{ $roles->total() }} registros
-                </div>
-                @if ($roles->hasPages())
-                    <div class="pagination-links">
-                        {{ $roles->links() }}
-                    </div>
-                @endif   
+        <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
+            <div class="text-muted d-none d-sm-block pt-1">
+                Mostrando del {{ ($roles->firstItem()) ? $roles->firstItem() : 0 }} al {{ ($roles->lastItem()) ? $roles->lastItem() : 0 }} de {{ $roles->total() }} registros
             </div>
-
+            @if ($roles->hasPages())
+                <div class="pagination-links">
+                    {{ $roles->links() }}
+                </div>
+            @endif   
         </div>
 
     @endif

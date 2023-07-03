@@ -12,7 +12,7 @@
                 <div class="form-group">
                     <label for="nro" class="control-label">Número del casillero</label>
                     <input type="number" wire:model="nro" class="form-control" id="nro"
-                        placeholder="Ej: 15">
+                        placeholder="Ej: 15" min="0">
                     @error('nro')
                         <span class="error text-danger">* {{ $message }}</span>
                     @enderror
@@ -33,7 +33,7 @@
                 <div class="form-group">
                     <label for="precio" class="control-label">Precio</label>
                     <input type="number" wire:model="precio" class="form-control" id="capacidad"
-                        placeholder="Ej: 50 bs">
+                        placeholder="Ej: 50 bs" min="0">
                     @error('precio')
                         <span class="error text-danger">* {{ $message }}</span>
                     @enderror

@@ -20,7 +20,7 @@ class Show extends Component
     public $buscar = '';
     public $cant = '10';
     public $sort = 'id';
-    public $direction = 'asc';
+    public $direction = 'desc';
 
     protected $listeners = [
         'cerrarVista' => 'cerrarVista',
@@ -111,7 +111,6 @@ class Show extends Component
             ->orWhere('ci', 'like', '%' . $this->buscar . '%')
             ->orWhere('nombres', 'like', '%' . $this->buscar . '%')
             ->orWhere('apellidos', 'like', '%' . $this->buscar . '%')
-            ->orWhere('email', 'like', '%' . $this->buscar . '%')
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->cant);
 

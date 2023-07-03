@@ -16,13 +16,12 @@
                     @enderror
                 </div>
             </div>
-        </div>
-        <div class="row">
+        
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="dias" class="control-label">Días de duración</label>
                     <input type="number" wire:model="registroSeleccionado.dias_duracion" class="form-control" id="dias"
-                        placeholder="Ej: 30 días">
+                        placeholder="Ej: 30 días" min="0">
                     @error('registroSeleccionado.dias_duracion')
                         <span class="error text-danger">* {{ $message }}</span>
                     @enderror

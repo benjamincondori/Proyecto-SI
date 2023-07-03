@@ -159,6 +159,11 @@
                                 <a href="{{ route('dashboard.horarios') }}">Horarios</a>
                             </li>
                         @endif
+                        @if (verificarPermiso('AsignarInstructor_Listado'))
+                            <li>
+                                <a href="{{ route('dashboard.asignarInstructor') }}">Asignar Instructor</a>
+                            </li>
+                        @endif
                     </ul>
                 </li>
             @endif
@@ -177,6 +182,11 @@
                         @if (verificarPermiso('Duracion_Listado'))
                             <li>
                                 <a href="{{ route('dashboard.duraciones') }}">Duraciones</a>
+                            </li>
+                        @endif
+                        @if (verificarPermiso('AsignarDuracion_Listado'))
+                            <li>
+                                <a href="{{ route('dashboard.asignarDuracion') }}">Asignar Duración</a>
                             </li>
                         @endif
                     </ul>

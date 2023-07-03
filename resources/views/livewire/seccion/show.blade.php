@@ -39,50 +39,50 @@
 
         <div class="table-responsive">
             <table class="table table-bordered table-hover mb-0">
-                <thead class="bg-dark text-white">
+                <thead class="bg-dark text-white text-nowrap">
                     <tr style="cursor: pointer">
                         <th scope="col" style="width: 60px;" wire:click="order('id')">ID
                             @if ($sort == 'id')
                                 @if ($direction == 'asc')
-                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                    <i class="fas fa-sort-alpha-down float-md-right" style="margin-top: 4px"></i>
                                 @else
-                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                    <i class="fas fa-sort-alpha-up float-md-right" style="margin-top: 4px"></i> 
                                 @endif
                             @else
-                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                                <i class="fas fa-sort float-md-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
                         <th scope="col" wire:click="order('nombre')">Nombre
                             @if ($sort == 'nombre')
                                 @if ($direction == 'asc')
-                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                    <i class="fas fa-sort-alpha-down float-md-right" style="margin-top: 4px"></i>
                                 @else
-                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                    <i class="fas fa-sort-alpha-up float-md-right" style="margin-top: 4px"></i> 
                                 @endif
                             @else
-                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                                <i class="fas fa-sort float-md-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
                         <th scope="col" wire:click="order('descripcion')">Descripción
                             @if ($sort == 'descripcion')
                                 @if ($direction == 'asc')
-                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                    <i class="fas fa-sort-alpha-down float-md-right" style="margin-top: 4px"></i>
                                 @else
-                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                    <i class="fas fa-sort-alpha-up float-md-right" style="margin-top: 4px"></i> 
                                 @endif
                             @else
-                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                                <i class="fas fa-sort float-md-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
                         <th scope="col" style="width: 120px;" wire:click="order('capacidad')">Capacidad
                             @if ($sort == 'capacidad')
                                 @if ($direction == 'asc')
-                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                    <i class="fas fa-sort-alpha-down float-md-right" style="margin-top: 4px"></i>
                                 @else
-                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                    <i class="fas fa-sort-alpha-up float-md-right" style="margin-top: 4px"></i> 
                                 @endif
                             @else
-                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                                <i class="fas fa-sort float-md-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
                         <th>Acciones</th>
@@ -104,24 +104,23 @@
                         @endforeach
                     @else
                         <tr class="text-center">
-                            <td colspan="5">No existe ningún registro coincidente.</td>
+                            <td colspan="5">No existe ningún registro.</td>
                         </tr>
                     @endif
                 </tbody>
             </table>
-
-            <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
-                <div class="text-muted d-none d-sm-block pt-1">
-                    Mostrando del {{ $secciones->firstItem() }} al {{ $secciones->lastItem() }} de {{ $secciones->total() }} registros
-                </div>
-                @if ($secciones->hasPages())
-                    <div class="pagination-links">
-                        {{ $secciones->links() }}
-                    </div>
-                @endif
-            </div>   
-
         </div>
+
+        <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
+            <div class="text-muted d-none d-sm-block pt-1">
+                Mostrando del {{ ($secciones->firstItem()) ? $secciones->firstItem() : 0 }} al {{ ($secciones->lastItem()) ? $secciones->lastItem() : 0 }} de {{ $secciones->total() }} registros
+            </div>
+            @if ($secciones->hasPages())
+                <div class="pagination-links">
+                    {{ $secciones->links() }}
+                </div>
+            @endif
+        </div> 
 
     @endif
 
@@ -129,12 +128,13 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
-            livewire.on('error', function() {
+            livewire.on('error', function(message) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Ha ocurrido un error. Por favor, intenta nuevamente.'           
                 })
+                console.error(message);
             });
 
 

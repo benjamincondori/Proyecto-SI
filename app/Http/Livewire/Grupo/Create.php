@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Grupo;
 
 use App\Models\Disciplina;
 use App\Models\Empleado;
+use App\Models\Entrenador;
 use App\Models\Grupo;
 use App\Models\Horario;
 use Carbon\Carbon;
@@ -32,10 +33,28 @@ class Create extends Component
         $this->validateOnly($propertyName);
     }
 
+    public function updatedIdDisciplina() {
+        $this->entrenadores = $this->obtenerEntrenadores($this->id_disciplina);
+    }
+
+    public function obtenerNombreEntrenador($idEntrenador) {
+        $datosEntrenador = Empleado::findOrFail($idEntrenador);
+        return $datosEntrenador->nombres.' '.$datosEntrenador->apellidos;
+    }
+
+    public function obtenerEntrenadores($idDisciplina) {
+        $entrenadores = Entrenador::whereHas('disciplinas', function ($query) use ($idDisciplina) {
+            $query->where('id_disciplina', $idDisciplina);
+        })->get();
+        
+        return $entrenadores;
+    }
+
     public function mount() {
         $this->disciplinas = Disciplina::pluck('nombre', 'id')->toArray();
-        $this->entrenadores = Empleado::All()->where('tipo_empleado', 'E');
-        $this->horarios = Horario::All();
+        $this->entrenadores = Empleado::all()->where('tipo_empleado', 'E');
+        $this->horarios = Horario::all();
+        $this->nro_integrantes = 0;
     }
 
     public function cancelar()
@@ -59,7 +78,8 @@ class Create extends Component
             $this->emitTo('grupo.show', 'cerrarVista');
             $this->emit('alert', 'guardado');
         } catch (\Exception $e) {
-            $this->emit('error');
+            $message = $e->getMessage();
+            $this->emit('error', $message);
         }
     }
 
