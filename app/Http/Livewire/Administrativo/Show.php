@@ -50,14 +50,19 @@ class Show extends Component
         return verificarPermiso('Administrativo_Eliminar');
     }
 
-    public function eliminarAdministrativo($registroId)
+    public function eliminarAdministrativo($empleadoId)
     {
         // Buscar el registro en base al nro
-        $registro = Empleado::find($registroId);
+        $empleado = Empleado::find($empleadoId);
 
         // Verificar si el registro existe antes de eliminarlo
-        if ($registro) {
-            $registro->delete();
+        if ($empleado) {
+            $empleado->delete();
+            $empleado->usuario()->delete();
+
+            $descripcion = 'Se eliminó el administrativo con ID: '.$empleado->id;
+            registrarBitacora($descripcion);
+
             $this->registroSeleccionado = null;
         }
     }

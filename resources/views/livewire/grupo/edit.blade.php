@@ -22,7 +22,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     <label for="disciplina" class="control-label">Disciplina</label>
                     <select class="form-control" wire:model="id_disciplina" name="disciplina" id="disciplina">
@@ -53,7 +53,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="form-group">
                     <label for="horario" class="control-label">Horario</label>
                     <select class="form-control" wire:model="registroSeleccionado.id_horario" name="horario" id="horario">

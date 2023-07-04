@@ -29,8 +29,8 @@
                     <label for="disciplinas" class="control-label">Seleccionar las Disciplinas</label>
                     @foreach ($disciplinas as $id => $nombre)
                         <div class="checkbox checkbox-primary">
-                            <input class="ml-2" id="{{ 'disciplina_'.$id }}" value="{{ $id }}" type="checkbox" wire:model="selectedDisciplinas">
-                            <label for="{{ 'disciplina_'.$id }}" style="cursor: pointer">
+                            <input class="ml-2" id="{{ 'Disciplina_'.$id }}" value="{{ $id }}" type="checkbox" wire:model="selectedDisciplinas">
+                            <label for="{{ 'Disciplina_'.$id }}" style="cursor: pointer">
                                 {{ $nombre }}
                             </label>
                         </div>

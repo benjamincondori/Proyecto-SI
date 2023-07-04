@@ -32,6 +32,9 @@ class Create extends Component
 
             $rol->save();
             
+            $descripcion = 'Se creó un nuevo rol con ID: '.$rol->id.' - '.$rol->nombre;
+            registrarBitacora($descripcion);
+
             $this->emitTo('rol.show', 'cerrarVista');
             $this->emit('alert', 'guardado');
         } catch (\Exception $e) {

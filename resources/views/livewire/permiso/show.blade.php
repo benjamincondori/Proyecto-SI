@@ -63,7 +63,7 @@
                             @else
                                 <i class="fas fa-sort float-md-right" style="margin-top: 4px"></i>
                             @endif
-                        <th/>
+                        </th>
                         <th scope="col" style="width: 160px;">Acciones</th>
                     </tr>
                 </thead>
@@ -72,7 +72,7 @@
                         @foreach ($permisos as $permiso)
                             <tr class="text-wrap text-center">
                                 <th scope="row" class="align-middle">{{ $permiso->id }}</th>
-                                <td class="align-middle text-left">{{ $permiso->nombre }}</td>
+                                <td class="align-middle text-left text-md-center">{{ $permiso->nombre }}</td>
                                 <td class="align-middle text-nowrap">
                                     <button type="button" title="Editar" wire:click="seleccionarPermiso({{ $permiso->id }})" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
                                     <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $permiso->id }}, {{ $this->verificarPermiso }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>

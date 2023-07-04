@@ -32,23 +32,34 @@ class LoginController extends Controller
             $usuario = Auth::user();
             $rol = $usuario->rol->nombre;
 
-            switch ($rol) {
-                case 'Administrador':
-                    return redirect()->route('dashboard');
-                    break;
-                case 'Recepcionista':
-                    return redirect()->route('dashboard');
-                    break;
-                case 'Instructor':
-                    return redirect()->route('instructor.index');
-                    break;
-                case 'Cliente':
-                    return redirect()->route('cliente.index');
-                    break;
-                default:
-                    return redirect()->route('/');
-                    break;
+            if ($rol !== 'Cliente' && $rol !== 'Instructor') {
+                registrarBitacora('Ha iniciado sesión.');
+                return redirect()->route('dashboard');
+            } else if($rol === 'Instructor'){
+                return redirect()->route('instructor.index');
+            } else if($rol === 'Cliente') {
+                return redirect()->route('cliente.index');
+            } else {
+                return redirect()->route('/');
             }
+
+            // switch ($rol) {
+            //     case 'Administrador':
+            //         return redirect()->route('dashboard');
+            //         break;
+            //     case 'Recepcionista':
+            //         return redirect()->route('dashboard');
+            //         break;
+            //     case 'Instructor':
+            //         return redirect()->route('instructor.index');
+            //         break;
+            //     case 'Cliente':
+            //         return redirect()->route('cliente.index');
+            //         break;
+            //     default:
+            //         return redirect()->route('/');
+            //         break;
+            // }
 
         }
     
@@ -59,11 +70,13 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
+        registrarBitacora('Ha cerrado sesión.');
+
         Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
+        
         return redirect('/');
     }
 

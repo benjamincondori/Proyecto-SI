@@ -39,6 +39,9 @@ class Create extends Component
 
             $casillero->save();
 
+            $descripcion = 'Se creó un nuevo casillero con Nro: '.$casillero->nro;
+            registrarBitacora($descripcion);
+
             $this->emitTo('casillero.show', 'cerrarVista');
             $this->emit('alert', 'guardado');
         } catch (\Exception $e) {

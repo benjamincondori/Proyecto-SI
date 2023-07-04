@@ -43,6 +43,10 @@ class Show extends Component
 
         if ($paquete) {
             $paquete->duraciones()->detach($idDuracion);
+
+            $descripcion = 'Se eliminó la duración asignada con ID: '.$idDuracion.' al paquete '.$paquete->nombre;
+            registrarBitacora($descripcion);
+
         }
     }
 

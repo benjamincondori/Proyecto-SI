@@ -62,6 +62,9 @@ class Edit extends Component
         
             $casillero->save();
 
+            $descripcion = 'Se actualizó el casillero con Nro: '.$casillero->nro;
+            registrarBitacora($descripcion);
+
             $this->emitTo('casillero.show','cerrarVista');
             $this->emit('alert', 'actualizado');
             $this->registroSeleccionado = null;

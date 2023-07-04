@@ -36,6 +36,10 @@ class Create extends Component
             $seccion->capacidad = $this->capacidad;
 
             $seccion->save();
+
+            $descripcion = 'Se creó una nueva sección con ID: '.$seccion->id;
+            registrarBitacora($descripcion);
+
             $this->emitTo('seccion.show', 'cerrarVista');
             $this->emit('alert', 'guardado');
         } catch (\Exception $e) {

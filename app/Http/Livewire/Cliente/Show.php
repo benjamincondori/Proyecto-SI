@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Cliente;
 
 use App\Models\Cliente;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -48,14 +47,19 @@ class Show extends Component
         }
     }
 
-    public function eliminarCliente($registroId)
+    public function eliminarCliente($clienteId)
     {
         // Buscar el registro en base al nro
-        $registro = Cliente::find($registroId);
+        $cliente = Cliente::find($clienteId);
 
         // Verificar si el registro existe antes de eliminarlo
-        if ($registro) {
-            $registro->delete();
+        if ($cliente) {
+            $cliente->delete();
+            $cliente->usuario()->delete();
+
+            $descripcion = 'Se eliminó el cliente con ID: '.$cliente->id;
+            registrarBitacora($descripcion);
+
             $this->registroSeleccionado = null;
         }
     }

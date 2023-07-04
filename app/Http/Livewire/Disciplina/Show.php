@@ -45,6 +45,10 @@ class Show extends Component
         // Verificar si el registro existe antes de eliminarlo
         if ($registro) {
             $registro->delete();
+
+            $descripcion = 'Se eliminó la disciplina con ID: '.$registro->id.' - '.$registro->nombre;
+            registrarBitacora($descripcion);
+
             $this->registroSeleccionado = null;
         }
     }

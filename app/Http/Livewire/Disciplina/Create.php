@@ -48,6 +48,10 @@ class Create extends Component
             $disciplina->id_seccion = $this->id_seccion;
 
             $disciplina->save();
+
+            $descripcion = 'Se creó una nueva disciplina con ID: '.$disciplina->id.' - '.$disciplina->nombre;
+            registrarBitacora($descripcion);
+
             $this->emitTo('disciplina.show', 'cerrarVista');
             $this->emit('alert', 'guardado');
         } catch (\Exception $e) {

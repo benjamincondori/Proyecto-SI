@@ -22,6 +22,10 @@ class DashboardController extends Controller
         return view('dashboard.cliente');
     }
 
+    public function condicionFisica() {
+        return view('dashboard.condicion-fisica');
+    }
+
     public function inscripciones() {
         return view('dashboard.inscripcion');
     }
@@ -84,6 +88,10 @@ class DashboardController extends Controller
 
     public function casilleros() {
         return view('dashboard.casillero');
+    }
+
+    public function bitacora() {
+        return view('dashboard.bitacora');
     }
 
 }

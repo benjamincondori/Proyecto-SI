@@ -35,6 +35,10 @@ class Create extends Component
             $horario->hora_fin = $this->hora_fin;
 
             $horario->save();
+
+            $descripcion = 'Se creó un nuevo horario con ID: '.$horario->id;
+            registrarBitacora($descripcion);
+
             $this->emitTo('horario.show', 'cerrarVista');
             $this->emit('alert', 'guardado');
         } catch (\Exception $e) {

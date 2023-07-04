@@ -86,7 +86,10 @@ class Create extends Component
 
             $guardado = $cliente->save();
 
-            if ($guardado && $this->presentaEnfermedad) {
+            $descripcion = 'Se creó un nuevo cliente con ID: '.$this->id_cliente;
+            registrarBitacora($descripcion);
+
+            if ($guardado && $this->presentaEnfermedad && !empty($this->enfermedades)) {
                 // Crear el historial médico
                 $historialMedico = new Historial_Medico;
                 $historialMedico->enfermedades = $this->enfermedades;

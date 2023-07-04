@@ -63,7 +63,7 @@ class Create extends Component
 
             $empleado = new Empleado();
 
-            $empleado->id = $this->generarID();
+            $empleado->id = $this->id_empleado;
             $empleado->ci = $this->ci;
             $empleado->nombres = $this->nombres;
             $empleado->apellidos = $this->apellidos;
@@ -85,6 +85,9 @@ class Create extends Component
             $empleado->id_usuario = $usuario->id;
         
             $empleado->save();
+
+            $descripcion = 'Se creó un nuevo entrenador con ID: '.$this->id_empleado;
+            registrarBitacora($descripcion);
 
             Entrenador::create([
                 'id' => $this->id_empleado,

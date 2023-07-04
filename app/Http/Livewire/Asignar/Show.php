@@ -30,7 +30,12 @@ class Show extends Component
     }
 
     public function mount() {
-        $this->roles = Rol::whereNotIn('nombre', ['cliente', 'instructor'])->get();
+        $this->roles = Rol::whereNotIn('nombre', ['Cliente', 'Instructor'])->get();
+    }
+
+    public function nombrePermiso($permisoId) {
+        $permiso = Permiso::findOrFail($permisoId);
+        return $permiso->nombre;
     }
 
     public function togglePermiso($idPermiso) {
@@ -39,9 +44,17 @@ class Show extends Component
             if ($rol) {
                 if ($this->verificarPermiso($idPermiso)) {
                     $rol->permisos()->detach($idPermiso);
+
+                    $descripcion = 'Se revocó el permiso de '.$this->nombrePermiso($idPermiso).' al rol de '.$rol->nombre;
+                    registrarBitacora($descripcion);
+
                     $this->emit('asignar_rol', 'success', '¡Permiso Revocado!', 'El permiso ha sido revocado exitosamente.');
                 } else {
                     $rol->permisos()->attach($idPermiso);
+
+                    $descripcion = 'Se asignó el permiso de '.$this->nombrePermiso($idPermiso).' al rol de '.$rol->nombre;
+                    registrarBitacora($descripcion);
+
                     $this->emit('asignar_rol', 'success', '¡Permiso Asignado!', 'El permiso ha sido asignado exitosamente.');
                 }
             }
@@ -57,6 +70,9 @@ class Show extends Component
                     $rol = Rol::findOrFail($this->id_rol);
                     $permisos = Permiso::pluck('id')->toArray();
                     $rol->permisos()->sync($permisos);
+
+                    $descripcion = 'Se asignó todos permisos al rol de '.$rol->nombre;
+                    registrarBitacora($descripcion);
     
                     $this->emit('asignar_rol', 'success', '¡Permisos Asignados!', 'Los permisos han sido sincronizados exitosamente.');
                 } catch (Exception $e) {
@@ -76,6 +92,10 @@ class Show extends Component
             try {
                 $rol = Rol::findOrFail($this->id_rol);
                 $rol->permisos()->detach();
+
+                $descripcion = 'Se revocó todos permisos al rol de '.$rol->nombre;
+                registrarBitacora($descripcion);
+
             } catch (Exception $e) {
                 $message = $e->getMessage();
                 $this->emit('error', $message);

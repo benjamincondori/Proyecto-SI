@@ -42,7 +42,7 @@
             <table class="table table-bordered table-hover mb-0">
                 <thead class="bg-dark text-white text-nowrap">
                     <tr style="cursor: pointer">
-                        <th scope="col" style="width: 160px;" wire:click="order('id_paquete')">Id Paquete
+                        <th scope="col" style="width: 130px;" wire:click="order('id_paquete')">Id Paquete
                             @if ($sort == 'id_paquete')
                                 @if ($direction == 'asc')
                                     <i class="fas fa-sort-alpha-down float-md-right" style="margin-top: 4px"></i>

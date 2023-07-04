@@ -27,10 +27,13 @@ class Create extends Component
         $this->validate();
 
         try {
-            $rol = new Permiso();
-            $rol->nombre = $this->nombre;
+            $permiso = new Permiso();
+            $permiso->nombre = $this->nombre;
         
-            $rol->save();
+            $permiso->save();
+
+            $descripcion = 'Se creó un nuevo permiso con ID: '.$permiso->id.' - '.$permiso->nombre;
+            registrarBitacora($descripcion);
 
             $this->emitTo('permiso.show', 'cerrarVista');
             $this->emit('alert', 'guardado');

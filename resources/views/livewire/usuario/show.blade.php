@@ -29,12 +29,12 @@
                 @endif
             </div>
             
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <button type="button" wire:click="agregarNuevo" class="btn btn-primary waves-effect waves-light">
                     <i class="fas fa-plus-circle"></i>&nbsp;
                     Nuevo Usuario
                 </button>
-            </div>
+            </div> --}}
 
         </div>
 
@@ -90,7 +90,7 @@
                                 <td class="align-middle text-left"> 
                                     {{ $empleado->email }}
                                 </td>
-                                <td class="align-middle"> 
+                                <td class="align-middle">
                                     @php
                                         $rol = $empleado->usuario->rol->nombre;
                                     @endphp
@@ -99,6 +99,8 @@
                                         style="background-color: #ffeeba; width: 120px">{{ $rol }}</span>
                                     @elseif ($rol === 'Administrador')
                                         <span class="text-success py-1 px-2 rounded-lg d-inline-block" style="background-color: #c3e6cb; width: 120px">{{ $rol }}</span>
+                                    @else
+                                    <span class="text-info py-1 px-2 rounded-lg d-inline-block" style="background-color: #cde9fb; width: 120px">{{ $rol }}</span>
                                     @endif
                                 </td>
                                 <td class="align-middle text-nowrap">
@@ -167,7 +169,7 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
 
-                            livewire.emitTo('rol.show', 'eliminarUsuario', usuarioId);
+                            livewire.emitTo('usuario.show', 'eliminarUsuario', usuarioId);
 
                             Swal.fire(
                                 '¡Eliminado!',

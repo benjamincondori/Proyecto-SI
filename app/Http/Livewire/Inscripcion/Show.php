@@ -58,6 +58,9 @@ class Show extends Component
             // Eliminar la inscripción y la relación en cascada
             $inscripcion->delete();
 
+            $descripcion = 'Se eliminó la inscripción con ID: '.$inscripcion->id;
+            registrarBitacora($descripcion);
+
             // Actualizar el número de integrantes en cada grupo
             foreach ($grupos as $grupo) {
                 $grupo->decrement('nro_integrantes');

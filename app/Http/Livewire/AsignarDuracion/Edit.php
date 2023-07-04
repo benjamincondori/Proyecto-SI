@@ -70,6 +70,9 @@ class Edit extends Component
                     'descuento' => $this->formatoDecimal($this->descuento),
                 ]);
 
+                $descripcion = 'Se actualizó la duración asignada con ID: '.$this->id_duracion.' al paquete '.$paquete->nombre;
+                registrarBitacora($descripcion);
+
                 $this->emitTo('asignar-duracion.show', 'cerrarVista');
                 $this->emit('alert', 'guardado');
             }

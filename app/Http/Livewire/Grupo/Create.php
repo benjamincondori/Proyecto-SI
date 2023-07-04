@@ -75,6 +75,10 @@ class Create extends Component
             $grupo->id_horario = $this->id_horario;
         
             $grupo->save();
+
+            $descripcion = 'Se creó el grupo con ID: '.$grupo->id.' - '.$grupo->nombre;
+            registrarBitacora($descripcion);
+
             $this->emitTo('grupo.show', 'cerrarVista');
             $this->emit('alert', 'guardado');
         } catch (\Exception $e) {

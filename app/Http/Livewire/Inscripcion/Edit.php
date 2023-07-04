@@ -151,6 +151,9 @@ class Edit extends Component
 
             $inscripcion->save();
 
+            $descripcion = 'Se actualizó la inscripción con ID: '.$inscripcion->id;
+            registrarBitacora($descripcion);
+
             if($this->seleccionarNuevo) {
                 $inscripcion->grupos()->sync($this->selectedGrupos);
             } 

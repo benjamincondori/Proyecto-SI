@@ -70,10 +70,23 @@
             
             @if (verificarPermiso('Cliente_Listado'))
                 <li>
-                    <a href="{{ route('dashboard.clientes') }}">
+                    <a href="javascript: void(0);">
                         <i class="fas fa-users"></i>
                         <span> Clientes </span>
+                        <span class="menu-arrow"></span>
                     </a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        @if (verificarPermiso('Cliente_Listado'))
+                            <li>
+                                <a href="{{ route('dashboard.clientes') }}">Lista de Clientes</a>
+                            </li>
+                        @endif
+                        @if (verificarPermiso('CondicionFisica_Listado'))
+                            <li>
+                                <a href="{{ route('dashboard.condicionFisica') }}">Registrar Condición Física</a>
+                            </li>
+                        @endif
+                    </ul>
                 </li>
             @endif
 
@@ -250,6 +263,15 @@
                     </li>
                 </ul>
             </li>
+
+            @if (verificarPermiso('Bitacora_Listado'))
+                <li>
+                    <a href="{{ route('dashboard.bitacora') }}">
+                        <i class="fas fa-history"></i>
+                        <span> Registro de Actividad </span>
+                    </a>
+                </li>
+            @endif
 
         </ul>
 

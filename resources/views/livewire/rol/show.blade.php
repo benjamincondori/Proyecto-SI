@@ -71,7 +71,7 @@
                         @foreach ($roles as $rol)
                             <tr class="text-wrap text-center">
                                 <th scope="row" class="align-middle">{{ $rol->id }}</th>
-                                <td class="align-middle text-left">{{ $rol->nombre }}</td>
+                                <td class="align-middle text-left text-md-center">{{ $rol->nombre }}</td>
                                 <td class="align-middle text-nowrap">
                                     <button type="button" title="Editar" wire:click="seleccionarRol({{ $rol->id }})" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
                                     <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $rol->id }}, {{ $this->verificarPermiso }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>

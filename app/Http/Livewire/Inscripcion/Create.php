@@ -122,6 +122,9 @@ class Create extends Component
 
             $inscripcion->save();
 
+            $descripcion = 'Se creó una nueva inscripción con ID: '.$inscripcion->id;
+            registrarBitacora($descripcion);
+
             // Obtén los IDs de los grupos seleccionados
             $gruposSeleccionados = $this->selectedGrupos;
 

@@ -103,8 +103,9 @@
                     <label for="field-11" class="control-label">Cargo</label>
                     <select class="form-control" wire:model="cargo" name="cargo" id="field-11">
                         <option value="">Seleccionar</option>
-                        <option value="Administrador">Administrador</option>
-                        <option value="Recepcionista">Recepcionista</option>
+                        @foreach ($roles as $rol)
+                            <option value="{{ $rol->nombre }}">{{ $rol->nombre }}</option>
+                        @endforeach
                     </select>
                     @error('cargo')
                         <span class="error text-danger">* {{ $message }}</span>

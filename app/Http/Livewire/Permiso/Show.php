@@ -44,6 +44,10 @@ class Show extends Component
         // Verificar si el registro existe antes de eliminarlo
         if ($registro) {
             $registro->delete();
+
+            $descripcion = 'Se eliminó el permiso con ID: '.$registro->id.' - '.$registro->nombre;
+            registrarBitacora($descripcion);
+
             $this->registroSeleccionado = null;
         }
     }

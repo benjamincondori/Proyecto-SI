@@ -55,6 +55,9 @@ class Edit extends Component
             
             $rol->save();
 
+            $descripcion = 'Se actualizó el rol con ID: '.$rol->id.' - '.$rol->nombre;
+            registrarBitacora($descripcion);
+
             $this->emitTo('rol.show','cerrarVista');
             $this->emit('alert', 'actualizado');
             $this->registroSeleccionado = null;

@@ -44,6 +44,10 @@ class Show extends Component
         // Verificar si el registro existe antes de eliminarlo
         if ($registro) {
             $registro->delete();
+
+            $descripcion = 'Se eliminó el rol con ID: '.$registro->id.' - '.$registro->nombre;
+            registrarBitacora($descripcion);
+
             $this->registroSeleccionado = null;
         }
     }
@@ -94,8 +98,11 @@ class Show extends Component
 
     public function render()
     {
-        $roles = Rol::where('id', 'like', '%' . $this->buscar . '%')
-            ->orWhere('nombre', 'like', '%' . $this->buscar . '%')
+        $roles = Rol::whereNotIn('nombre', ['Cliente', 'Instructor'])
+            ->where(function ($query) {
+                $query->where('id', 'like', '%' . $this->buscar . '%')
+                      ->orWhere('nombre', 'like', '%' . $this->buscar . '%');
+            })
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->cant);
 

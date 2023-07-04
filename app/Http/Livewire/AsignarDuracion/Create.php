@@ -51,6 +51,9 @@ class Create extends Component
                     'descuento' => $this->formatoPorcentaje($this->descuento),
                 ]);
 
+                $descripcion = 'Se asignó una nueva duración con ID: '.$this->id_duracion.' al paquete '.$paquete->nombre;
+                registrarBitacora($descripcion);
+
                 $this->emitTo('asignar-duracion.show', 'cerrarVista');
                 $this->emit('alert', 'guardado');
             }

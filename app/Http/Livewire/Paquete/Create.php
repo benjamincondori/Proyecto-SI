@@ -46,6 +46,9 @@ class Create extends Component
 
             $guardado = $paquete->save();
 
+            $descripcion = 'Se creó un nuevo paquete con ID: '.$paquete->id;
+            registrarBitacora($descripcion);
+
             if ($guardado) {
                 // Obtén los IDs de las disciplinas seleccionadas
                 $disciplinasSeleccionadas = $this->selectedDisciplinas;

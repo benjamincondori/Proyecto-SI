@@ -88,6 +88,10 @@ class Edit extends Component
             $registro->id_horario = $this->registroSeleccionado['id_horario'];
 
             $registro->save();
+
+            $descripcion = 'Se actualizó el grupo con ID: '.$registro->id.' - '.$registro->nombre;
+            registrarBitacora($descripcion);
+
             $this->emitTo('grupo.show','cerrarVista');
             $this->emit('alert', 'actualizado');
             $this->registroSeleccionado = null;

@@ -47,14 +47,19 @@ class Show extends Component
         }
     }
 
-    public function eliminarEntrenador($registroId)
+    public function eliminarEntrenador($empleadoId)
     {
         // Buscar el registro en base al nro
-        $registro = Empleado::find($registroId);
+        $empleado = Empleado::find($empleadoId);
 
         // Verificar si el registro existe antes de eliminarlo
-        if ($registro) {
-            $registro->delete();
+        if ($empleado) {
+            $empleado->delete();
+            $empleado->usuario()->delete();
+
+            $descripcion = 'Se eliminó el entrenador con ID: '.$empleado->id;
+            registrarBitacora($descripcion);
+
             $this->registroSeleccionado = null;
         }
     }

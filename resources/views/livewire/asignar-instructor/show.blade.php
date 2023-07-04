@@ -83,8 +83,8 @@
                         @foreach ($datos as $dato)
                             <tr class="text-wrap text-center">
                                 <td class="align-middle">{{ $dato->id_entrenador }}</td>
-                                <td class="align-middle text-left">{{ $this->obtenerNombreEntrenador($dato->id_entrenador) }}</td>
-                                <td class="align-middle text-left">{{ $this->obtenerNombreDisciplina($dato->id_disciplina) }}</td>
+                                <td class="align-middle text-left text-md-center">{{ $this->obtenerNombreEntrenador($dato->id_entrenador) }}</td>
+                                <td class="align-middle text-left text-md-center">{{ $this->obtenerNombreDisciplina($dato->id_disciplina) }}</td>
                                 <td class="align-middle text-nowrap">
                                     <button type="button" title="Editar" wire:click="seleccionarAsignacion({{ $dato }})" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
                                     <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $dato->id_entrenador }}, {{ $dato->id_disciplina }}, {{ $this->verificarPermiso }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>

@@ -44,6 +44,9 @@ class Show extends Component
 
         if ($disciplina) {
             $disciplina->entrenadores()->detach($idEntrenador);
+
+            $descripcion = 'Se eliminó el entrenador asignado con ID: '.$idEntrenador.' a la disciplina '.$disciplina->nombre;
+            registrarBitacora($descripcion);
         }
     }
 

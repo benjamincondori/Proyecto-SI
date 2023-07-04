@@ -43,6 +43,10 @@ class Edit extends Component
             $registro->descripcion = $this->registroSeleccionado['descripcion'];
 
             $registro->save();
+
+            $descripcion = 'Se actualizó la máquina con ID: '.$registro->id;
+            registrarBitacora($descripcion);
+
             $this->emitTo('tipo-maquina.show','cerrarVista');
             $this->emit('alert', 'actualizado');
             $this->registroSeleccionado = null;

@@ -42,6 +42,9 @@ class Create extends Component
             if ($disciplina) {
                 $disciplina->entrenadores()->attach($this->id_entrenador);
 
+                $descripcion = 'Se asignó un nuevo entrenador con ID: '.$this->id_entrenador.' a la disciplina '.$disciplina->nombre;
+                registrarBitacora($descripcion);
+
                 $this->emitTo('asignar-instructor.show', 'cerrarVista');
                 $this->emit('alert', 'guardado');
             }

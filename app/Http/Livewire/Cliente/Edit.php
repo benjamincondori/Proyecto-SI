@@ -90,6 +90,7 @@ class Edit extends Component
 
     public function actualizarCliente() 
     {
+
         $this->validate($this->getUpdateRules());
     
         try {
@@ -109,7 +110,10 @@ class Edit extends Component
         
             $cliente->save();
 
-            if ($this->presentaEnfermedad) {
+            $descripcion = 'Se actualizó el cliente con ID: '.$cliente->id;
+            registrarBitacora($descripcion);
+
+            if ($this->presentaEnfermedad && !empty($this->enfermedades)) {
                 // Verificar si el cliente ya tiene un historial médico existente
                 if ($cliente->historialMedico) {
                     // Actualizar el historial médico existente

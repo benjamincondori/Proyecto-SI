@@ -68,6 +68,9 @@ class Edit extends Component
         
             $maquina->save();
 
+            $descripcion = 'Se actualizó la máquina asignada con CÓDIGO: '.$maquina->codigo.' de la sección de '.$maquina->seccion->nombre;
+            registrarBitacora($descripcion);
+
             $this->emitTo('asignar-maquina.show','cerrarVista');
             $this->emit('alert', 'actualizado');
             $this->registroSeleccionado = null;

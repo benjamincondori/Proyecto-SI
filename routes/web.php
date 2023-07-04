@@ -25,6 +25,7 @@ Route::middleware(['auth', 'auth.admin'])->group(function() {
     Route::get('/administrativos', [DashboardController::class, 'administrativos'])->name('dashboard.administrativos');
     Route::get('/entrenadores', [DashboardController::class, 'entrenadores'])->name('dashboard.entrenadores');
     Route::get('/clientes', [DashboardController::class, 'clientes'])->name('dashboard.clientes');
+    Route::get('/condicion-fisica', [DashboardController::class, 'condicionFisica'])->name('dashboard.condicionFisica');
     Route::get('/inscripciones', [DashboardController::class, 'inscripciones'])->name('dashboard.inscripciones');
     Route::get('/usuarios', [DashboardController::class, 'usuarios'])->name('dashboard.usuarios');
     Route::get('/roles', [DashboardController::class, 'roles'])->name('dashboard.roles');
@@ -41,6 +42,7 @@ Route::middleware(['auth', 'auth.admin'])->group(function() {
     Route::get('/asignar-duracion', [DashboardController::class, 'asignarDuracion'])->name('dashboard.asignarDuracion');
     Route::get('/duraciones', [DashboardController::class, 'duraciones'])->name('dashboard.duraciones');
     Route::get('/casilleros', [DashboardController::class, 'casilleros'])->name('dashboard.casilleros');
+    Route::get('/bitacora', [DashboardController::class, 'bitacora'])->name('dashboard.bitacora');
     Route::get('/logout', function () {
         abort(404); 
     });
@@ -58,14 +60,8 @@ Route::middleware(['auth', 'auth.instructor'])->group(function () {
 
 Route::get('/test', function() {
 
-    $idPaquete = 3;
-    $duraciones = Duracion::whereDoesntHave('paquetes', function ($query) use ($idPaquete) {
-        $query->where('id_paquete', $idPaquete);
-    })->get();
-
-    // $paquete = Paquete::findOrFail(1);
-    // $duraciones = $paquete->duraciones;
-    return $duraciones;
+    $paquete = Paquete::findOrFail(1);
+    return $paquete->duraciones;
 
 });
 

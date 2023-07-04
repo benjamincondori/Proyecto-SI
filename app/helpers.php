@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Bitacora;
 use Illuminate\Support\Facades\Auth;
 
 function verificarPermiso($permiso) {
@@ -11,6 +12,17 @@ function verificarPermiso($permiso) {
     }
     
     return ($rol && $rol->permisos->contains('nombre', $permiso));
+}
+
+function registrarBitacora($descripcion) {
+
+    $usuario = Auth::user();
+
+    Bitacora::create([
+        'id_usuario' => $usuario->empleado->id,
+        'descripcion' => $descripcion,
+    ]);
+    
 }
 
 

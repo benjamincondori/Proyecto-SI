@@ -114,7 +114,8 @@
                                 <td class="align-middle text-left">{{ $administrativo->apellidos }}</td>
                                 <td class="align-middle text-left">{{ $administrativo->email }}</td>
                                 <td class="align-middle text-left">
-                                    {{ $administrativo->administrativo()->whereIn('cargo', ['administrador', 'recepcionista'])->value('cargo') }}
+                                    {{ $administrativo->administrativo->cargo }}
+                                    {{-- {{ $administrativo->administrativo()->value('cargo') }} --}}
                                 </td>
                                 <td class="align-middle text-nowrap">
                                     <button type="button" title="Ver"

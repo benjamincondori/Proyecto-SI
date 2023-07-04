@@ -45,6 +45,10 @@ class Show extends Component
         // Verificar si el registro existe antes de eliminarlo
         if ($registro) {
             $registro->delete();
+
+            $descripcion = 'Se eliminó el horario con ID: '.$registro->id;
+            registrarBitacora($descripcion);
+
             $this->registroSeleccionado = null;
         }
     }

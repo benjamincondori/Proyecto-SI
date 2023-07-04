@@ -69,6 +69,9 @@ class Edit extends Component
                 $disciplinaAnterior->entrenadores()->detach($this->id_entrenador);
                 $disciplina->entrenadores()->attach($this->id_entrenador);
 
+                $descripcion = 'Se actualizó el entrenador asignado con ID: '.$this->id_entrenador.' a la disciplina '.$disciplina->nombre;
+                registrarBitacora($descripcion);
+
                 $this->emitTo('asignar-instructor.show', 'cerrarVista');
                 $this->emit('alert', 'guardado');
             }

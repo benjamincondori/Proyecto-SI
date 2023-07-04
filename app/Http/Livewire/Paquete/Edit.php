@@ -64,6 +64,9 @@ class Edit extends Component
 
             $paquete->save();
 
+            $descripcion = 'Se actualizó el paquete con ID: '.$paquete->id;
+            registrarBitacora($descripcion);
+
             // Asocia las disciplinas seleccionadas al paquete
             $paquete->disciplinas()->sync($this->selectedDisciplinas);
 

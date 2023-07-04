@@ -43,6 +43,10 @@ class Show extends Component
         // Verificar si el registro existe antes de eliminarlo
         if ($registro) {
             $registro->delete();
+
+            $descripcion = 'Se eliminó la máquina asignada con CÓDIGO: '.$registro->codigo.' de la sección de '.$registro->seccion->nombre;
+            registrarBitacora($descripcion);
+
             $this->registroSeleccionado = null;
         }
     }

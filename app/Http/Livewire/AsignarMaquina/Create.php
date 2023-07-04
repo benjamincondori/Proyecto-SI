@@ -41,6 +41,10 @@ class Create extends Component
             $maquina->id_tipo = $this->id_tipo;
 
             $maquina->save();
+
+            $descripcion = 'Se asignó una nueva máquina con CÓDIGO: '.$maquina->codigo.' a la sección de '.$maquina->seccion->nombre;
+            registrarBitacora($descripcion);
+
             $this->emitTo('asignar-maquina.show', 'cerrarVista');
             $this->emit('alert', 'guardado');
         } catch (\Exception $e) {

@@ -56,6 +56,9 @@ class Edit extends Component
             $registro->id_seccion = $this->registroSeleccionado['id_seccion'];
         
             $registro->save();
+
+            $descripcion = 'Se actualizó la disciplina con ID: '.$registro->id.' - '.$registro->nombre;
+            registrarBitacora($descripcion);
             
             $this->emitTo('disciplina.show','cerrarVista');
             $this->emit('alert', 'actualizado');
