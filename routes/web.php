@@ -10,6 +10,7 @@ use App\Models\Empleado;
 use App\Models\Entrenador;
 use App\Models\Entrenador_Disciplina;
 use App\Models\Paquete;
+use App\Models\Usuario;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -60,8 +61,8 @@ Route::middleware(['auth', 'auth.instructor'])->group(function () {
 
 Route::get('/test', function() {
 
-    $paquete = Paquete::findOrFail(1);
-    return $paquete->duraciones;
+    $usuario = Usuario::findOrFail(1);
+    return $usuario->empleado;
 
 });
 
