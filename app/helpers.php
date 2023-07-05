@@ -18,10 +18,14 @@ function registrarBitacora($descripcion) {
 
     $usuario = Auth::user();
 
-    Bitacora::create([
-        'id_usuario' => $usuario->empleado->id,
-        'descripcion' => $descripcion,
-    ]);
+    $roles = ['Cliente', 'Instructor'];
+
+    if ($usuario && !in_array($usuario->rol->nombre, $roles)) {
+        Bitacora::create([
+            'id_usuario' => $usuario->empleado->id,
+            'descripcion' => $descripcion,
+        ]);
+    }
     
 }
 

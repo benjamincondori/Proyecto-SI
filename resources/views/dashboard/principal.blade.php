@@ -16,8 +16,13 @@
 
         <div class="content-page">
             <div id="content">
-                {{-- @include('contenido-dashboard.dashboard') --}}
-                <h1>Contenido del Dashboard</h1>
+                
+                <x-layouts.content title="Dashboard" subtitle="" name="Dashboard">
+
+                    @livewire('dashboard.show')
+                            
+                </x-layouts.content>
+
             </div>
 
             @include('plantillas.footer')

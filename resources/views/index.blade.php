@@ -16,41 +16,6 @@
 
 <body>
 
-    {{-- <nav class="navbar navbar-expand-lg navbar-dark fixed-top mt-2">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="{{ asset('assets/images/logo-gym.png') }}" alt="" height="60">
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto justify-content-end">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Servicios</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Paquetes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-outline-warning" href="#contacto">Contacto</a>
-                    </li>
-                    <li class="nav-item ms-1">
-                        <a class="btn btn-outline-warning mt-1 mt-lg-0"
-                            href="#login">Ingresar</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav> --}}
-
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top py-1">
         <div class="container">
             <a class="navbar-brand" href="#">

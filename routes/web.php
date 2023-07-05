@@ -59,13 +59,6 @@ Route::middleware(['auth', 'auth.instructor'])->group(function () {
     Route::get('/instructor/dashboard', [InstructorController::class, 'index'])->name('instructor.index');
 });
 
-Route::get('/test', function() {
-
-    $usuario = Usuario::findOrFail(1);
-    return $usuario->empleado;
-
-});
-
 
 
 

@@ -76,11 +76,9 @@
                         <span class="menu-arrow"></span>
                     </a>
                     <ul class="nav-second-level" aria-expanded="false">
-                        @if (verificarPermiso('Cliente_Listado'))
-                            <li>
-                                <a href="{{ route('dashboard.clientes') }}">Lista de Clientes</a>
-                            </li>
-                        @endif
+                        <li>
+                            <a href="{{ route('dashboard.clientes') }}">Lista de Clientes</a>
+                        </li>
                         @if (verificarPermiso('CondicionFisica_Listado'))
                             <li>
                                 <a href="{{ route('dashboard.condicionFisica') }}">Registrar Condición Física</a>
@@ -99,57 +97,65 @@
                 </li>
             @endif
 
-            <li>
-                <a class="link-underline-opacity-0" href="javascript: void(0);">
-                    <i class="fas fa-clipboard"></i>
-                    <span> Alquileres </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <ul class="nav-second-level" aria-expanded="false">
-                    <li>
-                        <a href="#">Realizar Alquiler</a>
-                    </li>
-                    <li>
-                        <a href="#">Lista de Alquileres</a>
-                    </li>
-                </ul>
-            </li>
+            @if (verificarPermiso('Alquiler_Listado'))
+                <li>
+                    <a class="link-underline-opacity-0" href="javascript: void(0);">
+                        <i class="fas fa-clipboard"></i>
+                        <span> Alquileres </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li>
+                            <a href="#">Realizar Alquiler</a>
+                        </li>
+                        <li>
+                            <a href="#">Lista de Alquileres</a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
 
-            <li>
-                <a href="javascript: void(0);">
-                    <i class="far fa-money-bill-alt"></i>
-                    <span> Pagos </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <ul class="nav-second-level" aria-expanded="false">
-                    <li>
-                        <a href="#">Agregar Pago</a>
-                    </li>
-                    <li>
-                        <a href="#">Lista de Pagos</a>
-                    </li>
-                </ul>
-            </li>
+            @if (verificarPermiso('Pago_Listado'))
+                <li>
+                    <a href="javascript: void(0);">
+                        <i class="far fa-money-bill-alt"></i>
+                        <span> Pagos </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li>
+                            <a href="#">Agregar Pago</a>
+                        </li>
+                        <li>
+                            <a href="#">Lista de Pagos</a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
 
-            <li>
-                <a href="javascript: void(0);">
-                    <i class="fas fa-file-alt"></i>
-                    <span> Facturas </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <ul class="nav-second-level" aria-expanded="false">
-                    <li>
-                        <a href="#">Lista de Facturas</a>
-                    </li>
-                </ul>
-            </li>
+            @if (verificarPermiso('Factura_Listado'))
+                <li>
+                    <a href="javascript: void(0);">
+                        <i class="fas fa-file-alt"></i>
+                        <span> Facturas </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li>
+                            <a href="#">Lista de Facturas</a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
 
-            <li>
-                <a href="javascript: void(0);">
-                    <i class="fas fa-id-card-alt"></i>
-                    <span> Asistencia </span>
-                </a>
-            </li>
+            @if (verificarPermiso('Asistencia_Listado'))
+                <li>
+                    <a href="javascript: void(0);">
+                        <i class="fas fa-id-card-alt"></i>
+                        <span> Asistencia </span>
+                    </a>
+                </li>
+            @endif
 
             @if (verificarPermiso('Disciplina_Listado'))
                 <li>
@@ -242,27 +248,29 @@
                 </li>
             @endif
 
-            <li>
-                <a href="javascript: void(0);">
-                    <i class="fas fa-file-pdf"></i>
-                    <span> Reportes </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <ul class="nav-second-level" aria-expanded="false">
-                    <li>
-                        <a href="#">Facturas por Fechas</a>
-                    </li>
-                    <li>
-                        <a href="#">Pagos por Fechas</a>
-                    </li>
-                    <li>
-                        <a href="#">Reporte de Inscripciones</a>
-                    </li>
-                    <li>
-                        <a href="#">Reporte de Alquileres</a>
-                    </li>
-                </ul>
-            </li>
+            @if (verificarPermiso('Reporte_Listado'))
+                <li>
+                    <a href="javascript: void(0);">
+                        <i class="fas fa-file-pdf"></i>
+                        <span> Reportes </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li>
+                            <a href="#">Facturas por Fechas</a>
+                        </li>
+                        <li>
+                            <a href="#">Pagos por Fechas</a>
+                        </li>
+                        <li>
+                            <a href="#">Reporte de Inscripciones</a>
+                        </li>
+                        <li>
+                            <a href="#">Reporte de Alquileres</a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
 
             @if (verificarPermiso('Bitacora_Listado'))
                 <li>

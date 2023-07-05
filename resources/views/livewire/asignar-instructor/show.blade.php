@@ -20,7 +20,7 @@
             </div>
 
             <div class="form-group w-50 d-flex">
-                @if (verificarPermiso('Maquina_Buscar')) 
+                @if (verificarPermiso('AsignarInstructor_Buscar')) 
                     <input type="text" wire:model="buscar" class="form-control" 
                     placeholder="Buscar...">
                     <button class="btn text-secondary" type="button" disabled>

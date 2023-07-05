@@ -52,7 +52,7 @@
                                     <div class="row d-flex justify-content-center">
                                         <div class="col-lg-9 col-xl-9 d-flex justify-content-center" >
                                             <div class="text-center">
-                                                <img src="{{ asset('assets/images/users/user-2.jpg') }}" class="rounded-circle avatar-lg img-thumbnail"
+                                                <img src="{{ asset('assets/images/users/user-1.jpg') }}" class="rounded-circle avatar-lg img-thumbnail"
                                                     alt="profile-image">
             
                                                 <h4 class="mb-0">{{ $instructor->nombres }} {{ $instructor->apellidos }}</h4>

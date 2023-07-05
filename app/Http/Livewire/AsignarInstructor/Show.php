@@ -30,7 +30,7 @@ class Show extends Component
 
     public function seleccionarAsignacion($seleccionado)
     {
-        if (verificarPermiso('AsignarEntrenador_Editar')) {
+        if (verificarPermiso('AsignarInstructor_Editar')) {
             $this->vistaEditar = true;
             $this->emit('editarRegistro', $seleccionado);
         } else {
@@ -62,7 +62,7 @@ class Show extends Component
 
     public function agregarNuevo()
     {
-        if (verificarPermiso('AsignarEntrenador_Crear')) {
+        if (verificarPermiso('AsignarInstructor_Crear')) {
             $this->vistaCrear = true;
         } else {
             $this->emit('accesoDenegado');
@@ -101,7 +101,7 @@ class Show extends Component
     }
 
     public function mount() {
-        $this->verificarPermiso = verificarPermiso('AsignarEntrenador_Eliminar');
+        $this->verificarPermiso = verificarPermiso('AsignarInstructor_Eliminar');
     }
 
     public function render()

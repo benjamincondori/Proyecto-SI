@@ -27,7 +27,7 @@ class Show extends Component
 
     public function seleccionarTipoMaquina(Tipo_Maquina $maquina)
     {
-        if (verificarPermiso('TipoMaquina_Editar')) {
+        if (verificarPermiso('Maquina_Editar')) {
             $this->vistaEditar = true;
             $this->emit('editarRegistro', $maquina);
         } else {
@@ -53,7 +53,7 @@ class Show extends Component
 
     public function agregarNuevo()
     {
-        if (verificarPermiso('TipoMaquina_Crear')) {
+        if (verificarPermiso('Maquina_Crear')) {
             $this->vistaCrear = true;
         } else {
             $this->emit('accesoDenegado');
@@ -92,7 +92,7 @@ class Show extends Component
     }
 
     public function mount() {
-        $this->verificarPermiso = verificarPermiso('TipoMaquina_Eliminar');
+        $this->verificarPermiso = verificarPermiso('Maquina_Eliminar');
     }
 
     public function render()

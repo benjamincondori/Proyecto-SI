@@ -113,7 +113,8 @@
                                 <td class="align-middle">{{ $this->formatoPorcentaje($dato->descuento) }}</td>
                                 <td class="align-middle text-nowrap">
                                     <button type="button" title="Editar" wire:click="seleccionarAsignacion({{ $dato }})" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                    <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $dato->id_paquete }}, {{ $dato->id_duracion }}, {{ $this->verificarPermiso }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                    <button type="button" title="Eliminar" 
+                                    wire:click="$emit('eliminarRegistro', {{ $dato->id_paquete }}, {{ $dato->id_duracion }}, {{ $this->verificarPermiso }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         @endforeach

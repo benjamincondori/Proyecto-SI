@@ -14,7 +14,7 @@ class Show extends Component
 
     protected $paginationTheme = 'bootstrap';
     
-    public $roles, $id_rol;
+    public $roles, $tienePermiso, $id_rol;
     public $cant = '10';
     public $sort = 'id';
     public $direction = 'asc';
@@ -31,6 +31,7 @@ class Show extends Component
 
     public function mount() {
         $this->roles = Rol::whereNotIn('nombre', ['Cliente', 'Instructor'])->get();
+        $this->tienePermiso = verificarPermiso('Revocar_TodosPermisos');
     }
 
     public function nombrePermiso($permisoId) {
@@ -64,7 +65,7 @@ class Show extends Component
     }
 
     public function sincronizarTodos() {
-        if (verificarPermiso('Asignar_Permisos')) {
+        if (verificarPermiso('Asignar_TodosPermisos')) {
             if ($this->id_rol) {
                 try {
                     $rol = Rol::findOrFail($this->id_rol);
@@ -92,15 +93,15 @@ class Show extends Component
             try {
                 $rol = Rol::findOrFail($this->id_rol);
                 $rol->permisos()->detach();
-
+    
                 $descripcion = 'Se revocó todos permisos al rol de '.$rol->nombre;
                 registrarBitacora($descripcion);
-
+    
             } catch (Exception $e) {
                 $message = $e->getMessage();
                 $this->emit('error', $message);
             }
-        }
+        } 
     }
 
     public function verificarPermiso($idPermiso) {

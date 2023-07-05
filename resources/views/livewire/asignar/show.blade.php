@@ -30,11 +30,11 @@
                     <i class="fas fa-check-circle"></i>&nbsp;
                     Sincronizar todos
                 </button>
-                @if (verificarPermiso('Revocar_Todos'))
+                @if (verificarPermiso('Revocar_TodosPermisos'))
                     <button type="button"
                     wire:click="$emit('revocarTodos', {{ $this->id_rol }})" class="btn btn-danger waves-effect waves-light">
                         <i class="fas fa-times-circle"></i>&nbsp;
-                        Revocar todos
+                        Revocar todos 
                     </button>
                 @endif
             </div>
@@ -152,35 +152,43 @@
 
 
             livewire.on('revocarTodos', function(idRol) {
-                if (idRol) {
-                    Swal.fire({
-                        title: '¿Está seguro?',
-                        text: "¡Se quitarán todos los permisos asignados!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: '¡Sí, revocar!',
-                        cancelButtonText: 'Cancelar'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
+                // if (tienePermiso) {
+                    if (idRol) {
+                        Swal.fire({
+                            title: '¿Está seguro?',
+                            text: "¡Se quitarán todos los permisos asignados!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: '¡Sí, revocar!',
+                            cancelButtonText: 'Cancelar'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
 
-                            livewire.emitTo('asignar.show', 'revocarTodos');
+                                livewire.emitTo('asignar.show', 'revocarTodos');
 
-                            Swal.fire(
-                                '¡Permisos Revocados!',
-                                'Los permisos han sido revocados exitosamente.',
-                                'success'
-                            )
-                        }
-                    })
-                } else {
-                    Swal.fire({
-                        icon: 'info',
-                        title: 'Oops...',
-                        text: 'Debes seleccionar un rol'           
-                    })
-                }
+                                Swal.fire(
+                                    '¡Permisos Revocados!',
+                                    'Los permisos han sido revocados exitosamente.',
+                                    'success'
+                                )
+                            }
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Oops...',
+                            text: 'Debes seleccionar un rol'           
+                        })
+                    }
+                // } else {
+                //     Swal.fire({
+                //         icon: 'warning',
+                //         title: '¡Acceso Denegado!',
+                //         text: 'No tiene los permisos necesarios.'           
+                //     })
+                // }
             });
 
         </script>
