@@ -27,6 +27,10 @@ class Pago extends Model
         return $this->hasOne(Inscripcion::class, 'id_pago');
     }
 
+    public function alquiler(): HasOne {
+        return $this->hasOne(Alquiler::class, 'id_pago');
+    }
+
     public function factura(): HasOne {
         return $this->hasOne(Factura::class, 'id_pago');
     }

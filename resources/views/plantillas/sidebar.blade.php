@@ -99,19 +99,10 @@
 
             @if (verificarPermiso('Alquiler_Listado'))
                 <li>
-                    <a class="link-underline-opacity-0" href="javascript: void(0);">
+                    <a href="{{ route('dashboard.alquileres') }}">
                         <i class="fas fa-clipboard"></i>
                         <span> Alquileres </span>
-                        <span class="menu-arrow"></span>
                     </a>
-                    <ul class="nav-second-level" aria-expanded="false">
-                        <li>
-                            <a href="#">Realizar Alquiler</a>
-                        </li>
-                        <li>
-                            <a href="#">Lista de Alquileres</a>
-                        </li>
-                    </ul>
                 </li>
             @endif
 

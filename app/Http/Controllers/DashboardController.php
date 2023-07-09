@@ -30,6 +30,10 @@ class DashboardController extends Controller
         return view('dashboard.inscripcion');
     }
 
+    public function alquileres() {
+        return view('dashboard.alquiler');
+    }
+
     public function pagos() {
         return view('dashboard.pago');
     }

@@ -34,6 +34,7 @@ Route::middleware(['auth', 'auth.admin'])->group(function() {
     Route::get('/clientes', [DashboardController::class, 'clientes'])->name('dashboard.clientes');
     Route::get('/condicion-fisica', [DashboardController::class, 'condicionFisica'])->name('dashboard.condicionFisica');
     Route::get('/inscripciones', [DashboardController::class, 'inscripciones'])->name('dashboard.inscripciones');
+    Route::get('/alquileres', [DashboardController::class, 'alquileres'])->name('dashboard.alquileres');
     Route::get('/pagos', [DashboardController::class, 'pagos'])->name('dashboard.pagos');
     Route::get('/usuarios', [DashboardController::class, 'usuarios'])->name('dashboard.usuarios');
     Route::get('/roles', [DashboardController::class, 'roles'])->name('dashboard.roles');
@@ -105,25 +106,7 @@ Route::get('/test', function() {
         }
         return $cupo;
     }
-    
-
     return obtenerCupos($seccionId);
-
-
-});
-
-
-Route::get('/test1', function() {
-
-    $pago = Pago::findOrFail(16);
-
-    $inscripcion = $pago->inscripcion->detalle;
-    $inscripcion->estado = false;
-    $inscripcion->save();
-
-    return $inscripcion;
-
-
 });
 
 
