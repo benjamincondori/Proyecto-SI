@@ -117,34 +117,10 @@
 
             @if (verificarPermiso('Pago_Listado'))
                 <li>
-                    <a href="javascript: void(0);">
-                        <i class="far fa-money-bill-alt"></i>
+                    <a href="{{ route('dashboard.pagos') }}">
+                        <i class="fas fa-money-bill-alt"></i>
                         <span> Pagos </span>
-                        <span class="menu-arrow"></span>
                     </a>
-                    <ul class="nav-second-level" aria-expanded="false">
-                        <li>
-                            <a href="#">Agregar Pago</a>
-                        </li>
-                        <li>
-                            <a href="#">Lista de Pagos</a>
-                        </li>
-                    </ul>
-                </li>
-            @endif
-
-            @if (verificarPermiso('Factura_Listado'))
-                <li>
-                    <a href="javascript: void(0);">
-                        <i class="fas fa-file-alt"></i>
-                        <span> Facturas </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <ul class="nav-second-level" aria-expanded="false">
-                        <li>
-                            <a href="#">Lista de Facturas</a>
-                        </li>
-                    </ul>
                 </li>
             @endif
 

@@ -63,8 +63,8 @@
                     <label for="duraciones" class="control-label">Seleccionar Duración</label>
                         <select id="duraciones" class="form-control" wire:model="registroSeleccionado.id_duracion">
                             <option value="">Seleccionar</option>
-                            @foreach ($duraciones as $id => $nombre)
-                                <option value="{{ $id }}">{{ $nombre }}</option>
+                            @foreach ($duraciones as $duracion)
+                                <option value="{{ $duracion->id }}">{{ $duracion->nombre }}</option>
                             @endforeach
                         </select>
                     @error('registroSeleccionado.id_duracion')

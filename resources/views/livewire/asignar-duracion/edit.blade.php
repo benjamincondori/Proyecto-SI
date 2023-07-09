@@ -43,7 +43,7 @@
                 <div class="form-group">
                     <label class="control-label">Precio</label>
                     <div class="input-group">
-                        <input type="number" wire:model="registroSeleccionado.precio" class="form-control" name="precio" placeholder="150" min="0">
+                        <input type="number" wire:model="registroSeleccionado.precio" class="form-control" name="precio" placeholder="150" min="0" readonly>
                         <div class="input-group-append">
                             <span class="input-group-text">Bs</span>
                         </div>

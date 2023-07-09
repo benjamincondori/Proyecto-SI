@@ -25,6 +25,10 @@ class Cliente extends Model
         return $this->hasMany(Inscripcion::class, 'id_cliente');
     }
 
+    public function pagos(): HasMany {
+        return $this->hasMany(Pago::class, 'id_cliente');
+    }
+
     public function historialMedico(): HasOne {
         return $this->hasOne(Historial_Medico::class, 'id_cliente');
     }

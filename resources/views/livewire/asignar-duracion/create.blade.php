@@ -13,7 +13,7 @@
                     <select class="form-control" wire:model="id_paquete">
                         <option value="">Seleccionar</option>
                         @foreach ($paquetes as $paquete)
-                            <option value="{{ $paquete->id }}" class="cursor-pointer">
+                            <option title="{{ $paquete->id }}" value="{{ $paquete->id }}" class="cursor-pointer">
                                 {{ $paquete->nombre }}</option>
                         @endforeach
                     </select>
@@ -43,7 +43,7 @@
                 <div class="form-group">
                     <label class="control-label">Precio</label>
                     <div class="input-group">
-                        <input type="number" wire:model="precio" class="form-control" name="precio" placeholder="150" min="0">
+                        <input type="number" wire:model="precio" class="form-control" name="precio" placeholder="150" min="0" readonly>
                         <div class="input-group-append">
                             <span class="input-group-text">Bs</span>
                         </div>

@@ -20,6 +20,7 @@ class Edit extends Component
 
     protected $rules = [
         'registroSeleccionado.nombre' => 'required|max:40',
+        'registroSeleccionado.max_integrantes' => 'required',
         'id_disciplina' => 'required',
         'id_entrenador' => 'required',
         'registroSeleccionado.id_horario' => 'required'
@@ -28,7 +29,8 @@ class Edit extends Component
     protected $validationAttributes = [
         'id_disciplina' => 'disciplina',
         'id_entrenador' => 'entrenador',
-        'registroSeleccionado.id_horario' => 'horario'
+        'registroSeleccionado.id_horario' => 'horario',
+        'registroSeleccionado.max_integrantes' => 'nro máximo integrantes'
     ];
 
     public function updated($propertyName)
@@ -86,6 +88,7 @@ class Edit extends Component
             $registro->id_disciplina = $this->id_disciplina;
             $registro->id_entrenador = $this->id_entrenador;
             $registro->id_horario = $this->registroSeleccionado['id_horario'];
+            $registro->max_integrantes = $this->registroSeleccionado['max_integrantes'];
 
             $registro->save();
 

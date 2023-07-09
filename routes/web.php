@@ -9,9 +9,15 @@ use App\Models\Duracion;
 use App\Models\Empleado;
 use App\Models\Entrenador;
 use App\Models\Entrenador_Disciplina;
+use App\Models\Maquina;
+use App\Models\Pago;
 use App\Models\Paquete;
+use App\Models\Paquete_Duracion;
+use App\Models\Seccion;
+use App\Models\Tipo_Maquina;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest'])->group(function () {
@@ -28,6 +34,7 @@ Route::middleware(['auth', 'auth.admin'])->group(function() {
     Route::get('/clientes', [DashboardController::class, 'clientes'])->name('dashboard.clientes');
     Route::get('/condicion-fisica', [DashboardController::class, 'condicionFisica'])->name('dashboard.condicionFisica');
     Route::get('/inscripciones', [DashboardController::class, 'inscripciones'])->name('dashboard.inscripciones');
+    Route::get('/pagos', [DashboardController::class, 'pagos'])->name('dashboard.pagos');
     Route::get('/usuarios', [DashboardController::class, 'usuarios'])->name('dashboard.usuarios');
     Route::get('/roles', [DashboardController::class, 'roles'])->name('dashboard.roles');
     Route::get('/permisos', [DashboardController::class, 'permisos'])->name('dashboard.permisos');
@@ -60,6 +67,64 @@ Route::middleware(['auth', 'auth.instructor'])->group(function () {
 });
 
 
+Route::get('/test', function() {
+
+    $seccionId = 3; 
+
+    function cantidadTiposMaquina($seccionId) {
+        // $cantidadTiposMaquina = Maquina::join('tipo_maquina', 'maquina.id_tipo', '=', 'tipo_maquina.id')
+        //     ->where('maquina.id_seccion', $seccionId)
+        //     ->distinct('tipo_maquina.id')
+        //     ->count('tipo_maquina.id');
+
+        $idsTiposMaquina = Maquina::join('tipo_maquina', 'maquina.id_tipo', '=', 'tipo_maquina.id')
+            ->where('maquina.id_seccion', $seccionId)
+            ->distinct('tipo_maquina.id')
+            ->pluck('tipo_maquina.id');
+        return $idsTiposMaquina;
+    }
+    
+    function cantidadMaquinas($tipoId, $seccionId) {
+        $cantidadMaquinas = DB::table('maquina')
+            ->join('tipo_maquina', 'maquina.id_tipo', '=', 'tipo_maquina.id')
+            ->where('maquina.id_tipo', $tipoId)
+            ->where('maquina.id_seccion', $seccionId)
+            ->where('maquina.estado', 1)
+            ->count();
+        return $cantidadMaquinas;
+    }
+
+    function obtenerCupos($seccionId) {
+        $tiposMaquina = cantidadTiposMaquina($seccionId);
+        $cupo = 0;
+        foreach ($tiposMaquina as $tipoId) {
+            $maquinas = cantidadMaquinas($tipoId, $seccionId);
+            if ($maquinas < $cupo || $cupo == 0) {
+                $cupo = $maquinas;
+            }
+        }
+        return $cupo;
+    }
+    
+
+    return obtenerCupos($seccionId);
+
+
+});
+
+
+Route::get('/test1', function() {
+
+    $pago = Pago::findOrFail(16);
+
+    $inscripcion = $pago->inscripcion->detalle;
+    $inscripcion->estado = false;
+    $inscripcion->save();
+
+    return $inscripcion;
+
+
+});
 
 
 

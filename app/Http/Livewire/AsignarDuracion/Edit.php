@@ -55,6 +55,31 @@ class Edit extends Component
         $this->emitTo('asignar-duracion.show','cerrarVista');
     }
 
+    public function calcularPrecio($paqueteId, $duracionId) {
+        if ($paqueteId && $duracionId) {
+            $paquete = Paquete::findOrFail($paqueteId);
+            $duracion = Duracion::findOrFail($duracionId);
+            $disciplinas = $paquete->disciplinas;
+            $precioPaquete = 0;
+
+            foreach ($disciplinas as $disciplina) {
+                $precioPorDia = $disciplina->precio / 30;
+                $precioPaquete += $precioPorDia * $duracion->dias_duracion;
+            }
+
+            return $precioPaquete;
+        }
+        return 0;
+    }
+
+    public function updatedIdPaquete() {
+        $this->registroSeleccionado['precio'] = $this->calcularPrecio($this->id_paquete, $this->id_duracion);
+    }
+
+    public function updatedIdDuracion() {
+        $this->registroSeleccionado['precio'] = $this->calcularPrecio($this->id_paquete, $this->id_duracion);
+    }
+
     public function actualizarAsignacion() 
     {
         $this->validate();

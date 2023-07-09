@@ -11,12 +11,23 @@
 
     <form  class="px-4 pt-2 pb-2">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-7">
                 <div class="form-group">
                     <label for="nombre" class="control-label">Nombre del grupo</label>
                     <input type="text" wire:model="nombre" class="form-control" id="nombre"
                         placeholder="Ej. Super Spinning">
                     @error('nombre')
+                        <span class="error text-danger">* {{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label class="control-label">Nro. Máximo de Integrantes</label>
+                    <input type="number" wire:model="max_integrantes" class="form-control"
+                        placeholder="Ej: 20" min="0">
+                        @error('max_integrantes')
                         <span class="error text-danger">* {{ $message }}</span>
                     @enderror
                 </div>

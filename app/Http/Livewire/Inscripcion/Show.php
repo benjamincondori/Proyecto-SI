@@ -50,13 +50,14 @@ class Show extends Component
 
     public function eliminarInscripcion($registroId)
     {
-        // Buscar el registro en base al ID
         $inscripcion = Inscripcion::find($registroId);
-        if ($inscripcion) {
+
+        if (is_null($inscripcion->detalle->estado)) {
             $grupos = $inscripcion->grupos;
             
             // Eliminar la inscripción y la relación en cascada
             $inscripcion->delete();
+            $inscripcion->pago->delete();
 
             $descripcion = 'Se eliminó la inscripción con ID: '.$inscripcion->id;
             registrarBitacora($descripcion);
@@ -67,7 +68,7 @@ class Show extends Component
             }
 
             $this->registroSeleccionado = null;
-        } 
+        }
     }
 
     public function obtenerFechaInscripcion($registroId) {

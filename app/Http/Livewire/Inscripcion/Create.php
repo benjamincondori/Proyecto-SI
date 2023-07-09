@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Inscripcion;
 
 use App\Models\Cliente;
+use App\Models\Disciplina;
 use App\Models\Duracion;
 use App\Models\Grupo;
 use App\Models\Inscripcion;
@@ -16,6 +17,7 @@ class Create extends Component
 {
     public $fecha_inscripcion, $fecha_inicio, $id_cliente, $id_administrativo, $id_paquete, $id_duracion, $id_pago;
     public $paquetes, $duraciones, $grupos;
+    // public $grupos1, $grupos2, $id_grupo1, $id_grupo2;
     public $search;
     public $searchResults = [];
     public $selectedGrupos = [];
@@ -57,8 +59,32 @@ class Create extends Component
         return $fechaHoraActualString;
     }
 
-    public function obtenerGrupos($paqueteId)
-    {
+    public function obtenerDuraciones($paqueteId) {
+        $paquete = Paquete::findOrFail($paqueteId);
+        return $paquete->duraciones;
+    }
+
+    public function verificarCupo($grupos) {
+        foreach ($grupos as $idGrupo) {
+            $grupo = Grupo::findOrFail($idGrupo);
+            if ($grupo->nro_integrantes >= $grupo->max_integrantes) {
+                return $grupo;
+            }
+        }
+    }
+
+    public function obtenerGrupos($paqueteId) {
+        // $paquete = Paquete::findOrFail($paqueteId);
+        // $disciplinas = $paquete->disciplinas()->pluck('id')->toArray();
+
+        // $disciplina = Disciplina::findOrFail($disciplinas[0]);
+        // $this->grupos1 = $disciplina->grupos;
+        
+        // if (count($disciplinas) > 1) {
+        //     $disciplina = Disciplina::findOrFail($disciplinas[1]);
+        //     $this->grupos2 = $disciplina->grupos;
+        // }
+
         return Grupo::join('DISCIPLINA', 'GRUPO.id_disciplina', '=', 'DISCIPLINA.id')
             ->join('DISCIPLINA_PAQUETE', 'DISCIPLINA.id', '=', 'DISCIPLINA_PAQUETE.id_disciplina')
             ->join('PAQUETE', 'DISCIPLINA_PAQUETE.id_paquete', '=', 'PAQUETE.id')
@@ -73,7 +99,9 @@ class Create extends Component
     }
 
     public function updatedIdPaquete() {
+        $this->duraciones = $this->obtenerDuraciones($this->id_paquete);
         $this->grupos = $this->obtenerGrupos($this->id_paquete);
+        // $this->obtenerGrupos($this->id_paquete);
     }
 
     public function updatedSearch()
@@ -97,7 +125,7 @@ class Create extends Component
     public function mount() {
         $this->id_administrativo = $this->obtenerIdAdmin();
         $this->paquetes = Paquete::all();
-        $this->duraciones = Duracion::pluck('nombre', 'id')->toArray();
+        $this->duraciones = Duracion::all();
         $this->grupos = Grupo::all();
     }
 
@@ -120,19 +148,25 @@ class Create extends Component
             $inscripcion->id_administrativo = $this->id_administrativo;
             $inscripcion->fecha_inscripcion = $this->obtenerFechaActual();
 
-            $inscripcion->save();
+            $grupo = $this->verificarCupo($this->selectedGrupos);
 
-            $descripcion = 'Se creó una nueva inscripción con ID: '.$inscripcion->id;
-            registrarBitacora($descripcion);
+            if (!is_null($grupo)) {
+                $this->emit('cupo', $grupo->nombre);
+            } else {
+                $inscripcion->save();
 
-            // Obtén los IDs de los grupos seleccionados
-            $gruposSeleccionados = $this->selectedGrupos;
+                $descripcion = 'Se creó una nueva inscripción con ID: '.$inscripcion->id;
+                registrarBitacora($descripcion);
 
-            // Asocia los grupos seleccionados a la inscripción
-            $inscripcion->grupos()->attach($gruposSeleccionados);
+                // Obtiene los IDs de los grupos seleccionados
+                $gruposSeleccionados = $this->selectedGrupos;
 
-            $this->emitTo('inscripcion.show', 'cerrarVista');
-            $this->emit('alert', 'guardado');
+                // Asocia los grupos seleccionados a la inscripción
+                $inscripcion->grupos()->attach($gruposSeleccionados);
+
+                $this->emitTo('inscripcion.show', 'cerrarVista');
+                $this->emit('alert', 'guardado');
+            }
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $this->emit('error', $message);

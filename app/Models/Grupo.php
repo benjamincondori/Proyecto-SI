@@ -13,7 +13,7 @@ class Grupo extends Model
 
     public $timestamps = false;
     protected $table = 'GRUPO';
-    protected $fillable = ['id', 'nombre', 'nro_integrantes', 'id_disciplina', 'id_entrenador', 'id_horario'];
+    protected $fillable = ['id', 'nombre', 'nro_integrantes', 'max_integrantes', 'id_disciplina', 'id_entrenador', 'id_horario'];
 
     public function horario():BelongsTo
     {

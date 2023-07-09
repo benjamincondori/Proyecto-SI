@@ -28,7 +28,7 @@
         <table class="table table-bordered table-hover mb-0">
             <thead class="bg-dark text-white text-nowrap">
                 <tr style="cursor: pointer">
-                    <th scope="col" style="width: 70px;" wire:click="order('id')">Id
+                    <th scope="col" style="width: 80px;" wire:click="order('id')">Id
                         @if ($sort == 'id')
                             @if ($direction == 'asc')
                                 <i class="fas fa-sort-alpha-down float-md-right" style="margin-top: 4px"></i>
@@ -81,9 +81,9 @@
                         <tr class="text-nowrap text-center">
                             <th scope="row" class="align-middle">{{ $registro->id }}</th>
                             <td class="align-middle">{{ $registro->id_usuario }}</td>
-                            <td class="align-middle text-wrap text-left">
+                            <td class="align-middle text-left">
                                 {{ $this->obtenerNombreUsuario($registro->id_usuario) }}</td>
-                            <td class="align-middle text-wrap">{{ $registro->descripcion }}</td>
+                            <td class="align-middle text-wrap text-wrap">{{ $registro->descripcion }}</td>
                             <td class="align-middle">{{ $this->formatoFecha($registro->fecha) }}</td>
                         </tr>
                     @endforeach

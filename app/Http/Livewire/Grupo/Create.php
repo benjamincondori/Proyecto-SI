@@ -8,22 +8,25 @@ use App\Models\Entrenador;
 use App\Models\Grupo;
 use App\Models\Horario;
 use Carbon\Carbon;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class Create extends Component
 {
-    public $id_grupo, $nombre, $nro_integrantes, $id_disciplina, $id_entrenador, $id_horario;
+    public $id_grupo, $nombre, $nro_integrantes, $max_integrantes, $id_disciplina, $id_entrenador, $id_horario;
     public $disciplinas, $entrenadores, $horarios;
 
     protected $rules = [
         'nombre' => 'required|max:40',
         'nro_integrantes' => 'required',
+        'max_integrantes' => 'required',
         'id_disciplina' => 'required',
         'id_entrenador' => 'required',
         'id_horario' => 'required'
     ];
 
     protected $validationAttributes = [
+        'max_integrantes' => 'nro máximo integrantes',
         'id_disciplina' => 'disciplina',
         'id_entrenador' => 'entrenador',
         'id_horario' => 'horario'
@@ -31,6 +34,11 @@ class Create extends Component
 
     public function updated($propertyName) {
         $this->validateOnly($propertyName);
+    }
+
+    public function obtenerCapacidad($idDisciplina) {
+        $disciplina = Disciplina::findOrFail($idDisciplina);
+        return $disciplina->seccion;
     }
 
     public function updatedIdDisciplina() {
@@ -73,7 +81,10 @@ class Create extends Component
             $grupo->id_disciplina = $this->id_disciplina;
             $grupo->id_entrenador = $this->id_entrenador;
             $grupo->id_horario = $this->id_horario;
+            $grupo->max_integrantes = $this->max_integrantes;
         
+            // dd($this->obtenerCapacidad($this->id_disciplina));
+
             $grupo->save();
 
             $descripcion = 'Se creó el grupo con ID: '.$grupo->id.' - '.$grupo->nombre;
