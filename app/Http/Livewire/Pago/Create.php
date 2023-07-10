@@ -162,7 +162,7 @@ class Create extends Component
                 $factura->fecha_emision = $this->obtenerFechaActual();
 
                 $factura->save();
-    
+
                 $this->emitTo('pago.show', 'cerrarVista');
                 $this->emit('alert', 'guardado');
             }

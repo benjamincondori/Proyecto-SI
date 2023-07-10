@@ -1,4 +1,5 @@
-<div>
+<x-layouts.app>
+
     <div class="row justify-content-center mt-3">
         <div class="col-11">
             <div class="card-box">
@@ -27,7 +28,7 @@
                             </p>
                             <p class="m-b-10"><strong>Fecha : </strong> <span class="float-right">
                                 {{ isset($factura->fecha_emision) ? 
-                                $this->formatoFecha($factura->fecha_emision) : '' }} 
+                                ($factura->fecha_emision) : '' }} 
                             </span></p>
                             <p class="m-b-10"><strong>Estado : </strong><span class="float-right">
                                 <span 
@@ -103,7 +104,7 @@
                                         <td class="text-right">
                                             &nbsp; <br>
                                             @foreach ($disciplinas as $disciplina)
-                                            {{ $this->formatoMoneda($disciplina->precio) }}<br>
+                                            {{ ($disciplina->precio) }}<br>
                                             @endforeach
                                         </td>
                                     </tr>
@@ -117,26 +118,20 @@
                     <div class="col-sm-12">
                         <div class="float-right">
                             <p class="m-0"><b>Sub-total:</b> <span class="float-right">
-                                {{ isset($precio) ? $this->formatoMoneda($precio) : '' }}</span></p>
+                                {{ isset($precio) ? ($precio) : '' }}</span></p>
                             <p class="m-0"><b>Descuento 
-                                ({{ isset($descuento) ? $this->formatoPorcentaje($descuento) : ''}}):
+                                ({{ isset($descuento) ? ($descuento) : ''}}):
                             </b> <span class="float-right"> 
-                                {{ isset($precio) ? $this->formatoMoneda($precio * $descuento) : '' }}</span></p>
+                                {{ isset($precio) ? ($precio * $descuento) : '' }}</span></p>
                             <h3><b>TOTAL:&nbsp;&nbsp;</b>
-                                {{ (isset($pago->monto)) ? $this->formatoMoneda($pago->monto) : '' }}</h3>
+                                {{ (isset($pago->monto)) ? ($pago->monto) : '' }}</h3>
                         </div>
                         <div class="clearfix"></div>
                     </div> 
                 </div>
 
-                <div class="mt-4 mb-1">
-                    <div class="text-right d-print-none">
-                        <a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i class="mdi mdi-printer mr-1"></i> Imprimir</a>
-                        <button type="button" wire:click="cancelar" class="btn btn-danger waves-effect waves-light"></i> Cerrar</button>
-                    </div>
-                </div>
             </div> 
         </div> 
     </div>
 
-</div>
+</x-layouts.app>

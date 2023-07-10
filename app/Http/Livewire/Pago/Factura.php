@@ -8,6 +8,7 @@ use App\Models\Pago;
 use App\Models\Paquete_Duracion;
 use Illuminate\Support\Carbon;
 use Livewire\Component;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class Factura extends Component
 {
@@ -16,7 +17,6 @@ class Factura extends Component
     public $precio, $descuento; // Precio y Descuento del paquete
 
     protected $listeners = ['editarRegistro'];
-
 
     public function editarRegistro($registroSeleccionado)
     {
@@ -30,7 +30,6 @@ class Factura extends Component
         $detallePaquete = $this->obtenerPaqueteDuracion($this->paquete->id, $this->duracion->id);
         $this->precio = $detallePaquete[0]->precio;
         $this->descuento = $detallePaquete[0]->descuento;
-        // dd($this->detallePaquete);
     }
 
     public function obtenerCliente($idCliente) {
@@ -95,6 +94,17 @@ class Factura extends Component
     public function cancelar() {
         $this->emitTo('pago.show','cerrarVista');
     }
+
+    // public function crearFactura() {
+    //     $pdf = Pdf::loadView('pago.factura', [
+    //         'pago' => $this->pago,
+    //         'cliente' => $this->cliente,
+    //         'usuario' => $this->usuario,
+    //         'factura' => $this->factura
+    //     ]);
+    //     $nombreFactura = 'factura_'.$this->cliente->id;
+    //     return $pdf->stream($nombreFactura);
+    // }
 
     public function render()
     {

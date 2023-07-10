@@ -50,25 +50,17 @@ class Show extends Component
 
     public function eliminarAlquiler($registroId)
     {
-        $inscripcion = Alquiler::find($registroId);
+        $alquiler = Alquiler::find($registroId);
 
-        // if (is_null($inscripcion->detalle->estado)) {
-        //     $grupos = $inscripcion->grupos;
-            
-        //     // Eliminar la inscripción y la relación en cascada
-        //     $inscripcion->delete();
-        //     $inscripcion->pago->delete();
+        if (is_null($alquiler->estado)) {
+            $alquiler->delete();
+            $alquiler->pago->delete();
 
-        //     $descripcion = 'Se eliminó la inscripción con ID: '.$inscripcion->id;
-        //     registrarBitacora($descripcion);
+            $descripcion = 'Se eliminó el alquiler con ID: '.$alquiler->id;
+            registrarBitacora($descripcion);
 
-        //     // Actualizar el número de integrantes en cada grupo
-        //     foreach ($grupos as $grupo) {
-        //         $grupo->decrement('nro_integrantes');
-        //     }
-
-        //     $this->registroSeleccionado = null;
-        // }
+            $this->registroSeleccionado = null;
+        }
     }
 
     public function obtenerFechaAlquiler($registroId) {

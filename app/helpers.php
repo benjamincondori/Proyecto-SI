@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Bitacora;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 function verificarPermiso($permiso) {
@@ -28,5 +29,4 @@ function registrarBitacora($descripcion) {
     }
     
 }
-
 

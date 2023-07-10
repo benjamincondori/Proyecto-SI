@@ -4,6 +4,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ReporteController;
 use App\Models\Disciplina;
 use App\Models\Duracion;
 use App\Models\Empleado;
@@ -36,6 +37,7 @@ Route::middleware(['auth', 'auth.admin'])->group(function() {
     Route::get('/inscripciones', [DashboardController::class, 'inscripciones'])->name('dashboard.inscripciones');
     Route::get('/alquileres', [DashboardController::class, 'alquileres'])->name('dashboard.alquileres');
     Route::get('/pagos', [DashboardController::class, 'pagos'])->name('dashboard.pagos');
+    // Route::get('/pagos/{idPago}', [ReporteController::class, 'factura']);
     Route::get('/usuarios', [DashboardController::class, 'usuarios'])->name('dashboard.usuarios');
     Route::get('/roles', [DashboardController::class, 'roles'])->name('dashboard.roles');
     Route::get('/permisos', [DashboardController::class, 'permisos'])->name('dashboard.permisos');
@@ -68,46 +70,46 @@ Route::middleware(['auth', 'auth.instructor'])->group(function () {
 });
 
 
-Route::get('/test', function() {
+// Route::get('/test', function() {
 
-    $seccionId = 3; 
+//     $seccionId = 3; 
 
-    function cantidadTiposMaquina($seccionId) {
-        // $cantidadTiposMaquina = Maquina::join('tipo_maquina', 'maquina.id_tipo', '=', 'tipo_maquina.id')
-        //     ->where('maquina.id_seccion', $seccionId)
-        //     ->distinct('tipo_maquina.id')
-        //     ->count('tipo_maquina.id');
+//     function cantidadTiposMaquina($seccionId) {
+//         // $cantidadTiposMaquina = Maquina::join('tipo_maquina', 'maquina.id_tipo', '=', 'tipo_maquina.id')
+//         //     ->where('maquina.id_seccion', $seccionId)
+//         //     ->distinct('tipo_maquina.id')
+//         //     ->count('tipo_maquina.id');
 
-        $idsTiposMaquina = Maquina::join('tipo_maquina', 'maquina.id_tipo', '=', 'tipo_maquina.id')
-            ->where('maquina.id_seccion', $seccionId)
-            ->distinct('tipo_maquina.id')
-            ->pluck('tipo_maquina.id');
-        return $idsTiposMaquina;
-    }
+//         $idsTiposMaquina = Maquina::join('tipo_maquina', 'maquina.id_tipo', '=', 'tipo_maquina.id')
+//             ->where('maquina.id_seccion', $seccionId)
+//             ->distinct('tipo_maquina.id')
+//             ->pluck('tipo_maquina.id');
+//         return $idsTiposMaquina;
+//     }
     
-    function cantidadMaquinas($tipoId, $seccionId) {
-        $cantidadMaquinas = DB::table('maquina')
-            ->join('tipo_maquina', 'maquina.id_tipo', '=', 'tipo_maquina.id')
-            ->where('maquina.id_tipo', $tipoId)
-            ->where('maquina.id_seccion', $seccionId)
-            ->where('maquina.estado', 1)
-            ->count();
-        return $cantidadMaquinas;
-    }
+//     function cantidadMaquinas($tipoId, $seccionId) {
+//         $cantidadMaquinas = DB::table('maquina')
+//             ->join('tipo_maquina', 'maquina.id_tipo', '=', 'tipo_maquina.id')
+//             ->where('maquina.id_tipo', $tipoId)
+//             ->where('maquina.id_seccion', $seccionId)
+//             ->where('maquina.estado', 1)
+//             ->count();
+//         return $cantidadMaquinas;
+//     }
 
-    function obtenerCupos($seccionId) {
-        $tiposMaquina = cantidadTiposMaquina($seccionId);
-        $cupo = 0;
-        foreach ($tiposMaquina as $tipoId) {
-            $maquinas = cantidadMaquinas($tipoId, $seccionId);
-            if ($maquinas < $cupo || $cupo == 0) {
-                $cupo = $maquinas;
-            }
-        }
-        return $cupo;
-    }
-    return obtenerCupos($seccionId);
-});
+//     function obtenerCupos($seccionId) {
+//         $tiposMaquina = cantidadTiposMaquina($seccionId);
+//         $cupo = 0;
+//         foreach ($tiposMaquina as $tipoId) {
+//             $maquinas = cantidadMaquinas($tipoId, $seccionId);
+//             if ($maquinas < $cupo || $cupo == 0) {
+//                 $cupo = $maquinas;
+//             }
+//         }
+//         return $cupo;
+//     }
+//     return obtenerCupos($seccionId);
+// });
 
 
 
