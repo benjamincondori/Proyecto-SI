@@ -36,6 +36,7 @@ Route::middleware(['auth', 'auth.admin'])->group(function() {
     Route::get('/condicion-fisica', [DashboardController::class, 'condicionFisica'])->name('dashboard.condicionFisica');
     Route::get('/inscripciones', [DashboardController::class, 'inscripciones'])->name('dashboard.inscripciones');
     Route::get('/alquileres', [DashboardController::class, 'alquileres'])->name('dashboard.alquileres');
+    Route::get('/registro-asistencia', [DashboardController::class, 'asistencia'])->name('dashboard.asistencia');
     Route::get('/pagos', [DashboardController::class, 'pagos'])->name('dashboard.pagos');
     // Route::get('/pagos/{idPago}', [ReporteController::class, 'factura']);
     Route::get('/usuarios', [DashboardController::class, 'usuarios'])->name('dashboard.usuarios');

@@ -29,6 +29,10 @@ class Cliente extends Model
         return $this->hasMany(Alquiler::class, 'id_cliente');
     }
 
+    public function asistencias(): HasMany {
+        return $this->hasMany(Asistencia::class, 'id_cliente');
+    }
+
     public function pagos(): HasMany {
         return $this->hasMany(Pago::class, 'id_cliente');
     }

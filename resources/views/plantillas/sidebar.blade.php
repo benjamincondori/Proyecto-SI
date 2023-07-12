@@ -117,7 +117,7 @@
 
             @if (verificarPermiso('Asistencia_Listado'))
                 <li>
-                    <a href="javascript: void(0);">
+                    <a href="{{ route('dashboard.asistencia') }}">
                         <i class="fas fa-id-card-alt"></i>
                         <span> Asistencia </span>
                     </a>
