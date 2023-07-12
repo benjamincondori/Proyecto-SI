@@ -13,7 +13,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class Factura extends Component
 {
     public $registroSeleccionado;
-    public $usuario, $cliente, $pago, $factura, $paquete, $duracion;
+    public $usuario, $cliente, $pago, $factura, $paquete, $duracion, $casillero;
     public $precio, $descuento; // Precio y Descuento del paquete
 
     protected $listeners = ['editarRegistro'];
@@ -25,11 +25,16 @@ class Factura extends Component
         $this->cliente = $this->obtenerCliente($this->registroSeleccionado['id_cliente']);
         $this->usuario = $this->obtenerUsuario($this->registroSeleccionado['id_administrativo']);
         $this->factura = $this->obtenerFactura($this->pago->id);
-        $this->paquete = $this->obtenerPaquete($this->pago->id);
-        $this->duracion = $this->obtenerDuracion($this->pago->id);
-        $detallePaquete = $this->obtenerPaqueteDuracion($this->paquete->id, $this->duracion->id);
-        $this->precio = $detallePaquete[0]->precio;
-        $this->descuento = $detallePaquete[0]->descuento;
+        if ($this->pago->concepto === 'Inscripción') {
+            $this->paquete = $this->obtenerPaquete($this->pago->id);
+            $this->duracion = $this->obtenerDuracion($this->pago->id);
+            $detallePaquete = $this->obtenerPaqueteDuracion($this->paquete->id, $this->duracion->id);
+            $this->precio = $detallePaquete[0]->precio;
+            $this->descuento = $detallePaquete[0]->descuento;
+        } else if ($this->pago->concepto === 'Alquiler') {
+            $this->casillero = $this->obtenerCasillero($this->pago->id);
+        }
+        
     }
 
     public function obtenerCliente($idCliente) {
@@ -51,6 +56,13 @@ class Factura extends Component
     public function obtenerPago($idPago) {
         $pago = Pago::findOrFail($idPago);
         return $pago;
+    }
+
+    public function obtenerCasillero($idPago) {
+        $pago = $this->obtenerPago($idPago);
+        $alquiler = $pago->alquiler;
+        $casillero = $alquiler->casillero;
+        return $casillero;
     }
 
     public function obtenerPaquete($idPago) {

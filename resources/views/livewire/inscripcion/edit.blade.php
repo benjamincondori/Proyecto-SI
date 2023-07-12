@@ -7,7 +7,7 @@
     </style>
 
     <div class="form-group px-4 pt-2">
-        <i class="fas fa-plus-circle fa-2x"></i>
+        <i class="fas fa-pencil-alt fa-2x"></i>
         <h3 class="fs-1 d-inline-block ml-1">Editar inscripción</h3>
     </div>
     <form class="px-4 pt-2 pb-2">

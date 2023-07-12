@@ -23,13 +23,13 @@
                     </div>
                     <div class="col-md-4 offset-md-2">
                         <div class="mt-3">
-                            <p class="m-b-10"><strong>N° de Factura : </strong> <span class="float-right"> {{ isset($factura->id) ? $factura->id : '' }}</span>
+                            <p class="m-b-10"><strong>N° de Factura :&nbsp;&nbsp;&nbsp;&nbsp; </strong> <span class="float-md-right"> {{ isset($factura->id) ? $factura->id : '' }}</span>
                             </p>
-                            <p class="m-b-10"><strong>Fecha : </strong> <span class="float-right">
+                            <p class="m-b-10"><strong>Fecha :&nbsp;&nbsp;&nbsp;&nbsp; </strong> <span class="float-md-right">
                                 {{ isset($factura->fecha_emision) ? 
                                 $this->formatoFecha($factura->fecha_emision) : '' }} 
                             </span></p>
-                            <p class="m-b-10"><strong>Estado : </strong><span class="float-right">
+                            <p class="m-b-10"><strong>Estado :&nbsp;&nbsp;&nbsp;&nbsp; </strong><span class="float-md-right">
                                 <span 
                                     @if (isset($pago->estado) && $pago->estado)
                                         class="text-white py-0 px-1 rounded-lg bg-success"
@@ -90,21 +90,31 @@
                                             }
                                         @endphp
                                         <td>
-                                            <b>{{ isset($paquete->nombre) ? 'Paquete: '.$paquete->nombre : '' }}</b><br/>
-                                            @foreach ($disciplinas as $disciplina)
-                                            {{ ' - '.$disciplina->nombre }}<br>
-                                            @endforeach
-                                            @if (isset($duracion->nombre))
-                                                <b>Duración:</b><br>
-                                                {{ ' - '.$duracion->nombre }} 
-                                                {{ '('.$duracion->dias_duracion.' Días)' }}
+                                            @if (isset($pago) &&  $pago->concepto === 'Inscripción')
+                                                <b>{{ isset($paquete->nombre) ? 'Paquete: '.$paquete->nombre : '' }}</b><br/>
+                                                @foreach ($disciplinas as $disciplina)
+                                                {{ ' - '.$disciplina->nombre }}<br>
+                                                @endforeach
+                                                @if (isset($duracion->nombre))
+                                                    <b>Duración:</b><br>
+                                                    {{ ' - '.$duracion->nombre }} 
+                                                    {{ '('.$duracion->dias_duracion.' Días)' }}
+                                                @endif
+                                            @elseif (isset($pago) && $pago->concepto === 'Alquiler')
+                                                <b>{{ isset($casillero) ? 'Casillero' : '' }}</b><br/>
+                                                {{ 'Nro: '.$casillero->nro }} <br>
+                                                {{ 'Tamaño: '.$casillero->tamaño }} <br>
+                                                {{ 'Días de duración: '.$pago->alquiler->dias_duracion.' Días' }} <br>
                                             @endif
                                         </td>
                                         <td class="text-right">
                                             &nbsp; <br>
+
                                             @foreach ($disciplinas as $disciplina)
                                             {{ $this->formatoMoneda($disciplina->precio) }}<br>
                                             @endforeach
+
+                                            {{ (isset($casillero)) ? $this->formatoMoneda($casillero->precio) : '' }}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -116,12 +126,22 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="float-right">
-                            <p class="m-0"><b>Sub-total:</b> <span class="float-right">
-                                {{ isset($precio) ? $this->formatoMoneda($precio) : '' }}</span></p>
-                            <p class="m-0"><b>Descuento 
-                                ({{ isset($descuento) ? $this->formatoPorcentaje($descuento) : ''}}):
-                            </b> <span class="float-right"> 
-                                {{ isset($precio) ? $this->formatoMoneda($precio * $descuento) : '' }}</span></p>
+                            @if (isset($precio))
+                                <p class="m-0"><b>Sub-total:</b> <span class="float-right">
+                                    {{ isset($precio) ? $this->formatoMoneda($precio) : '' }}
+                                    </span></p>
+                                <p class="m-0"><b>Descuento 
+                                    ({{ isset($descuento) ? $this->formatoPorcentaje($descuento) : ''}}):
+                                </b> <span class="float-right"> 
+                                    {{ isset($precio) ? $this->formatoMoneda($precio * $descuento) : '' }}</span></p>
+                            @else
+                                <p class="m-0"><b>Efectivo:</b> <span class="float-right">
+                                    {{ isset($pago) ? $this->formatoMoneda($pago->efectivo) : '' }}
+                                    </span></p>
+                                <p class="m-0"><b>Saldo:</b> <span class="float-right"> 
+                                    {{ isset($pago) ? $this->formatoMoneda($pago->cambio) : '' }}</span></p>   
+                            @endif
+
                             <h3><b>TOTAL:&nbsp;&nbsp;</b>
                                 {{ (isset($pago->monto)) ? $this->formatoMoneda($pago->monto) : '' }}</h3>
                         </div>

@@ -19,8 +19,8 @@ class Create extends Component
     protected $listeners = ['editarRegistro'];
 
     protected $rules = [
-        // 'id_cliente' => 'required|exists:CLIENTE,id',
-        // 'descripcion' => 'required|max:255',
+        'id_cliente' => 'required|exists:CLIENTE,id',
+        'descripcion' => 'required|max:255',
         'efectivo' => 'required',
     ];
 
@@ -41,10 +41,10 @@ class Create extends Component
         $this->cambio = $this->registroSeleccionado['cambio'];
         $this->nombre = $this->obtenerNombreCliente($this->id_cliente);
         $this->monto = $this->formatoMoneda($this->registroSeleccionado['monto']);
-        if ($this->registroSeleccionado['concepto'] == 'Inscripción') {
-            $this->descripcion = $this->obtenerDescripcion($this->id_pago);
-        } else if ($this->registroSeleccionado['concepto'] == 'Alquiler') {
-
+        if ($this->registroSeleccionado['concepto'] === 'Inscripción') {
+            $this->descripcion = $this->obtenerDescripcionInscripcion($this->id_pago);
+        } else if ($this->registroSeleccionado['concepto'] === 'Alquiler') {
+            $this->descripcion = $this->obtenerDescripcionAlquiler($this->id_pago);
         }
     }
 
@@ -54,7 +54,15 @@ class Create extends Component
         return $nombre;
     }
 
-    public function obtenerDescripcion($idPago) {
+    public function obtenerDescripcionAlquiler($idPago) {
+        $pago = Pago::findOrFail($idPago);
+        $alquiler = $pago->alquiler;
+        $casillero = $alquiler->casillero;
+        $descripcion = "Nro Casillero: $casillero->nro \nPrecio Casillero: $casillero->precio Bs \nDías de duración: $alquiler->dias_duracion días \nMonto a pagar: $pago->monto Bs.";
+        return $descripcion;
+    }
+
+    public function obtenerDescripcionInscripcion($idPago) {
         $pago = Pago::findOrFail($idPago);
         $paquete = $pago->inscripcion->paquete;
         $duracion = $pago->inscripcion->duracion;
@@ -144,27 +152,35 @@ class Create extends Component
             $pago->estado = true;
             $pago->fecha = $this->obtenerFechaActual();
 
-            $guardado = $pago->save();
+            $pagoGuardado = $pago->save();
 
             $descripcion = 'Se registró un nuevo pago con ID: '.$pago->id;
             registrarBitacora($descripcion);
 
-            if ($guardado) {
-                $inscripcion = $pago->inscripcion->detalle;
-                $inscripcion->estado = true;
-                $inscripcion->save();
-
-                $factura = new Factura();
-                $factura->descripcion = $this->descripcion;
-                $factura->monto_total = $pago->monto;
-                $factura->NIT = $this->nit;
-                $factura->id_pago = $pago->id;
-                $factura->fecha_emision = $this->obtenerFechaActual();
-
-                $factura->save();
-
-                $this->emitTo('pago.show', 'cerrarVista');
-                $this->emit('alert', 'guardado');
+            if ($pagoGuardado) {
+                if (strcmp($pago->concepto, 'Inscripción') === 0) {
+                    $inscripcion = $pago->inscripcion->detalle;
+                    $inscripcion->estado = true;
+                    $guardado = $inscripcion->save();
+                } else if (strcmp($pago->concepto, 'Alquiler') === 0) {
+                    $alquiler = $pago->alquiler;
+                    $alquiler->estado = true;
+                    $guardado = $alquiler->save();
+                }
+                
+                if($guardado) {
+                    $factura = new Factura();
+                    $factura->descripcion = $this->descripcion;
+                    $factura->monto_total = $pago->monto;
+                    $factura->NIT = $this->nit;
+                    $factura->id_pago = $pago->id;
+                    $factura->fecha_emision = $this->obtenerFechaActual();
+    
+                    $factura->save();
+    
+                    $this->emitTo('pago.show', 'cerrarVista');
+                    $this->emit('alert', 'guardado');
+                }
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();
