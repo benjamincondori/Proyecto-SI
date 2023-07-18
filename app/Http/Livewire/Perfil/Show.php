@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Perfil;
 
 use App\Models\Empleado;
+use App\Models\Usuario;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -13,12 +14,14 @@ class Show extends Component
     public $id_administrativo, $nombreCompleto, $nombre, $apellido, $email, $direccion, $ci, $telefono;
     public $fechaNacimiento, $cargo, $genero, $turno;
     public $editar = false;
+    public $activeTab = 'informacion';
     public $passwordCorfirmar, $passwordNuevo, $passwordActual;
-    
+    public $showPassword = false;
+
 
     protected $rules = [
         'passwordActual' => 'required',
-        'passwordNuevo' => 'required',
+        'passwordNuevo' => 'required|min:5',
         'passwordCorfirmar' => 'required',
     ];
 
@@ -88,8 +91,33 @@ class Show extends Component
         }
     }
 
+    public function resetearCampos() {
+        $this->passwordCorfirmar = null; 
+        $this->passwordNuevo = null; 
+        $this->passwordActual = null;
+    }
+
     public function cambiarContraseña() {
         $this->validate();
+
+        $usuario = $this->obtenerUsuario();
+        $usuario = Usuario::findOrFail($usuario->id);
+
+        if (!password_verify($this->passwordActual, $usuario->password)) {
+            $this->addError('passwordActual', 'La contraseña actual es incorrecta.');
+            return;
+        }
+
+        if ($this->passwordNuevo !== $this->passwordCorfirmar) {
+            $this->addError('passwordCorfirmar', 'La confirmación de contraseña no coincide.');
+            return;
+        }
+
+        $usuario->password = bcrypt($this->passwordNuevo);
+        $usuario->save();
+
+        $this->emit('password');
+        $this->resetearCampos();
     }
 
     public function mount() {
