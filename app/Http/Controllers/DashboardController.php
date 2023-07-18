@@ -10,6 +10,10 @@ class DashboardController extends Controller
         return view('dashboard.principal'); 
     }
 
+    public function perfil() {
+        return view('dashboard.perfil');
+    }
+
     public function administrativos() {
         return view('dashboard.administrativo');
     }

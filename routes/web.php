@@ -34,6 +34,7 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['auth', 'auth.admin'])->group(function() {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/perfil', [DashboardController::class, 'perfil'])->name('dashboard.perfil');
     Route::get('/administrativos', [DashboardController::class, 'administrativos'])->name('dashboard.administrativos');
     Route::get('/entrenadores', [DashboardController::class, 'entrenadores'])->name('dashboard.entrenadores');
     Route::get('/clientes', [DashboardController::class, 'clientes'])->name('dashboard.clientes');
