@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Alquiler;
 
 use App\Models\Alquiler;
+use App\Models\Casillero;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -53,13 +54,19 @@ class Show extends Component
         $alquiler = Alquiler::find($registroId);
 
         if (is_null($alquiler->estado)) {
-            $alquiler->delete();
+            $eliminado = $alquiler->delete();
             $alquiler->pago->delete();
+            
+            if ($eliminado) {
+                $casillero = Casillero::findOrFail($alquiler->id_casillero);
+                $casillero->estado = 1;
+                $casillero->save();
 
-            $descripcion = 'Se eliminó el alquiler con ID: '.$alquiler->id;
-            registrarBitacora($descripcion);
-
-            $this->registroSeleccionado = null;
+                $descripcion = 'Se eliminó el alquiler con ID: '.$alquiler->id;
+                registrarBitacora($descripcion);
+    
+                $this->registroSeleccionado = null;
+            }
         }
     }
 

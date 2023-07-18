@@ -2,9 +2,13 @@
 
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ExportarController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\ReporteController;
+use App\Http\Livewire\Reporte\ReporteAlquiler;
+use App\Http\Livewire\Reporte\ReporteAsistencia;
+use App\Http\Livewire\Reporte\ReporteInscripcion;
+use App\Http\Livewire\Reporte\ReportePago;
 use App\Models\Disciplina;
 use App\Models\Duracion;
 use App\Models\Empleado;
@@ -55,9 +59,30 @@ Route::middleware(['auth', 'auth.admin'])->group(function() {
     Route::get('/duraciones', [DashboardController::class, 'duraciones'])->name('dashboard.duraciones');
     Route::get('/casilleros', [DashboardController::class, 'casilleros'])->name('dashboard.casilleros');
     Route::get('/bitacora', [DashboardController::class, 'bitacora'])->name('dashboard.bitacora');
+    Route::get('/reporte-inscripcion', [DashboardController::class, 'reporteInscripcion'])->name('dashboard.reporteInscripcion');
+    Route::get('/reporte-alquiler', [DashboardController::class, 'reporteAlquiler'])->name('dashboard.reporteAlquiler');
+    Route::get('/reporte-pago', [DashboardController::class, 'reportePago'])->name('dashboard.reportePago');
+    Route::get('/reporte-asistencia', [DashboardController::class, 'reporteAsistencia'])->name('dashboard.reporteAsistencia');
+    // Route::get('/reporte-factura', [DashboardController::class, 'reporteFactura'])->name('dashboard.reporteFactura');
     Route::get('/logout', function () {
         abort(404); 
     });
+
+    // Reportes de inscripciones pdf
+    Route::get('/reporteInscripcion-pdf/{admin}/{cliente}/{tipo}/{estado}/{paquete}/{duracion}/{f1}/{f2}', [ReporteInscripcion::class, 'generarPDF']);
+    Route::get('/reporteInscripcion-pdf/{admin}/{cliente}/{tipo}/{estado}/{paquete}/{duracion}', [ReporteInscripcion::class, 'generarPDF']);
+
+    // Reportes de alquileres pdf
+    Route::get('/reporteAlquiler-pdf/{admin}/{cliente}/{tipo}/{estado}/{casillero}/{f1}/{f2}', [ReporteAlquiler::class, 'generarPDF']);
+    Route::get('/reporteAlquiler-pdf/{admin}/{cliente}/{tipo}/{estado}/{casillero}', [ReporteAlquiler::class, 'generarPDF']);
+
+    // Reportes de alquileres pdf
+    Route::get('/reportePago-pdf/{admin}/{cliente}/{tipo}/{estado}/{concepto}/{f1}/{f2}', [ReportePago::class, 'generarPDF']);
+    Route::get('/reportePago-pdf/{admin}/{cliente}/{tipo}/{estado}/{concepto}', [ReportePago::class, 'generarPDF']);
+
+    // Reportes de asistencias pdf
+    Route::get('/reporteAsistencia-pdf/{admin}/{cliente}/{tipo}/{f1}/{f2}', [ReporteAsistencia::class, 'generarPDF']);
+    Route::get('/reporteAsistencia-pdf/{admin}/{cliente}/{tipo}', [ReporteAsistencia::class, 'generarPDF']);
 });
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

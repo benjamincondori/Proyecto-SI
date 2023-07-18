@@ -136,7 +136,6 @@
                                     @else
                                         Sin nombre
                                     @endif
-                                    
                                 </td>
                                 <td class="align-middle text-left">
                                     {{ $pago->administrativo->empleado->nombres }}

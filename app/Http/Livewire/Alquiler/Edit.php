@@ -88,8 +88,11 @@ class Edit extends Component
     {
         $this->registroSeleccionado = $registroSeleccionado;
         $this->id_cliente = $this->registroSeleccionado->id_cliente;
+        $this->id_casillero = $this->registroSeleccionado->id_casillero;
         $this->search = $this->obtenerNombreCliente($this->id_cliente);
-
+        $this->casilleros = Casillero::where('estado', 1)
+                ->orWhere('id', $this->registroSeleccionado->id_casillero)
+                ->get();
         $inscripcion = Alquiler::find($this->registroSeleccionado['id']);
     }
 
@@ -119,14 +122,24 @@ class Edit extends Component
             $alquiler->id_administrativo = $this->registroSeleccionado['id_administrativo'];
             $alquiler->fecha_alquiler = $this->obtenerFechaActual();
 
-            $alquiler->save();
+            $guardado = $alquiler->save();
 
-            $descripcion = 'Se actualizó el alquiler con ID: '.$alquiler->id;
-            registrarBitacora($descripcion);
+            if ($guardado) {
+                $casillero = Casillero::findOrFail($this->id_casillero);
+                $casillero->estado = 1;
+                $casillero->save();
 
-            $this->emitTo('alquiler.show','cerrarVista');
-            $this->emit('alert', 'actualizado');
-            $this->registroSeleccionado = null;
+                $casillero = Casillero::findOrFail($alquiler->id_casillero);
+                $casillero->estado = 0;
+                $casillero->save();
+
+                $descripcion = 'Se actualizó el alquiler con ID: '.$alquiler->id;
+                registrarBitacora($descripcion);
+
+                $this->emitTo('alquiler.show','cerrarVista');
+                $this->emit('alert', 'actualizado');
+                $this->registroSeleccionado = null;
+            }
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $this->emit('error', $message);

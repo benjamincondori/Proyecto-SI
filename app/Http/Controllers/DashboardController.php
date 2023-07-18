@@ -106,4 +106,24 @@ class DashboardController extends Controller
         return view('dashboard.bitacora');
     }
 
+    public function reporteInscripcion() {
+        return view('dashboard.reporte-inscripcion');
+    }
+
+    public function reporteAlquiler() {
+        return view('dashboard.reporte-alquiler');
+    }
+
+    public function reportePago() {
+        return view('dashboard.reporte-pago');
+    }
+
+    public function reporteFactura() {
+        return view('dashboard.reporte-factura');
+    }
+
+    public function reporteAsistencia() {
+        return view('dashboard.reporte-asistencia');
+    }
+
 }

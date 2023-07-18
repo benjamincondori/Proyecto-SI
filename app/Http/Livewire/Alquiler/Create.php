@@ -101,13 +101,19 @@ class Create extends Component
             $alquiler->id_administrativo = $this->id_administrativo;
             $alquiler->fecha_alquiler = $this->obtenerFechaActual();
 
-            $alquiler->save();
+            $guardado = $alquiler->save();
 
-            $descripcion = 'Se creó un nuevo alquiler con ID: '.$alquiler->id;
-            registrarBitacora($descripcion);
+            if ($guardado) {
+                $casillero = Casillero::findOrFail($alquiler->id_casillero);
+                $casillero->estado = 0;
+                $casillero->save();
 
-            $this->emitTo('alquiler.show', 'cerrarVista');
-            $this->emit('alert', 'guardado');
+                $descripcion = 'Se creó un nuevo alquiler con ID: '.$alquiler->id;
+                registrarBitacora($descripcion);
+    
+                $this->emitTo('alquiler.show', 'cerrarVista');
+                $this->emit('alert', 'guardado');
+            }
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $this->emit('error', $message);

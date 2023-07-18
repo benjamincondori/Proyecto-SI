@@ -109,7 +109,7 @@
             @if (verificarPermiso('Pago_Listado'))
                 <li>
                     <a href="{{ route('dashboard.pagos') }}">
-                        <i class="fas fa-money-bill-alt"></i>
+                        <i class="far fa-money-bill-alt"></i>
                         <span> Pagos </span>
                     </a>
                 </li>
@@ -224,16 +224,19 @@
                     </a>
                     <ul class="nav-second-level" aria-expanded="false">
                         <li>
-                            <a href="#">Facturas por Fechas</a>
+                            <a href="{{ route('dashboard.reporteInscripcion') }}">Reporte de Inscripciones</a>
                         </li>
                         <li>
-                            <a href="#">Pagos por Fechas</a>
+                            <a href="{{ route('dashboard.reporteAlquiler') }}">Reporte de Alquileres</a>
                         </li>
                         <li>
-                            <a href="#">Reporte de Inscripciones</a>
+                            <a href="{{ route('dashboard.reportePago') }}">Reporte de Pagos</a>
                         </li>
+                        {{-- <li>
+                            <a href="{{ route('dashboard.reporteFactura') }}">Reporte de Facturas</a>
+                        </li> --}}
                         <li>
-                            <a href="#">Reporte de Alquileres</a>
+                            <a href="{{ route('dashboard.reporteAsistencia') }}">Reporte de Asistencias</a>
                         </li>
                     </ul>
                 </li>

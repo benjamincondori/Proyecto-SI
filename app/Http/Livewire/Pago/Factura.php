@@ -107,17 +107,6 @@ class Factura extends Component
         $this->emitTo('pago.show','cerrarVista');
     }
 
-    // public function crearFactura() {
-    //     $pdf = Pdf::loadView('pago.factura', [
-    //         'pago' => $this->pago,
-    //         'cliente' => $this->cliente,
-    //         'usuario' => $this->usuario,
-    //         'factura' => $this->factura
-    //     ]);
-    //     $nombreFactura = 'factura_'.$this->cliente->id;
-    //     return $pdf->stream($nombreFactura);
-    // }
-
     public function render()
     {
         return view('livewire.pago.factura');
