@@ -218,10 +218,10 @@
                                     <div class="form-group">
                                         <label>Clave Actual <span class="text-danger">*</span></label>
                                         <div class="input-group">
-                                            <input type="{{ $showPassword ? 'text' : 'password' }}" class="form-control" wire:model="passwordActual" placeholder="Contraseña actual" style="border-right: none">
+                                            <input type="{{ $showPassword1 ? 'text' : 'password' }}" class="form-control" wire:model="passwordActual" placeholder="Contraseña actual" style="border-right: none">
                                             <div class="input-group-append">
-                                                <span class="input-group-text" style="background: transparent; cursor: pointer; border-left: none;" wire:click="$toggle('showPassword')">
-                                                    <i class="fas {{ $showPassword ? 'fa-eye-slash' : 'fa-eye' }}"></i>
+                                                <span class="input-group-text" style="background: transparent; cursor: pointer; border-left: none;" wire:click="$toggle('showPassword1')">
+                                                    <i class="fas {{ $showPassword1 ? 'fa-eye-slash' : 'fa-eye' }}"></i>
                                                 </span>
                                             </div>
                                         </div>
@@ -232,12 +232,12 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Contraseña <span class="text-danger">*</span></label>
+                                        <label>Nueva Contraseña <span class="text-danger">*</span></label>
                                         <div class="input-group">
-                                            <input type="{{ $showPassword ? 'text' : 'password' }}" class="form-control" wire:model="passwordNuevo" placeholder="Nueva contraseña" style="border-right: none;">
+                                            <input type="{{ $showPassword2 ? 'text' : 'password' }}" class="form-control" wire:model="passwordNuevo" placeholder="Nueva contraseña" style="border-right: none;">
                                             <div class="input-group-append">
-                                                <span class="input-group-text" style="background: transparent; cursor: pointer; border-left: none;" wire:click="$toggle('showPassword')">
-                                                    <i class="fas {{ $showPassword ? 'fa-eye-slash' : 'fa-eye' }}"></i>
+                                                <span class="input-group-text" style="background: transparent; cursor: pointer; border-left: none;" wire:click="$toggle('showPassword2')">
+                                                    <i class="fas {{ $showPassword2 ? 'fa-eye-slash' : 'fa-eye' }}"></i>
                                                 </span>
                                             </div>
                                         </div>
@@ -250,10 +250,10 @@
                                     <div class="form-group">
                                         <label>Confirmar Contraseña <span class="text-danger">*</span> </label>
                                         <div class="input-group">
-                                            <input type="{{ $showPassword ? 'text' : 'password' }}" class="form-control" wire:model="passwordCorfirmar" placeholder="Confirmar contraseña" style="border-right: none;">
+                                            <input type="{{ $showPassword3 ? 'text' : 'password' }}" class="form-control" wire:model="passwordCorfirmar" placeholder="Confirmar contraseña" style="border-right: none;">
                                             <div class="input-group-append">
-                                                <span class="input-group-text" style="background: transparent; cursor: pointer; border-left: none;" wire:click="$toggle('showPassword')">
-                                                    <i class="fas {{ $showPassword ? 'fa-eye-slash' : 'fa-eye' }}"></i>
+                                                <span class="input-group-text" style="background: transparent; cursor: pointer; border-left: none;" wire:click="$toggle('showPassword3')">
+                                                    <i class="fas {{ $showPassword3 ? 'fa-eye-slash' : 'fa-eye' }}"></i>
                                                 </span>
                                             </div>
                                         </div>

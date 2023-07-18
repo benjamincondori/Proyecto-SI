@@ -16,13 +16,20 @@ class Show extends Component
     public $editar = false;
     public $activeTab = 'informacion';
     public $passwordCorfirmar, $passwordNuevo, $passwordActual;
-    public $showPassword = false;
-
+    public $showPassword1 = false;
+    public $showPassword2 = false;
+    public $showPassword3 = false;
 
     protected $rules = [
         'passwordActual' => 'required',
         'passwordNuevo' => 'required|min:5',
         'passwordCorfirmar' => 'required',
+    ];
+
+    protected $validationAttributes = [
+        'passwordActual' => 'clave actual',
+        'passwordNuevo' => 'nueva contraseña',
+        'passwordCorfirmar' => 'confirmar contraseña',
     ];
 
     protected function getUpdateRules()

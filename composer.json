@@ -6,18 +6,14 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "barryvdh/laravel-dompdf": "*",
+        "barryvdh/laravel-dompdf": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
-        "jenssegers/date": "*",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
-        "livewire/livewire": "^2.12",
-        "maatwebsite/excel": "^1.1",
-        "nesbot/carbon": "*"
+        "livewire/livewire": "^2.12"
     },
     "require-dev": {
-        "caouecs/laravel-lang": "~3.0",
         "fakerphp/faker": "^1.9.1",
         "laravel-lang/common": "^3.1",
         "laravel/pint": "^1.0",

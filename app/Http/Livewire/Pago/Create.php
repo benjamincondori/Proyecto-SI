@@ -24,9 +24,6 @@ class Create extends Component
         'efectivo' => 'required',
     ];
 
-    protected $validationAttributes = [
-    ];
-
     public function updated($propertyName) {
         $this->validateOnly($propertyName);
     }
