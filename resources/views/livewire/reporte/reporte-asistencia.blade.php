@@ -37,8 +37,8 @@
             <div class="form-group">
                 <label class="control-label mb-1"><strong>Elige el tipo de reporte</strong></label>
                 <select class="form-control text-truncate" wire:model="tipoReporte">
-                    <option value="0">Pagos del Día</option>
-                    <option value="1">Pagos por fecha</option>
+                    <option value="0">Asistencias del Día</option>
+                    <option value="1">Asistencias por fecha</option>
                 </select>
             </div>
         </div>

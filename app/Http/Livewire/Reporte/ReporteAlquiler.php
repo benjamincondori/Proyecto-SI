@@ -6,9 +6,9 @@ use App\Models\Alquiler;
 use App\Models\Casillero;
 use App\Models\Cliente;
 use App\Models\Empleado;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Livewire\Component;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReporteAlquiler extends Component
 {

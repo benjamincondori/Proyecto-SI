@@ -155,6 +155,15 @@
         </div>
     </section>
 
+    <section class="mt-2">
+        Basado en el análisis de las inscripciones de nuestro gimnasio durante el período del 
+        {{ formatoFechaTexto($fechaInicio) }} 
+        @if ($tipoReporte == 1)
+            al {{ formatoFechaTexto($fechaFin) }}
+        @endif
+        , se registraron un total de {{ $inscripciones->count() }} inscripciones.
+    </section>
+
     {{-- <section style="position: fixed; bottom: 0; width: 100%;">
         <table cellpadding="0" cellspacing="0" width="100%">
             <tr>

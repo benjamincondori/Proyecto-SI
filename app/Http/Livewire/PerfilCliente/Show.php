@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Livewire\Perfil;
+namespace App\Http\Livewire\PerfilCliente;
 
-use App\Models\Empleado;
+use App\Models\Cliente;
 use App\Models\Usuario;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -11,14 +11,15 @@ use Livewire\Component;
 
 class Show extends Component
 {
-    public $id_administrativo, $nombreCompleto, $nombre, $apellido, $email, $direccion, $ci, $telefono;
-    public $fechaNacimiento, $cargo, $genero, $turno;
+    public $id_cliente, $nombreCompleto, $nombre, $apellido, $email, $ci, $telefono;
+    public $fechaNacimiento, $genero, $inscripciones, $alquileres, $pagos, $asistencias;
     public $editar = false;
     public $activeTab = 'informacion';
     public $passwordConfirmar, $passwordNuevo, $passwordActual;
     public $showPassword1 = false;
     public $showPassword2 = false;
     public $showPassword3 = false;
+    public $subtitle = 'Información Personal';
 
     protected $rules = [
         'passwordActual' => 'required',
@@ -34,7 +35,7 @@ class Show extends Component
 
     protected function getUpdateRules()
     {
-        $registroId = $this->id_administrativo;
+        $registroId = $this->id_cliente;
 
         return [
             'nombre' => 'required|max:50',
@@ -43,9 +44,8 @@ class Show extends Component
                 'required',
                 'email',
                 'max:100',
-                Rule::unique('EMPLEADO', 'email')->ignore($registroId)
+                Rule::unique('CLIENTE', 'email')->ignore($registroId)
             ],
-            'direccion' => 'required|max:80',
             'telefono' => 'required|max:10'
         ];
     }
@@ -54,14 +54,30 @@ class Show extends Component
         $this->validateOnly($propertyName, $this->getUpdateRules());
     }
 
+    public function changeTabs($activeTab, $subtitle) {
+        $this->subtitle = $subtitle;
+        $this->activeTab = $activeTab;
+        $this->resetearCampos();
+    }
+
     public function obtenerUsuario() {
         $usuario = Auth::user();
         return $usuario;
     }
 
-    public function formatoFecha($fecha) {
+    public function formatoFechaTexto($fecha) {
         $fechaFormateada = Carbon::parse($fecha)->locale('es')->isoFormat('DD [de] MMMM [del] YYYY');
         return $fechaFormateada;
+    }
+
+    public function formatoFecha($fecha) {
+        $fechaFormateada = Carbon::parse($fecha)->format('d/m/Y');
+        return $fechaFormateada;
+    }
+
+    public function formatoHora($hora) {
+        $horaFormateada = Carbon::parse($hora)->format('H:i:s A');
+        return $horaFormateada;
     }
 
     public function cancelar() {
@@ -72,23 +88,19 @@ class Show extends Component
     public function actualizarDatos() {
         $this->validate($this->getUpdateRules());
         try {
-            $empleado = Empleado::findOrFail($this->id_administrativo);
-            $empleado->nombres = $this->nombre;
-            $empleado->apellidos = $this->apellido;
-            $empleado->direccion = $this->direccion;
-            $empleado->telefono = $this->telefono;
-            $empleado->email = $this->email;
+            $cliente = Cliente::findOrFail($this->id_cliente);
+            $cliente->nombres = $this->nombre;
+            $cliente->apellidos = $this->apellido;
+            $cliente->telefono = $this->telefono;
+            $cliente->email = $this->email;
 
-            $guardado = $empleado->save();
+            $guardado = $cliente->save();
 
             if ($guardado) {
-                $usuario = $empleado->usuario;
-                $usuario->email = $empleado->email;
+                $usuario = $cliente->usuario;
+                $usuario->email = $cliente->email;
                 $usuario->save();
             }
-
-            $descripcion = 'Actualizó su información personal';
-            registrarBitacora($descripcion);
 
             $this->emit('alert', 'actualizado');
             $this->cancelar();
@@ -133,23 +145,24 @@ class Show extends Component
 
     public function mount() {
         $usuario = $this->obtenerUsuario();
-        $empleado = $usuario->empleado;
-        $this->id_administrativo = $empleado->id;
-        $this->nombre = $empleado->nombres;
-        $this->apellido = $empleado->apellidos;
-        $this->nombreCompleto = $empleado->nombres.' '.$empleado->apellidos;
-        $this->email = $empleado->email;
-        $this->direccion = $empleado->direccion;
-        $this->ci = $empleado->ci;
-        $this->telefono = $empleado->telefono;
-        $this->fechaNacimiento = $empleado->fecha_nacimiento;
-        $this->cargo = $empleado->administrativo->cargo;
-        $this->genero = $empleado->genero;
-        $this->turno = $empleado->turno;
+        $cliente = $usuario->cliente;
+        $this->id_cliente = $cliente->id;
+        $this->nombre = $cliente->nombres;
+        $this->apellido = $cliente->apellidos;
+        $this->nombreCompleto = $cliente->nombres.' '.$cliente->apellidos;
+        $this->email = $cliente->email;
+        $this->ci = $cliente->ci;
+        $this->telefono = $cliente->telefono;
+        $this->fechaNacimiento = $cliente->fecha_nacimiento;
+        $this->genero = $cliente->genero;
+        $this->inscripciones = $cliente->inscripciones;
+        $this->alquileres = $cliente->alquileres;
+        $this->pagos = $cliente->pagos;
+        $this->asistencias = $cliente->asistencias;
     }
 
     public function render()
     {
-        return view('livewire.perfil.show');
+        return view('livewire.perfil-cliente.show');
     }
 }

@@ -8,10 +8,6 @@ use Illuminate\Support\Facades\Auth;
 class InstructorController extends Controller
 {
     public function index() {
-
-        $usuario = Auth::user();
-        $instructor = $usuario->empleado;
-
-        return view('instructor.instructor', ['instructor' => $instructor]);
+        return view('instructor.perfil');
     }
 }

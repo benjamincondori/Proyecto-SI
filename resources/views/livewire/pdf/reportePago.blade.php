@@ -146,6 +146,17 @@
         </div>
     </section>
 
+    <section class="mt-2">
+        @if($estado == 1)
+            Basado en el análisis de los pagos de nuestro gimnasio durante el período del 
+            {{ formatoFechaTexto($fechaInicio) }} 
+            @if ($tipoReporte == 1)
+                al {{ formatoFechaTexto($fechaFin) }}
+            @endif
+            , se registraron {{ $pagos->count() }} pagos, el cual generó la suma de {{ 'Bs '.number_format($totalMontos, 2) }}.
+        @endif
+    </section>
+
     {{-- <section style="position: fixed; bottom: 0; width: 100%;">
         <table cellpadding="0" cellspacing="0" width="100%">
             <tr>

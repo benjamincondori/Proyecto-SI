@@ -49,7 +49,7 @@
                 <div class="tab-content p-0">
                     
                     <div class="tab-pane show {{ $activeTab === 'informacion' ? 'active' : '' }}" id="informacion">
-                            <h5 class="mb-3 text-uppercase text-white bg-dark p-2"><i class="fas fa-user-circle mr-1"></i><b> Información Personal </b></h5>
+                            <h5 class="mb-3 rounded-lg text-uppercase text-white bg-dark p-2"><i class="fas fa-user-circle mr-1"></i><b> Información Personal </b></h5>
 
                             <div class="row">
                                 <div class="col-md-12">
@@ -172,7 +172,7 @@
                                 </div>
                             </div>
 
-                            <h5 class="mb-3 text-uppercase text-white bg-dark p-2"><i class="fas fa-building mr-1"></i><b> Información Administrativa </b></h5>
+                            <h5 class="mb-3 rounded-lg text-uppercase text-white bg-dark p-2"><i class="fas fa-building mr-1"></i><b> Información Administrativa </b></h5>
 
                             <div class="row">
                                 <div class="col-md-6">
@@ -211,7 +211,7 @@
                     </div>
 
                     <div class="tab-pane {{ $activeTab === 'configuracion' ? 'active' : '' }}" id="configuracion">
-                            <h5 class="mb-3 text-uppercase text-white bg-dark p-2"><i class="fas fa-lock mr-1"></i> Cambiar Contraseña </h5>
+                            <h5 class="mb-3 rounded-lg text-uppercase text-white bg-dark p-2"><i class="fas fa-lock mr-1"></i> Cambiar Contraseña </h5>
                             
                             <div class="row">
                                 <div class="col-md-12">
@@ -250,14 +250,14 @@
                                     <div class="form-group">
                                         <label>Confirmar Contraseña <span class="text-danger">*</span> </label>
                                         <div class="input-group">
-                                            <input type="{{ $showPassword3 ? 'text' : 'password' }}" class="form-control" wire:model="passwordCorfirmar" placeholder="Confirmar contraseña" style="border-right: none;">
+                                            <input type="{{ $showPassword3 ? 'text' : 'password' }}" class="form-control" wire:model="passwordConfirmar" placeholder="Confirmar contraseña" style="border-right: none;">
                                             <div class="input-group-append">
                                                 <span class="input-group-text" style="background: transparent; cursor: pointer; border-left: none;" wire:click="$toggle('showPassword3')">
                                                     <i class="fas {{ $showPassword3 ? 'fa-eye-slash' : 'fa-eye' }}"></i>
                                                 </span>
                                             </div>
                                         </div>
-                                        @error('passwordCorfirmar')
+                                        @error('passwordConfirmar')
                                             <span class="error text-danger" >* {{ $message }}</span>
                                         @enderror
                                     </div>

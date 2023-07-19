@@ -8,11 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class ClienteController extends Controller
 {
     public function index() {
-
-        $usuario = Auth::user();
-        $cliente = $usuario->cliente;
-
-        return view('cliente.cliente', ['cliente' => $cliente]);
+        return view('cliente.perfil');
     }
     
 }

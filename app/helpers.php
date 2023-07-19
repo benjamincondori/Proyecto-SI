@@ -30,3 +30,8 @@ function registrarBitacora($descripcion) {
     
 }
 
+function formatoFechaTexto($fecha) {
+    $fechaFormateada = Carbon::parse($fecha)->locale('es')->isoFormat('DD [de] MMMM [del] YYYY');
+    return $fechaFormateada;
+}
+
