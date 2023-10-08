@@ -19,7 +19,7 @@ class Show extends Component
     public $buscar = '';
     public $cant = '10';
     public $sort = 'id';
-    public $direction = 'asc';
+    public $direction = 'desc';
 
     protected $listeners = [
         'cerrarVista' => 'cerrarVista',
@@ -47,14 +47,19 @@ class Show extends Component
         }
     }
 
-    public function eliminarEntrenador($registroId)
+    public function eliminarEntrenador($empleadoId)
     {
         // Buscar el registro en base al nro
-        $registro = Empleado::find($registroId);
+        $empleado = Empleado::find($empleadoId);
 
         // Verificar si el registro existe antes de eliminarlo
-        if ($registro) {
-            $registro->delete();
+        if ($empleado) {
+            $empleado->delete();
+            $empleado->usuario()->delete();
+
+            $descripcion = 'Se eliminó el entrenador con ID: '.$empleado->id;
+            registrarBitacora($descripcion);
+
             $this->registroSeleccionado = null;
         }
     }
@@ -112,8 +117,7 @@ class Show extends Component
                 $query->where('id', 'like', $buscar)
                     ->orWhere('ci', 'like', $buscar)
                     ->orWhere('nombres', 'like', $buscar)
-                    ->orWhere('apellidos', 'like', $buscar)
-                    ->orWhere('email', 'like', $buscar);
+                    ->orWhere('apellidos', 'like', $buscar);
             })
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->cant);

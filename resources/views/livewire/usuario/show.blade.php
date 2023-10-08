@@ -29,50 +29,50 @@
                 @endif
             </div>
             
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <button type="button" wire:click="agregarNuevo" class="btn btn-primary waves-effect waves-light">
                     <i class="fas fa-plus-circle"></i>&nbsp;
                     Nuevo Usuario
                 </button>
-            </div>
+            </div> --}}
 
         </div>
 
         <div class="table-responsive">
             <table class="table table-bordered table-hover mb-0">
-                <thead class="bg-dark text-white">
+                <thead class="bg-dark text-white text-nowrap">
                     <tr style="cursor: pointer">
                         <th scope="col" style="width: 100px;" wire:click="order('id')">ID
                             @if ($sort == 'id')
                                 @if ($direction == 'asc')
-                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                    <i class="fas fa-sort-alpha-down float-md-right" style="margin-top: 4px"></i>
                                 @else
-                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                    <i class="fas fa-sort-alpha-up float-md-right" style="margin-top: 4px"></i> 
                                 @endif
                             @else
-                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                                <i class="fas fa-sort float-md-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
                         <th scope="col" wire:click="order('nombres')">Nombre del Usuario
                             @if ($sort == 'nombres')
                                 @if ($direction == 'asc')
-                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                    <i class="fas fa-sort-alpha-down float-md-right" style="margin-top: 4px"></i>
                                 @else
-                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                    <i class="fas fa-sort-alpha-up float-md-right" style="margin-top: 4px"></i> 
                                 @endif
                             @else
-                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                                <i class="fas fa-sort float-md-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
                         <th scope="col" wire:click="order('email')">Email
                             @if ($sort == 'email')
                                 @if ($direction == 'asc')
-                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                    <i class="fas fa-sort-alpha-down float-md-right" style="margin-top: 4px"></i>
                                 @else
-                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                    <i class="fas fa-sort-alpha-up float-md-right" style="margin-top: 4px"></i> 
                                 @endif
                             @else
-                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                                <i class="fas fa-sort float-md-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
                         <th scope="col">Rol</th>
@@ -90,7 +90,7 @@
                                 <td class="align-middle text-left"> 
                                     {{ $empleado->email }}
                                 </td>
-                                <td class="align-middle"> 
+                                <td class="align-middle">
                                     @php
                                         $rol = $empleado->usuario->rol->nombre;
                                     @endphp
@@ -99,6 +99,8 @@
                                         style="background-color: #ffeeba; width: 120px">{{ $rol }}</span>
                                     @elseif ($rol === 'Administrador')
                                         <span class="text-success py-1 px-2 rounded-lg d-inline-block" style="background-color: #c3e6cb; width: 120px">{{ $rol }}</span>
+                                    @else
+                                    <span class="text-info py-1 px-2 rounded-lg d-inline-block" style="background-color: #cde9fb; width: 120px">{{ $rol }}</span>
                                     @endif
                                 </td>
                                 <td class="align-middle text-nowrap">
@@ -109,7 +111,7 @@
                         @endforeach
                     @else
                         <tr class="text-center">
-                            <td colspan="5">No existe ningún registro coincidente.</td>
+                            <td colspan="5">No existe ningún registro.</td>
                         </tr>
                     @endif
                 </tbody>
@@ -118,7 +120,7 @@
 
         <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
             <div class="text-muted d-none d-sm-block pt-1">
-                Mostrando del {{ $empleados->firstItem() }} al {{ $empleados->lastItem() }} de {{ $empleados->total() }} registros
+                Mostrando del {{ ($empleados->firstItem()) ? $empleados->firstItem() : 0 }} al {{ ($empleados->lastItem()) ? $empleados->lastItem() : 0 }} de {{ $empleados->total() }} registros
             </div>
             @if ($empleados->hasPages())
                 <div class="pagination-links">
@@ -133,12 +135,13 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
-            livewire.on('error', function() {
+            livewire.on('error', function(message) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Ha ocurrido un error. Por favor, intenta nuevamente.'           
                 })
+                console.error(message);
             });
 
 
@@ -166,7 +169,7 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
 
-                            livewire.emitTo('rol.show', 'eliminarUsuario', usuarioId);
+                            livewire.emitTo('usuario.show', 'eliminarUsuario', usuarioId);
 
                             Swal.fire(
                                 '¡Eliminado!',

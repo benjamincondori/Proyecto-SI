@@ -10,6 +10,10 @@ class DashboardController extends Controller
         return view('dashboard.principal'); 
     }
 
+    public function perfil() {
+        return view('dashboard.perfil');
+    }
+
     public function administrativos() {
         return view('dashboard.administrativo');
     }
@@ -22,8 +26,24 @@ class DashboardController extends Controller
         return view('dashboard.cliente');
     }
 
+    public function condicionFisica() {
+        return view('dashboard.condicion-fisica');
+    }
+
     public function inscripciones() {
         return view('dashboard.inscripcion');
+    }
+
+    public function alquileres() {
+        return view('dashboard.alquiler');
+    }
+
+    public function asistencia() {
+        return view('dashboard.asistencia');
+    }
+
+    public function pagos() {
+        return view('dashboard.pago');
     }
 
     public function usuarios() {
@@ -38,12 +58,16 @@ class DashboardController extends Controller
         return view('dashboard.permisos');
     }
 
-    public function asignar() {
+    public function asignarPermiso() {
         return view('dashboard.asignar');
     }
 
     public function disciplinas() {
         return view('dashboard.disciplina');
+    }
+
+    public function asignarInstructor() {
+        return view('dashboard.asignar-instructor');
     }
 
     public function secciones() {
@@ -52,6 +76,10 @@ class DashboardController extends Controller
 
     public function maquinas() {
         return view('dashboard.maquina');
+    }
+
+    public function asignarMaquina() {
+        return view('dashboard.asignar-maquina');
     }
 
     public function horarios() {
@@ -70,8 +98,36 @@ class DashboardController extends Controller
         return view('dashboard.duracion');
     }
 
+    public function asignarDuracion() {
+        return view('dashboard.asignar-duracion');
+    }
+
     public function casilleros() {
         return view('dashboard.casillero');
+    }
+
+    public function bitacora() {
+        return view('dashboard.bitacora');
+    }
+
+    public function reporteInscripcion() {
+        return view('dashboard.reporte-inscripcion');
+    }
+
+    public function reporteAlquiler() {
+        return view('dashboard.reporte-alquiler');
+    }
+
+    public function reportePago() {
+        return view('dashboard.reporte-pago');
+    }
+
+    public function reporteFactura() {
+        return view('dashboard.reporte-factura');
+    }
+
+    public function reporteAsistencia() {
+        return view('dashboard.reporte-asistencia');
     }
 
 }

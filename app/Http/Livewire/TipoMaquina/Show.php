@@ -18,14 +18,14 @@ class Show extends Component
     public $buscar = '';
     public $cant = '10';
     public $sort = 'id';
-    public $direction = 'asc';
+    public $direction = 'desc';
 
     protected $listeners = [
         'cerrarVista' => 'cerrarVista',
-        'eliminarMaquina' => 'eliminarMaquina'
+        'eliminarTipoMaquina' => 'eliminarTipoMaquina'
     ];
 
-    public function seleccionarMaquina(Tipo_Maquina $maquina)
+    public function seleccionarTipoMaquina(Tipo_Maquina $maquina)
     {
         if (verificarPermiso('Maquina_Editar')) {
             $this->vistaEditar = true;
@@ -35,7 +35,7 @@ class Show extends Component
         }
     }
 
-    public function eliminarMaquina($registroId)
+    public function eliminarTipoMaquina($registroId)
     {
         // Buscar el registro en base al ID
         $registro = Tipo_Maquina::find($registroId);
@@ -43,6 +43,10 @@ class Show extends Component
         // Verificar si el registro existe antes de eliminarlo
         if ($registro) {
             $registro->delete();
+
+            $descripcion = 'Se eliminó la máquina con ID: '.$registro->id;
+            registrarBitacora($descripcion);
+
             $this->registroSeleccionado = null;
         }
     }

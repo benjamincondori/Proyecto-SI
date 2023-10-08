@@ -10,9 +10,8 @@ class AdminMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-
-        if (auth()->check() && (auth()->user()->rol->nombre === 'Administrador' 
-                || auth()->user()->rol->nombre === 'Recepcionista')) {
+        if (auth()->check() && auth()->user()->rol->nombre !== 'Cliente' 
+                && auth()->user()->rol->nombre !== 'Instructor') {
             return $next($request);
         }
 

@@ -18,7 +18,7 @@ class Show extends Component
     public $buscar = '';
     public $cant = '10';
     public $sort = 'id';
-    public $direction = 'asc';
+    public $direction = 'desc';
 
     protected $listeners = [
         'cerrarVista' => 'cerrarVista',
@@ -44,6 +44,8 @@ class Show extends Component
         // Verificar si el registro existe antes de eliminarlo
         if ($registro) {
             $registro->delete();
+            $descripcion = 'Se eliminó la sección con ID: '.$registro->id;
+            registrarBitacora($descripcion);
             $this->registroSeleccionado = null;
         }
     }

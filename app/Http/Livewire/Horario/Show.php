@@ -19,7 +19,7 @@ class Show extends Component
     public $buscar = '';
     public $cant = '10';
     public $sort = 'id';
-    public $direction = 'asc';
+    public $direction = 'desc';
 
     protected $listeners = [
         'cerrarVista' => 'cerrarVista',
@@ -45,6 +45,10 @@ class Show extends Component
         // Verificar si el registro existe antes de eliminarlo
         if ($registro) {
             $registro->delete();
+
+            $descripcion = 'Se eliminó el horario con ID: '.$registro->id;
+            registrarBitacora($descripcion);
+
             $this->registroSeleccionado = null;
         }
     }
@@ -97,6 +101,7 @@ class Show extends Component
     {
         $horarios = Horario::where('descripcion', 'like', '%' . $this->buscar . '%')
             ->orWhere('hora_inicio', 'like', '%' . $this->buscar . '%')
+            ->orWhere('hora_fin', 'like', '%' . $this->buscar . '%')
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->cant);
 

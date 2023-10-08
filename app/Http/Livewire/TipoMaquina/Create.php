@@ -34,10 +34,15 @@ class Create extends Component
             $maquina->descripcion = $this->descripcion;
 
             $maquina->save();
+
+            $descripcion = 'Se creó una nueva máquina con ID: '.$maquina->id;
+            registrarBitacora($descripcion);
+
             $this->emitTo('tipo-maquina.show', 'cerrarVista');
             $this->emit('alert', 'guardado');
         } catch (\Exception $e) {
-            $this->emit('error');
+            $message = $e->getMessage();
+            $this->emit('error', $message);
         }
 
     }

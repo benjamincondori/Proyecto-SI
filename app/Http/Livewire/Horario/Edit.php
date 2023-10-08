@@ -44,11 +44,16 @@ class Edit extends Component
             $registro->hora_fin = $this->registroSeleccionado['hora_fin'];
             
             $registro->save();
+
+            $descripcion = 'Se actualizó el horario con ID: '.$registro->id;
+            registrarBitacora($descripcion);
+
             $this->emitTo('horario.show','cerrarVista');
             $this->emit('alert', 'actualizado');
             $this->registroSeleccionado = null;
         } catch (\Exception $e) {
-            $this->emit('error');
+            $message = $e->getMessage();
+            $this->emit('error', $message);
         }
 
     }

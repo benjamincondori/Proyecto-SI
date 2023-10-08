@@ -11,8 +11,7 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="nro" class="control-label">Número del casillero</label>
-                    <input type="number" wire:model="registroSeleccionado.nro" class="form-control" id="nro"
-                        placeholder="Ej: 15">
+                    <input type="number" wire:model="registroSeleccionado.nro" class="form-control" id="nro" placeholder="Ej: 15" min="0">
                     @error('registroSeleccionado.nro')
                         <span class="error text-danger">* {{ $message }}</span>
                     @enderror
@@ -32,8 +31,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="precio" class="control-label">Precio</label>
-                    <input type="number" wire:model="registroSeleccionado.precio" class="form-control" id="precio"
-                        placeholder="Ej: 50 bs">
+                    <input type="number" wire:model="registroSeleccionado.precio" class="form-control" id="precio" placeholder="Ej: 50 bs" min="0">
                     @error('registroSeleccionado.precio')
                         <span class="error text-danger">* {{ $message }}</span>
                     @enderror

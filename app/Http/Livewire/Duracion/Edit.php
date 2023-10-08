@@ -43,11 +43,16 @@ class Edit extends Component
             $registro->dias_duracion = $this->registroSeleccionado['dias_duracion'];
         
             $registro->save();
+
+            $descripcion = 'Se actualizó la duración con ID: '.$registro->id;
+            registrarBitacora($descripcion);
+
             $this->emitTo('duracion.show','cerrarVista');
             $this->emit('alert', 'actualizado');
             $this->registroSeleccionado = null;
         } catch (\Exception $e) {
-            $this->emit('error');
+            $message = $e->getMessage();
+            $this->emit('error', $message);
         }
     }
 

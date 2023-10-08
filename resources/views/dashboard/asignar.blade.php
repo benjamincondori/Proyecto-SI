@@ -17,7 +17,7 @@
         <div class="content-page">
             <div id="content">
 
-                <x-layouts.content title="Asignar Permisos" subtitle="" name="Asignar Permisos">
+                <x-layouts.content title="Roles y Permisos" subtitle="Asignar Permisos" name="Asignar Permisos">
 
                     <div class="row">
                         <div class="col-12">

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Cliente extends Model
 {
@@ -22,6 +23,22 @@ class Cliente extends Model
 
     public function inscripciones(): HasMany {
         return $this->hasMany(Inscripcion::class, 'id_cliente');
+    }
+
+    public function alquileres(): HasMany {
+        return $this->hasMany(Alquiler::class, 'id_cliente');
+    }
+
+    public function asistencias(): HasMany {
+        return $this->hasMany(Asistencia::class, 'id_cliente');
+    }
+
+    public function pagos(): HasMany {
+        return $this->hasMany(Pago::class, 'id_cliente');
+    }
+
+    public function historialMedico(): HasOne {
+        return $this->hasOne(Historial_Medico::class, 'id_cliente');
     }
 
 }

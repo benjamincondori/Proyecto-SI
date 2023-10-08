@@ -10,9 +10,7 @@ class Edit extends Component
 {
     public $registroSeleccionado;
     public $selectedDisciplinas = [];
-    public $disciplinas = [];
-    public $seleccionados = [];
-    public $seleccionarNuevo = false;
+    public $disciplinas;
 
     protected $listeners = ['editarRegistro'];
 
@@ -33,7 +31,7 @@ class Edit extends Component
 
     public function mount() 
     {
-        $this->disciplinas = Disciplina::all();
+        $this->disciplinas = Disciplina::pluck('nombre', 'id')->toArray();
     }
 
     public function editarRegistro($registroSeleccionado)
@@ -41,7 +39,7 @@ class Edit extends Component
         $this->registroSeleccionado = $registroSeleccionado;
 
         $paquete = Paquete::find($this->registroSeleccionado['id']);
-        $this->seleccionados = $paquete->disciplinas;
+        $this->selectedDisciplinas = $paquete->disciplinas->pluck('id')->toArray();
     }
 
     public function cancelar()
@@ -54,7 +52,7 @@ class Edit extends Component
         $this->validate([
             'registroSeleccionado.nombre' => 'required|max:50',
             'registroSeleccionado.descripcion' => 'required|max:100',
-            'selectedDisciplinas' => $this->seleccionarNuevo ? 'required' : ''
+            'selectedDisciplinas' => 'required'
         ]);
     
         try {
@@ -65,15 +63,19 @@ class Edit extends Component
             $paquete->descripcion = $this->registroSeleccionado['descripcion'];
 
             $paquete->save();
-            if ($this->seleccionarNuevo) {
-                // Asocia las disciplinas seleccionadas al paquete
-                $paquete->disciplinas()->sync($this->selectedDisciplinas);
-            }
+
+            $descripcion = 'Se actualizó el paquete con ID: '.$paquete->id;
+            registrarBitacora($descripcion);
+
+            // Asocia las disciplinas seleccionadas al paquete
+            $paquete->disciplinas()->sync($this->selectedDisciplinas);
+
             $this->emitTo('paquete.show', 'cerrarVista');
             $this->emit('alert', 'actualizado');
             $this->registroSeleccionado = null;
         } catch (\Exception $e) {
-            $this->emit('error');
+            $message = $e->getMessage();
+            $this->emit('error', $message);
         }
     }
 

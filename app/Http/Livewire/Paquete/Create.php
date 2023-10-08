@@ -9,13 +9,17 @@ use Livewire\Component;
 class Create extends Component
 {
     public $id_paquete, $nombre, $descripcion;
-    public $disciplinas;
+    public $disciplinas, $duraciones;
     public $selectedDisciplinas = [];
 
     protected $rules = [
         'nombre' => 'required|max:50',
         'descripcion' => 'required|max:100',
-        'selectedDisciplinas' => 'required'
+        'selectedDisciplinas' => 'required',
+    ];
+
+    protected $validationAttributes = [
+        'selectedDisciplinas' => 'disciplina',
     ];
 
     public function updated($propertyName) {
@@ -40,17 +44,24 @@ class Create extends Component
             $paquete->nombre = $this->nombre;
             $paquete->descripcion = $this->descripcion;
 
-            $paquete->save();
-            // Obtén los IDs de las disciplinas seleccionadas
-            $disciplinasSeleccionadas = $this->selectedDisciplinas;
+            $guardado = $paquete->save();
 
-            // Asocia las disciplinas seleccionadas al paquete
-            $paquete->disciplinas()->attach($disciplinasSeleccionadas);
+            $descripcion = 'Se creó un nuevo paquete con ID: '.$paquete->id;
+            registrarBitacora($descripcion);
 
-            $this->emitTo('paquete.show', 'cerrarVista');
-            $this->emit('alert', 'guardado');
+            if ($guardado) {
+                // Obtén los IDs de las disciplinas seleccionadas
+                $disciplinasSeleccionadas = $this->selectedDisciplinas;
+    
+                // Asocia las disciplinas seleccionadas al paquete
+                $paquete->disciplinas()->attach($disciplinasSeleccionadas);
+    
+                $this->emitTo('paquete.show', 'cerrarVista');
+                $this->emit('alert', 'guardado');
+            }
         } catch (\Exception $e) {
-            $this->emit('error');
+            $message = $e->getMessage();
+            $this->emit('error', $message);
         }
     }
 

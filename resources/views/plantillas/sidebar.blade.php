@@ -32,12 +32,16 @@
                         <li>
                             <a href="{{ route('dashboard.roles') }}">Roles</a>
                         </li>
-                        <li>
-                            <a href="{{ route('dashboard.permisos') }}">Permisos</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('dashboard.asignar') }}">Asignar Permisos</a>
-                        </li>
+                        @if (verificarPermiso('Permiso_Listado'))
+                            <li>
+                                <a href="{{ route('dashboard.permisos') }}">Permisos</a>
+                            </li>
+                        @endif
+                        @if (verificarPermiso('AsignarPermiso_Listado'))
+                            <li>
+                                <a href="{{ route('dashboard.asignarPermiso') }}">Asignar Permisos</a>
+                            </li>
+                        @endif
                     </ul>
                 </li>
             @endif
@@ -66,10 +70,21 @@
             
             @if (verificarPermiso('Cliente_Listado'))
                 <li>
-                    <a href="{{ route('dashboard.clientes') }}">
+                    <a href="javascript: void(0);">
                         <i class="fas fa-users"></i>
                         <span> Clientes </span>
+                        <span class="menu-arrow"></span>
                     </a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li>
+                            <a href="{{ route('dashboard.clientes') }}">Lista de Clientes</a>
+                        </li>
+                        @if (verificarPermiso('CondicionFisica_Listado'))
+                            <li>
+                                <a href="{{ route('dashboard.condicionFisica') }}">Registrar Condición Física</a>
+                            </li>
+                        @endif
+                    </ul>
                 </li>
             @endif
 
@@ -82,57 +97,32 @@
                 </li>
             @endif
 
-            <li>
-                <a class="link-underline-opacity-0" href="javascript: void(0);">
-                    <i class="fas fa-clipboard"></i>
-                    <span> Alquileres </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <ul class="nav-second-level" aria-expanded="false">
-                    <li>
-                        <a href="#">Realizar Alquiler</a>
-                    </li>
-                    <li>
-                        <a href="#">Lista de Alquileres</a>
-                    </li>
-                </ul>
-            </li>
+            @if (verificarPermiso('Alquiler_Listado'))
+                <li>
+                    <a href="{{ route('dashboard.alquileres') }}">
+                        <i class="fas fa-clipboard"></i>
+                        <span> Alquileres </span>
+                    </a>
+                </li>
+            @endif
 
-            <li>
-                <a href="javascript: void(0);">
-                    <i class="far fa-money-bill-alt"></i>
-                    <span> Pagos </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <ul class="nav-second-level" aria-expanded="false">
-                    <li>
-                        <a href="#">Agregar Pago</a>
-                    </li>
-                    <li>
-                        <a href="#">Lista de Pagos</a>
-                    </li>
-                </ul>
-            </li>
+            @if (verificarPermiso('Pago_Listado'))
+                <li>
+                    <a href="{{ route('dashboard.pagos') }}">
+                        <i class="far fa-money-bill-alt"></i>
+                        <span> Pagos </span>
+                    </a>
+                </li>
+            @endif
 
-            <li>
-                <a href="javascript: void(0);">
-                    <i class="fas fa-file-alt"></i>
-                    <span> Facturas </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <ul class="nav-second-level" aria-expanded="false">
-                    <li>
-                        <a href="#">Lista de Facturas</a>
-                    </li>
-                </ul>
-            </li>
-
-            <li>
-                <a href="javascript: void(0);">
-                    <i class="fas fa-id-card-alt"></i>
-                    <span> Asistencia </span>
-                </a>
-            </li>
+            @if (verificarPermiso('Asistencia_Listado'))
+                <li>
+                    <a href="{{ route('dashboard.asistencia') }}">
+                        <i class="fas fa-id-card-alt"></i>
+                        <span> Asistencia </span>
+                    </a>
+                </li>
+            @endif
 
             @if (verificarPermiso('Disciplina_Listado'))
                 <li>
@@ -155,6 +145,11 @@
                                 <a href="{{ route('dashboard.horarios') }}">Horarios</a>
                             </li>
                         @endif
+                        @if (verificarPermiso('AsignarInstructor_Listado'))
+                            <li>
+                                <a href="{{ route('dashboard.asignarInstructor') }}">Asignar Instructor</a>
+                            </li>
+                        @endif
                     </ul>
                 </li>
             @endif
@@ -173,6 +168,11 @@
                         @if (verificarPermiso('Duracion_Listado'))
                             <li>
                                 <a href="{{ route('dashboard.duraciones') }}">Duraciones</a>
+                            </li>
+                        @endif
+                        @if (verificarPermiso('AsignarDuracion_Listado'))
+                            <li>
+                                <a href="{{ route('dashboard.asignarDuracion') }}">Asignar Duración</a>
                             </li>
                         @endif
                     </ul>
@@ -196,6 +196,11 @@
                                 <a href="{{ route('dashboard.maquinas') }}">Máquinas o Equipos</a>
                             </li>
                         @endif
+                        @if (verificarPermiso('AsignarMaquina_Listado'))
+                            <li>
+                                <a href="{{ route('dashboard.asignarMaquina') }}">Asignar Máquinas</a>
+                            </li>
+                        @endif
                     </ul>
                 </li>
             @endif
@@ -210,27 +215,41 @@
                 </li>
             @endif
 
-            <li>
-                <a href="javascript: void(0);">
-                    <i class="fas fa-file-pdf"></i>
-                    <span> Reportes </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <ul class="nav-second-level" aria-expanded="false">
-                    <li>
-                        <a href="#">Facturas por Fechas</a>
-                    </li>
-                    <li>
-                        <a href="#">Pagos por Fechas</a>
-                    </li>
-                    <li>
-                        <a href="#">Reporte de Inscripciones</a>
-                    </li>
-                    <li>
-                        <a href="#">Reporte de Alquileres</a>
-                    </li>
-                </ul>
-            </li>
+            @if (verificarPermiso('Reporte_Listado'))
+                <li>
+                    <a href="javascript: void(0);">
+                        <i class="fas fa-file-pdf"></i>
+                        <span> Reportes </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li>
+                            <a href="{{ route('dashboard.reporteInscripcion') }}">Reporte de Inscripciones</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('dashboard.reporteAlquiler') }}">Reporte de Alquileres</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('dashboard.reportePago') }}">Reporte de Pagos</a>
+                        </li>
+                        {{-- <li>
+                            <a href="{{ route('dashboard.reporteFactura') }}">Reporte de Facturas</a>
+                        </li> --}}
+                        <li>
+                            <a href="{{ route('dashboard.reporteAsistencia') }}">Reporte de Asistencias</a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
+
+            @if (verificarPermiso('Bitacora_Listado'))
+                <li>
+                    <a href="{{ route('dashboard.bitacora') }}">
+                        <i class="fas fa-history"></i>
+                        <span> Registro de Actividad </span>
+                    </a>
+                </li>
+            @endif
 
         </ul>
 

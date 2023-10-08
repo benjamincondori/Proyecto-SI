@@ -92,6 +92,9 @@ class Edit extends Component
             
             $empleado->save();
 
+            $descripcion = 'Se actualizó el entrenador con ID: '.$empleado->id;
+            registrarBitacora($descripcion);
+
             $entrenador = $empleado->entrenador;
             $entrenador->especialidad = $this->especialidad;
             $entrenador->save();
@@ -100,7 +103,8 @@ class Edit extends Component
             $this->emit('alert', 'actualizado');
             $this->registroSeleccionado = null;
         } catch (\Exception $e) {
-            $this->emit('error');
+            $message = $e->getMessage();
+            $this->emit('error', $message);
         }
     }
 

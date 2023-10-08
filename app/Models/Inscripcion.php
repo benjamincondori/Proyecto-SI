@@ -41,4 +41,8 @@ class Inscripcion extends Model
         return $this->belongsToMany(Grupo::class, 'GRUPO_INSCRIPCION', 'id_inscripcion', 'id_grupo');
     }
 
+    public function pago(): BelongsTo {
+        return $this->belongsTo(Pago::class, 'id_pago');
+    }
+
 }

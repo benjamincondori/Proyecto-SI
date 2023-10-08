@@ -39,20 +39,20 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="paquetes" class="control-label">Seleccionar Paquete</label>
-                        <select id="paquetes" class="form-control" wire:model="id_paquete">
-                            <option value="">Seleccionar</option>
-                            @foreach ($paquetes as $paquete)
-                                @php
-                                    $disciplinas = '';
-                                    foreach ($paquete->disciplinas as $disciplina) {
-                                        $disciplinas .= $disciplina->nombre . ', ' ;
-                                    }
-                                    $disciplinas = rtrim($disciplinas, ', ');
-                                @endphp
-                                <option value="{{ $paquete->id }}" class="cursor-pointer"
-                                    title="{{$disciplinas}}">{{ $paquete->nombre }}</option>
-                            @endforeach
-                        </select>
+                    <select id="paquetes" class="form-control" wire:model="id_paquete">
+                        <option value="">Seleccionar</option>
+                        @foreach ($paquetes as $paquete)
+                            @php
+                                $disciplinas = '';
+                                foreach ($paquete->disciplinas as $disciplina) {
+                                    $disciplinas .= $disciplina->nombre . ', ' ;
+                                }
+                                $disciplinas = rtrim($disciplinas, ', ');
+                            @endphp
+                            <option value="{{ $paquete->id }}" class="cursor-pointer"
+                                title="{{$disciplinas}}">{{ $paquete->nombre }}</option>
+                        @endforeach
+                    </select>
                     @error('id_paquete')
                         <span class="error text-danger">* {{ $message }}</span>
                     @enderror
@@ -63,8 +63,8 @@
                     <label for="duraciones" class="control-label">Seleccionar Duración</label>
                         <select id="duraciones" class="form-control" wire:model="id_duracion">
                             <option value="">Seleccionar</option>
-                            @foreach ($duraciones as $id => $nombre)
-                                <option value="{{ $id }}">{{ $nombre }}</option>
+                            @foreach ($duraciones as $duracion)
+                                <option value="{{ $duracion->id }}">{{ $duracion->nombre }}</option>
                             @endforeach
                         </select>
                     @error('id_duracion')
@@ -81,6 +81,30 @@
                                 title="{{ $grupo->horario->descripcion }} de {{ $this->formatoHora($grupo->horario->hora_inicio) }} - {{ $this->formatoHora($grupo->horario->hora_fin) }}">{{ $grupo->nombre }}</option>
                         @endforeach
                     </select>
+                    {{-- <label class="control-label">Seleccionar Grupo</label>
+                    <div class="row">
+                        <div class="col-md-4">
+                            @foreach ($grupos1 as $grupo)
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" value="{{ $grupo->id }}" name="customRadio" wire:model="id_grupo1"
+                                        class="custom-control-input" id="{{ 'grupo_'.$grupo->id }}">
+                                    <label for="{{ 'grupo_'.$grupo->id }}" class="custom-control-label">{{ $grupo->nombre }}</label>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="col-md-4">
+                            @if ($grupos2)
+                                @foreach ($grupos2 as $grupo)
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" value="{{ $grupo->id }}" name="customRadio2" wire:model="id_grupo2"
+                                            class="custom-control-input" id="{{ 'grupo2_'.$grupo->id }}">
+                                        <label for="{{ 'grupo2_'.$grupo->id }}" class="custom-control-label">{{ $grupo->nombre }}</label>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
+                    </div> --}}
+                     
                     @error('selectedGrupos')
                         <span class="error text-danger">* {{ $message }}</span>
                     @enderror

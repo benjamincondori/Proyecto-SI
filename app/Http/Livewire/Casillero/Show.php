@@ -18,7 +18,7 @@ class Show extends Component
     public $buscar = '';
     public $cant = '10';
     public $sort = 'nro';
-    public $direction = 'asc';
+    public $direction = 'desc';
 
     protected $listeners = [
         'cerrarVista' => 'cerrarVista',
@@ -44,6 +44,10 @@ class Show extends Component
         // Verificar si el registro existe antes de eliminarlo
         if ($registro) {
             $registro->delete();
+
+            $descripcion = 'Se eliminó el casillero con Nro: '.$registro->nro;
+            registrarBitacora($descripcion);
+
             $this->registroSeleccionado = null;
         }
     }

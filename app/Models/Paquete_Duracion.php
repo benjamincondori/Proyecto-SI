@@ -11,7 +11,7 @@ class Paquete_Duracion extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $primaryKey = ['id_paquete', 'id_duracion'];
+    // protected $primaryKey = ['id_paquete', 'id_duracion'];
     protected $table = 'PAQUETE_DURACION';
     protected $fillable = ['id_paquete', 'id_duracion', 'precio', 'descuento'];
 

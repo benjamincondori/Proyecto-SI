@@ -30,11 +30,11 @@
                     <i class="fas fa-check-circle"></i>&nbsp;
                     Sincronizar todos
                 </button>
-                @if (verificarPermiso('Revocar_Todos'))
+                @if (verificarPermiso('Revocar_TodosPermisos'))
                     <button type="button"
                     wire:click="$emit('revocarTodos', {{ $this->id_rol }})" class="btn btn-danger waves-effect waves-light">
                         <i class="fas fa-times-circle"></i>&nbsp;
-                        Revocar todos
+                        Revocar todos 
                     </button>
                 @endif
             </div>
@@ -43,10 +43,30 @@
 
         <div class="table-responsive">
             <table class="table table-bordered table-hover mb-0">
-                <thead class="bg-dark text-white text-center">
+                <thead class="bg-dark text-white text-center text-nowrap">
                     <tr style="cursor: pointer">
-                        <th scope="col" style="width: 150px;" >ID</th>
-                        <th scope="col">Permiso</th>
+                        <th scope="col" style="width: 150px;" wire:click="order('id')">ID
+                            @if ($sort == 'id')
+                                @if ($direction == 'asc')
+                                    <i class="fas fa-sort-alpha-down float-md-right" style="margin-top: 4px"></i>
+                                @else
+                                    <i class="fas fa-sort-alpha-up float-md-right" style="margin-top: 4px"></i> 
+                                @endif
+                            @else
+                                <i class="fas fa-sort float-md-right" style="margin-top: 4px"></i>
+                            @endif
+                        </th>
+                        <th scope="col" wire:click="order('nombre')">Permiso
+                            @if ($sort == 'nombre')
+                                @if ($direction == 'asc')
+                                    <i class="fas fa-sort-alpha-down float-md-right" style="margin-top: 4px"></i>
+                                @else
+                                    <i class="fas fa-sort-alpha-up float-md-right" style="margin-top: 4px"></i> 
+                                @endif
+                            @else
+                                <i class="fas fa-sort float-md-right" style="margin-top: 4px"></i>
+                            @endif
+                        </th>
                         <th scope="col" style="width: 220px;">Roles con el permiso</th>
                     </tr>
                 </thead>
@@ -88,7 +108,7 @@
                         @endforeach
                     @else
                         <tr class="text-center">
-                            <td colspan="3">No existe ningún registro coincidente.</td>
+                            <td colspan="3">No existe ningún registro.</td>
                         </tr>
                     @endif
                 </tbody>
@@ -97,7 +117,7 @@
 
         <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
             <div class="text-muted d-none d-sm-block pt-1">
-                Mostrando del {{ $permisosPaginados->firstItem() }} al {{ $permisosPaginados->lastItem() }} de {{ $permisosPaginados->total() }} registros
+                Mostrando del {{ ($permisosPaginados->firstItem()) ? $permisosPaginados->firstItem() : 0 }} al {{ ($permisosPaginados->lastItem()) ? $permisosPaginados->lastItem() : 0 }} de {{ $permisosPaginados->total() }} registros
             </div>
             @if ($permisosPaginados->hasPages())
                 <div class="pagination-links">
@@ -132,35 +152,43 @@
 
 
             livewire.on('revocarTodos', function(idRol) {
-                if (idRol) {
-                    Swal.fire({
-                        title: '¿Está seguro?',
-                        text: "¡Se quitarán todos los permisos asignados!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: '¡Sí, revocar!',
-                        cancelButtonText: 'Cancelar'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
+                // if (tienePermiso) {
+                    if (idRol) {
+                        Swal.fire({
+                            title: '¿Está seguro?',
+                            text: "¡Se quitarán todos los permisos asignados!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: '¡Sí, revocar!',
+                            cancelButtonText: 'Cancelar'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
 
-                            livewire.emitTo('asignar.show', 'revocarTodos');
+                                livewire.emitTo('asignar.show', 'revocarTodos');
 
-                            Swal.fire(
-                                '¡Permisos Revocados!',
-                                'Los permisos han sido revocados exitosamente.',
-                                'success'
-                            )
-                        }
-                    })
-                } else {
-                    Swal.fire({
-                        icon: 'info',
-                        title: 'Oops...',
-                        text: 'Debes seleccionar un rol'           
-                    })
-                }
+                                Swal.fire(
+                                    '¡Permisos Revocados!',
+                                    'Los permisos han sido revocados exitosamente.',
+                                    'success'
+                                )
+                            }
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Oops...',
+                            text: 'Debes seleccionar un rol'           
+                        })
+                    }
+                // } else {
+                //     Swal.fire({
+                //         icon: 'warning',
+                //         title: '¡Acceso Denegado!',
+                //         text: 'No tiene los permisos necesarios.'           
+                //     })
+                // }
             });
 
         </script>

@@ -14,6 +14,7 @@ class Create extends Component
     use WithFileUploads;
 
     public $id_empleado, $ci, $nombres, $apellidos, $email, $direccion, $telefono, $fecha_nacimiento, $cargo, $turno, $fotografia, $genero, $tipo_empleado, $id_usuario;
+    public $roles;
 
     protected $rules = [
         'ci' => 'required|max:10|unique:EMPLEADO',
@@ -41,6 +42,7 @@ class Create extends Component
     public function mount() {
         $this->id_empleado = $this->generarID();
         $this->tipo_empleado = 'A';
+        $this->roles = Rol::whereNotIn('nombre', ['Cliente', 'Instructor'])->get();
     }
 
     public function generarID()
@@ -51,11 +53,7 @@ class Create extends Component
     }
 
     private function obtenerIdRol() {
-        if ($this->cargo === 'Administrador') {
-            $idRol = Rol::where('nombre', 'Administrador')->value('id');
-        } elseif ($this->cargo === 'Recepcionista') {
-            $idRol = Rol::where('nombre', 'Recepcionista')->value('id');
-        } 
+        $idRol = Rol::where('nombre', $this->cargo)->value('id');
         return $idRol;
     }
 
@@ -67,7 +65,7 @@ class Create extends Component
 
             $empleado = new Empleado();
 
-            $empleado->id = $this->generarID();
+            $empleado->id = $this->id_empleado;
             $empleado->ci = $this->ci;
             $empleado->nombres = $this->nombres;
             $empleado->apellidos = $this->apellidos;
@@ -90,6 +88,9 @@ class Create extends Component
         
             $empleado->save();
 
+            $descripcion = 'Se creó un nuevo administrativo con ID: '.$this->id_empleado;
+            registrarBitacora($descripcion);
+
             Administrativo::create([
                 'id' => $this->id_empleado,
                 'cargo' => $this->cargo
@@ -98,7 +99,8 @@ class Create extends Component
             $this->emitTo('administrativo.show', 'cerrarVista');
             $this->emit('alert', 'guardado');
         } catch (\Exception $e) {
-            $this->emit('error');
+            $message = $e->getMessage();
+            $this->emit('error', $message);
         }
     }
 

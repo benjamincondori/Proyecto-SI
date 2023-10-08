@@ -55,6 +55,9 @@ class Edit extends Component
         
             $permiso->save();
 
+            $descripcion = 'Se actualizó el permiso con ID: '.$permiso->id.' - '.$permiso->nombre;
+            registrarBitacora($descripcion);
+
             $this->emitTo('permiso.show','cerrarVista');
             $this->emit('alert', 'actualizado');
             $this->registroSeleccionado = null;

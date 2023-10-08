@@ -20,7 +20,7 @@
                 <div class="form-group">
                     <label for="capacidad" class="control-label">Capacidad</label>
                     <input type="number" wire:model="registroSeleccionado.capacidad" class="form-control" id="capacidad"
-                        placeholder="Ej: 20">
+                        placeholder="Ej: 20" min="0">
                     @error('registroSeleccionado.capacidad')
                         <span class="error text-danger">* {{ $message }}</span>
                     @enderror

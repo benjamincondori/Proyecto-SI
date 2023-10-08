@@ -24,4 +24,16 @@ class Administrativo extends Model
         return $this->hasMany(Inscripcion::class, 'id_administrativo');
     }
 
+    public function alquileres():HasMany {
+        return $this->hasMany(Alquiler::class, 'id_administrativo');
+    }
+
+    public function asistencias(): HasMany {
+        return $this->hasMany(Asistencia::class, 'id_administrativo');
+    }
+
+    public function pagos():HasMany {
+        return $this->hasMany(Pago::class, 'id_administrativo');
+    }
+
 }

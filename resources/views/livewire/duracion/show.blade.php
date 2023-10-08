@@ -39,39 +39,39 @@
 
         <div class="table-responsive">
             <table class="table table-bordered table-hover mb-0">
-                <thead class="bg-dark text-white">
+                <thead class="bg-dark text-white text-nowrap">
                     <tr style="cursor: pointer">
                         <th scope="col" style="width: 100px;" wire:click="order('id')">ID
                             @if ($sort == 'id')
                                 @if ($direction == 'asc')
-                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                    <i class="fas fa-sort-alpha-down float-md-right" style="margin-top: 4px"></i>
                                 @else
-                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                    <i class="fas fa-sort-alpha-up float-md-right" style="margin-top: 4px"></i> 
                                 @endif
                             @else
-                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                                <i class="fas fa-sort float-md-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
                         <th scope="col" wire:click="order('nombre')">Nombre
                             @if ($sort == 'nombre')
                                 @if ($direction == 'asc')
-                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                    <i class="fas fa-sort-alpha-down float-md-right" style="margin-top: 4px"></i>
                                 @else
-                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                    <i class="fas fa-sort-alpha-up float-md-right" style="margin-top: 4px"></i> 
                                 @endif
                             @else
-                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                                <i class="fas fa-sort float-md-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
                         <th scope="col" wire:click="order('dias_duracion')">Días de duración
                             @if ($sort == 'dias_duracion')
                                 @if ($direction == 'asc')
-                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                    <i class="fas fa-sort-alpha-down float-md-right" style="margin-top: 4px"></i>
                                 @else
-                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                    <i class="fas fa-sort-alpha-up float-md-right" style="margin-top: 4px"></i> 
                                 @endif
                             @else
-                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                                <i class="fas fa-sort float-md-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
                         <th scope="col">Acciones</th>
@@ -96,36 +96,37 @@
                         @endforeach
                     @else
                         <tr class="text-center">
-                            <td colspan="4">No existe ningún registro coincidente.</td>
+                            <td colspan="4">No existe ningún registro.</td>
                         </tr>
                     @endif
                 </tbody>
             </table>
-
-            <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
-                <div class="text-muted d-none d-sm-block pt-1">
-                    Mostrando del {{ $duraciones->firstItem() }} al {{ $duraciones->lastItem() }} de {{ $duraciones->total() }} registros
-                </div>
-                @if ($duraciones->hasPages())
-                    <div class="pagination-links">
-                        {{ $duraciones->links() }}
-                    </div>
-                @endif
-            </div>
-
         </div>
+
+        <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
+            <div class="text-muted d-none d-sm-block pt-1">
+                Mostrando del {{ ($duraciones->firstItem()) ? $duraciones->firstItem() : 0 }} al {{ ($duraciones->lastItem()) ? $duraciones->lastItem() : 0 }} de {{ $duraciones->total() }} registros
+            </div>
+            @if ($duraciones->hasPages())
+                <div class="pagination-links">
+                    {{ $duraciones->links() }}
+                </div>
+            @endif
+        </div>
+
     @endif
 
     @push('js')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
-            livewire.on('error', function() {
+            livewire.on('error', function(message) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Ha ocurrido un error. Por favor, intenta nuevamente.'           
                 })
+                console.error(message);
             });
 
 

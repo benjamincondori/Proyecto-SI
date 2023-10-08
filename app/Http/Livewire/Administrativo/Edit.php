@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Administrativo;
 
 use App\Models\Empleado;
 use App\Models\Rol;
-use App\Models\Usuario;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -13,7 +12,7 @@ class Edit extends Component
 {
     use WithFileUploads;
 
-    public  $registroSeleccionado, $cargo;
+    public  $registroSeleccionado, $cargo, $roles;
 
     protected $listeners = ['editarRegistro'];
 
@@ -63,12 +62,12 @@ class Edit extends Component
         $this->validateOnly($propertyName, $this->getUpdateRules());
     }
 
+    public function mount() {
+        $this->roles = Rol::whereNotIn('nombre', ['Cliente', 'Instructor'])->get();
+    }
+
     private function obtenerIdRol() {
-        if ($this->cargo === 'Administrador') {
-            $idRol = Rol::where('nombre', 'Administrador')->value('id');
-        } elseif ($this->cargo === 'Recepcionista') {
-            $idRol = Rol::where('nombre', 'Recepcionista')->value('id');
-        } 
+        $idRol = Rol::where('nombre', $this->cargo)->value('id');
         return $idRol;
     }
 
@@ -114,11 +113,15 @@ class Edit extends Component
             $administrativo->cargo = $this->cargo;
             $administrativo->save();
 
+            $descripcion = 'Se actualizó el administrativo con ID: '.$empleado->id;
+            registrarBitacora($descripcion);
+
             $this->emitTo('administrativo.show','cerrarVista');
             $this->emit('alert', 'actualizado');
             $this->registroSeleccionado = null;
         } catch (\Exception $e) {
-            $this->emit('error');
+            $message = $e->getMessage();
+            $this->emit('error', $message);
         }
     }
 

@@ -160,16 +160,22 @@
                                         class="btn btn-sm btn-warning"><i class="fas fa-eye"></i></button>
                                     <button type="button" title="Editar"
                                         wire:click="seleccionarInscripcion({{ $inscripcion->id }}, 'editar')"
+                                        @if (!is_null($inscripcion->detalle->estado))
+                                            disabled
+                                        @endif
                                         class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
                                     <button type="button"title="Eliminar"
                                         wire:click="$emit('eliminarRegistro', {{ $inscripcion->id }}, {{ $this->verificarPermiso }})"
+                                        @if (!is_null($inscripcion->detalle->estado))
+                                            disabled
+                                        @endif
                                         class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         @endforeach
                     @else
                         <tr class="text-center">
-                            <td colspan="9">No existe ningún registro coincidente.</td>
+                            <td colspan="9">No existe ningún registro.</td>
                         </tr>
                     @endif
                 </tbody>
@@ -178,7 +184,7 @@
 
         <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
             <div class="text-muted d-none d-sm-block pt-1">
-                Mostrando del {{ $inscripciones->firstItem() }} al {{ $inscripciones->lastItem() }} de {{ $inscripciones->total() }} registros
+                Mostrando del {{ ($inscripciones->firstItem()) ? $inscripciones->firstItem() : 0 }} al {{ ($inscripciones->lastItem()) ? $inscripciones->lastItem() : 0 }} de {{ $inscripciones->total() }} registros
             </div>
             @if ($inscripciones->hasPages())
                 <div class="pagination-links">
@@ -202,6 +208,13 @@
                 console.error(message);
             });
 
+            livewire.on('cupo', function(nombreGrupo) {
+                Swal.fire({
+                    icon: 'info',
+                    title: '¡Cupo no Disponible!',
+                    text: 'El grupo "' + nombreGrupo + '" no tiene cupos. Por favor, elija otro grupo.'          
+                })
+            });
 
             livewire.on('alert', function(accion) {
                 var msj2 = accion.charAt(0).toUpperCase() + accion.slice(1);

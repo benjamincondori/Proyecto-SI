@@ -7,21 +7,20 @@ use Livewire\Component;
 
 class View extends Component
 {
-    public $registroSeleccionado;
     public $id_paquete, $nombre, $descripcion;
     public $disciplinas = [];
+    public $duraciones = [];
 
     protected $listeners = ['verRegistro'];
 
     public function verRegistro($registroSeleccionado)
     {
-        $this->registroSeleccionado = $registroSeleccionado;
-
-        $paquete = Paquete::find($this->registroSeleccionado['id']);
+        $paquete = Paquete::find($registroSeleccionado['id']);
         $this->disciplinas = $paquete->disciplinas;
-        $this->id_paquete = $this->registroSeleccionado['id'];
-        $this->nombre = $this->registroSeleccionado['nombre'];
-        $this->descripcion = $this->registroSeleccionado['descripcion'];
+        $this->duraciones = $paquete->duraciones;
+        $this->id_paquete = $paquete->id;
+        $this->nombre = $paquete->nombre;
+        $this->descripcion = $paquete->descripcion;
     }
 
     public function cancelar()

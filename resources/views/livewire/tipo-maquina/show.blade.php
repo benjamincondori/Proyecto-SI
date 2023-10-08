@@ -40,39 +40,39 @@
 
         <div class="table-responsive">
             <table class="table table-bordered table-hover mb-0">
-                <thead class="bg-dark text-white">
+                <thead class="bg-dark text-white text-nowrap">
                     <tr style="cursor: pointer">
                         <th scope="col" style="width: 60px;" wire:click="order('id')">ID
                             @if ($sort == 'id')
                                 @if ($direction == 'asc')
-                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                    <i class="fas fa-sort-alpha-down float-md-right" style="margin-top: 4px"></i>
                                 @else
-                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                    <i class="fas fa-sort-alpha-up float-md-right" style="margin-top: 4px"></i> 
                                 @endif
                             @else
-                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                                <i class="fas fa-sort float-md-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
                         <th scope="col" wire:click="order('nombre')">Nombre
                             @if ($sort == 'nombre')
                                 @if ($direction == 'asc')
-                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                    <i class="fas fa-sort-alpha-down float-md-right" style="margin-top: 4px"></i>
                                 @else
-                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                    <i class="fas fa-sort-alpha-up float-md-right" style="margin-top: 4px"></i> 
                                 @endif
                             @else
-                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                                <i class="fas fa-sort float-md-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
                         <th scope="col" wire:click="order('descripcion')">Descripción
                             @if ($sort == 'descripcion')
                                 @if ($direction == 'asc')
-                                    <i class="fas fa-sort-alpha-down float-right" style="margin-top: 4px"></i>
+                                    <i class="fas fa-sort-alpha-down float-md-right" style="margin-top: 4px"></i>
                                 @else
-                                    <i class="fas fa-sort-alpha-up float-right" style="margin-top: 4px"></i> 
+                                    <i class="fas fa-sort-alpha-up float-md-right" style="margin-top: 4px"></i> 
                                 @endif
                             @else
-                                <i class="fas fa-sort float-right" style="margin-top: 4px"></i>
+                                <i class="fas fa-sort float-md-right" style="margin-top: 4px"></i>
                             @endif
                         </th>
                         <th scope="col">Acciones</th>
@@ -86,14 +86,14 @@
                                 <td class="align-middle text-left">{{ $maquina->nombre }}</td>
                                 <td class="align-middle text-left">{{ $maquina->descripcion }}</td>
                                 <td class="align-middle text-nowrap">
-                                    <button type="button" title="Editar" wire:click="seleccionarMaquina({{ $maquina }})" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
+                                    <button type="button" title="Editar" wire:click="seleccionarTipoMaquina({{ $maquina }})" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
                                     <button type="button" title="Eliminar" wire:click="$emit('eliminarRegistro', {{ $maquina->id }}, {{ $this->verificarPermiso }})" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         @endforeach
                     @else
                         <tr class="text-center">
-                            <td colspan="4">No existe ningún registro coincidente.</td>
+                            <td colspan="4">No existe ningún registro.</td>
                         </tr>
                     @endif
                 </tbody>
@@ -101,7 +101,7 @@
             
             <div class="d-flex justify-content-end justify-content-sm-between pt-3 pb-0">
                 <div class="text-muted d-none d-sm-block pt-1">
-                    Mostrando del {{ $maquinas->firstItem() }} al {{ $maquinas->lastItem() }} de {{ $maquinas->total() }} registros
+                    Mostrando del {{ ($maquinas->firstItem()) ? $maquinas->firstItem() : 0 }} al {{ ($maquinas->lastItem()) ? $maquinas->lastItem() : 0 }} de {{ $maquinas->total() }} registros
                 </div>
                 @if ($maquinas->hasPages())
                     <div class="pagination-links">
@@ -118,12 +118,13 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
-            livewire.on('error', function() {
+            livewire.on('error', function(message) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Ha ocurrido un error. Por favor, intenta nuevamente.'           
                 })
+                console.error(message);
             });
 
 
@@ -151,7 +152,7 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
 
-                            livewire.emitTo('tipo-maquina.show', 'eliminarMaquina', maquinaId);
+                            livewire.emitTo('tipo-maquina.show', 'eliminarTipoMaquina', maquinaId);
 
                             Swal.fire(
                                 '¡Eliminado!',

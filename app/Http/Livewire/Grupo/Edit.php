@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Grupo;
 
 use App\Models\Disciplina;
 use App\Models\Empleado;
+use App\Models\Entrenador;
 use App\Models\Grupo;
 use App\Models\Horario;
 use Carbon\Carbon;
@@ -13,21 +14,23 @@ class Edit extends Component
 {
     public $registroSeleccionado;
     public $disciplinas, $entrenadores, $horarios;
+    public $id_entrenador, $id_disciplina;
 
     protected $listeners = ['editarRegistro'];
 
     protected $rules = [
         'registroSeleccionado.nombre' => 'required|max:40',
-        'registroSeleccionado.nro_integrantes' => 'required',
-        'registroSeleccionado.id_disciplina' => 'required',
-        'registroSeleccionado.id_entrenador' => 'required',
+        'registroSeleccionado.max_integrantes' => 'required',
+        'id_disciplina' => 'required',
+        'id_entrenador' => 'required',
         'registroSeleccionado.id_horario' => 'required'
     ];
 
     protected $validationAttributes = [
-        'registroSeleccionado.id_disciplina' => 'disciplina',
-        'registroSeleccionado.id_entrenador' => 'entrenador',
-        'registroSeleccionado.id_horario' => 'horario'
+        'id_disciplina' => 'disciplina',
+        'id_entrenador' => 'entrenador',
+        'registroSeleccionado.id_horario' => 'horario',
+        'registroSeleccionado.max_integrantes' => 'nro máximo integrantes'
     ];
 
     public function updated($propertyName)
@@ -35,9 +38,31 @@ class Edit extends Component
         $this->validateOnly($propertyName);
     }
 
+    public function updatedIdDisciplina() {
+        $this->entrenadores = $this->obtenerEntrenadores($this->id_disciplina, $this->id_entrenador);
+    }
+
+    public function obtenerNombreEntrenador($idEntrenador) {
+        $datosEntrenador = Empleado::findOrFail($idEntrenador);
+        return $datosEntrenador->nombres.' '.$datosEntrenador->apellidos;
+    }
+
+    public function obtenerEntrenadores($idDisciplina, $idEntrenador) {
+        $entrenadores = Entrenador::whereHas('disciplinas', function ($query) use ($idDisciplina) {
+            $query->where('id_disciplina', $idDisciplina);
+        })
+        ->orWhere('id', $idEntrenador)
+        ->get();
+
+        return $entrenadores;
+    }
+
     public function editarRegistro(Grupo $registroSeleccionado)
     {
         $this->registroSeleccionado = $registroSeleccionado;
+        $this->id_entrenador = $this->registroSeleccionado['id_entrenador'];
+        $this->id_disciplina = $this->registroSeleccionado['id_disciplina'];
+        $this->entrenadores = $this->obtenerEntrenadores($this->id_disciplina, $this->id_entrenador);
     }
 
     public function mount() {
@@ -60,17 +85,22 @@ class Edit extends Component
             $registro = Grupo::find($this->registroSeleccionado['id']);
 
             $registro->nombre = $this->registroSeleccionado['nombre'];
-            $registro->nro_integrantes = $this->registroSeleccionado['nro_integrantes'];
-            $registro->id_disciplina = $this->registroSeleccionado['id_disciplina'];
-            $registro->id_entrenador = $this->registroSeleccionado['id_entrenador'];
+            $registro->id_disciplina = $this->id_disciplina;
+            $registro->id_entrenador = $this->id_entrenador;
             $registro->id_horario = $this->registroSeleccionado['id_horario'];
+            $registro->max_integrantes = $this->registroSeleccionado['max_integrantes'];
 
             $registro->save();
+
+            $descripcion = 'Se actualizó el grupo con ID: '.$registro->id.' - '.$registro->nombre;
+            registrarBitacora($descripcion);
+
             $this->emitTo('grupo.show','cerrarVista');
             $this->emit('alert', 'actualizado');
             $this->registroSeleccionado = null;
         } catch (\Exception $e) {
-            $this->emit('error');
+            $message = $e->getMessage();
+            $this->emit('error', $message);
         }
     }
 

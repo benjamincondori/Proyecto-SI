@@ -20,7 +20,7 @@ class Show extends Component
     public $buscar = '';
     public $cant = '10';
     public $sort = 'id';
-    public $direction = 'asc';
+    public $direction = 'desc';
 
     protected $listeners = [
         'cerrarVista' => 'cerrarVista',
@@ -50,13 +50,17 @@ class Show extends Component
 
     public function eliminarInscripcion($registroId)
     {
-        // Buscar el registro en base al ID
         $inscripcion = Inscripcion::find($registroId);
-        if ($inscripcion) {
+
+        if (is_null($inscripcion->detalle->estado)) {
             $grupos = $inscripcion->grupos;
             
             // Eliminar la inscripción y la relación en cascada
             $inscripcion->delete();
+            $inscripcion->pago->delete();
+
+            $descripcion = 'Se eliminó la inscripción con ID: '.$inscripcion->id;
+            registrarBitacora($descripcion);
 
             // Actualizar el número de integrantes en cada grupo
             foreach ($grupos as $grupo) {
@@ -64,7 +68,7 @@ class Show extends Component
             }
 
             $this->registroSeleccionado = null;
-        } 
+        }
     }
 
     public function obtenerFechaInscripcion($registroId) {

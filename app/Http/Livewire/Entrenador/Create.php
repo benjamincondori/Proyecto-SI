@@ -63,7 +63,7 @@ class Create extends Component
 
             $empleado = new Empleado();
 
-            $empleado->id = $this->generarID();
+            $empleado->id = $this->id_empleado;
             $empleado->ci = $this->ci;
             $empleado->nombres = $this->nombres;
             $empleado->apellidos = $this->apellidos;
@@ -86,6 +86,9 @@ class Create extends Component
         
             $empleado->save();
 
+            $descripcion = 'Se creó un nuevo entrenador con ID: '.$this->id_empleado;
+            registrarBitacora($descripcion);
+
             Entrenador::create([
                 'id' => $this->id_empleado,
                 'especialidad' => $this->especialidad
@@ -94,7 +97,8 @@ class Create extends Component
             $this->emitTo('entrenador.show', 'cerrarVista');
             $this->emit('alert', 'guardado');
         } catch (\Exception $e) {
-            $this->emit('error');
+            $message = $e->getMessage();
+            $this->emit('error', $message);
         }
     }
 

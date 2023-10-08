@@ -67,6 +67,20 @@ class Edit extends Component
         return $fechaHoraActualString;
     }
 
+    public function obtenerDuraciones($paqueteId) {
+        $paquete = Paquete::findOrFail($paqueteId);
+        return $paquete->duraciones;
+    }
+
+    public function verificarCupo($grupos) {
+        foreach ($grupos as $idGrupo) {
+            $grupo = Grupo::findOrFail($idGrupo);
+            if ($grupo->nro_integrantes >= $grupo->max_integrantes) {
+                return $grupo;
+            }
+        }
+    }
+
     public function obtenerGrupos($paqueteId)
     {
         return Grupo::join('DISCIPLINA', 'GRUPO.id_disciplina', '=', 'DISCIPLINA.id')
@@ -83,6 +97,7 @@ class Edit extends Component
     }
 
     public function updatedIdPaquete() {
+        $this->duraciones = $this->obtenerDuraciones($this->idPaquete);
         $this->grupos = $this->obtenerGrupos($this->idPaquete);
     }
 
@@ -120,7 +135,7 @@ class Edit extends Component
     public function mount() {
         $this->registroSeleccionado['id_administrativo'] = $this->obtenerIdAdmin();
         $this->paquetes = Paquete::all();
-        $this->duraciones = Duracion::pluck('nombre', 'id')->toArray();
+        $this->duraciones = Duracion::all();
     }
 
     public function cancelar()
@@ -149,15 +164,24 @@ class Edit extends Component
             $inscripcion->id_administrativo = $this->registroSeleccionado['id_administrativo'];
             $inscripcion->fecha_inscripcion = $this->obtenerFechaActual();
 
-            $inscripcion->save();
+            $grupo = $this->verificarCupo($this->selectedGrupos);
 
-            if($this->seleccionarNuevo) {
-                $inscripcion->grupos()->sync($this->selectedGrupos);
-            } 
+            if (!is_null($grupo)) {
+                $this->emit('cupo', $grupo->nombre);
+            } else {
+                $inscripcion->save();
 
-            $this->emitTo('inscripcion.show','cerrarVista');
-            $this->emit('alert', 'actualizado');
-            $this->registroSeleccionado = null;
+                $descripcion = 'Se actualizó la inscripción con ID: '.$inscripcion->id;
+                registrarBitacora($descripcion);
+
+                if($this->seleccionarNuevo) {
+                    $inscripcion->grupos()->sync($this->selectedGrupos);
+                } 
+
+                $this->emitTo('inscripcion.show','cerrarVista');
+                $this->emit('alert', 'actualizado');
+                $this->registroSeleccionado = null;
+            }
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $this->emit('error', $message);

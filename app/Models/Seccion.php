@@ -17,4 +17,9 @@ class Seccion extends Model
     public function disciplinas(): HasMany {
         return $this->hasMany(Disciplina::class, 'id_seccion');
     }
+
+    public function maquinas():HasMany {
+        return $this->hasMany(Maquina::class, 'id_seccion');
+    }
+
 }

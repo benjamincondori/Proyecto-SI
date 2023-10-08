@@ -18,7 +18,7 @@ class Show extends Component
     public $buscar = '';
     public $cant = '10';
     public $sort = 'id';
-    public $direction = 'asc';
+    public $direction = 'desc';
 
     protected $listeners = [
         'cerrarVista' => 'cerrarVista',
@@ -42,6 +42,10 @@ class Show extends Component
         $registro = Duracion::find($registroId);
         if ($registro) {
             $registro->delete();
+
+            $descripcion = 'Se eliminó la duración con ID: '.$registro->id;
+            registrarBitacora($descripcion);
+
             $this->registroSeleccionado = null;
         } 
     }
