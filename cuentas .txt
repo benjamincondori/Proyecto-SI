@@ -1,0 +1,19 @@
+
+Usuarios:
+
+Administrador:  
+email: admin@gmail.com
+password: 12345
+
+Recepcionista: 
+email: cesar@gmail.com
+password: abc123
+
+ 
+Entrenador:    
+email: eben@gmail.com   
+password: 54321
+
+Cliente:          
+email: tito@gmail.com
+password: 123abc
